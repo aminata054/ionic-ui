@@ -11,14 +11,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <div class="list-category">
+@for (item of items; track $index) {
 
-  <ion-list lines="none">
-    @for (item of items; track $index) {
-    <ion-item>
-      <h4>{{ item?.name }}</h4>
-      <img [src]="item?.cover" alt="">
-    </ion-item>
-  }
-  </ion-list>
-  
+  <div class="card">
+    <img [src]="item?.cover" alt="">
+    <div class="card-content">
+      <h3 class="title">{{ item?.name }}</h3>
+    </div>
+  </div>
+}
+</div>
 </ion-content>

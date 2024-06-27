@@ -26,6 +26,18 @@ const routes: Routes = [
         loadChildren: () => import('../wishlist/wishlist.module').then( m => m.WishlistPageModule)
       },
       {
+        path: 'product-details',
+        loadChildren: () => import('../product-details/product-details.module').then( m => m.ProductDetailsPageModule)
+      },
+      {
+        path: 'category-list',
+        loadChildren: () => import('../category-list/category-list.module').then( m => m.CategoryListPageModule)
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('../settings/settings.module').then( m => m.SettingsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/homescreen',
         pathMatch: 'full'
