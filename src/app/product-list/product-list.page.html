@@ -1,0 +1,25 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/tabs/homescreen" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Produits</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-icon name="search-outline" color="dark"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  
+  
+  <ion-row class="product-item">
+    @for (item of items; track $index) {
+    <ion-col size="6" class="ion-text-left">
+      <img [src]="item?.cover" alt="" routerLink="/tabs/product-details" />
+      <p>{{item?.price}}</p>
+      <h4>{{item?.name}}</h4>
+    </ion-col>
+  }
+  </ion-row>
+</ion-content>

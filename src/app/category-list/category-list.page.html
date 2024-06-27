@@ -14,7 +14,7 @@
   <div class="list-category">
 @for (item of items; track $index) {
 
-  <div class="card">
+  <div class="card" routerLink="/tabs/product-list">
     <img [src]="item?.cover" alt="">
     <div class="card-content">
       <h3 class="title">{{ item?.name }}</h3>

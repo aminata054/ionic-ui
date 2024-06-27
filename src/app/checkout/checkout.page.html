@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/tabs/shopping-cart"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Confirmation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-list lines="none">
+    @for (item of items; track $index;) {
+    <div>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="item?.cover" alt="" />
+        </ion-thumbnail>
+        <ion-label>
+          <ion-text class="title"> {{item?.name}} </ion-text>
+          <p class="description">
+            <ion-text color="dark">{{item?.description}}</ion-text>
+          </p>
+          <p class="price">
+            <ion-text color="dark">{{item?.price}}</ion-text>
+          </p>
+        </ion-label>
+
+        <ion-row slot="end">
+          <ion-col class="qty">
+            <ion-text>{{ item?.quantity}}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </div>
+
+    }
+  </ion-list>
+
+  <div class="adress">
+    <ion-item>
+      Liberté 6 extension, Dakar
+      <ion-badge slot="end">&nbsp;</ion-badge>
+    </ion-item>
+  </div>
+
+  <div class="cart-total">
+    <ion-item lines="none">
+      <ion-label>Sous-total</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA 2000</ion-label>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Discount</ion-label>
+      <ion-label slot="end" class="ion-text-right">5%</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Shipping</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA 1500</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Total</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA 500</ion-label>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer translucent="true" class="ion-no-border" mode="md">
+  <ion-toolbar color="translucent">
+    <ion-button expand="block" class="main-button" routerLink="/confirm" routerDirection="forward">Acheter</ion-button>
+  </ion-toolbar>
+</ion-footer>

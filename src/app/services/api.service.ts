@@ -50,6 +50,33 @@ export class ApiService {
       cover: 'assets/images/5.jpg',
       description: 'une description de la photo',
     },
+    {
+      id: '6',
+      name: 'Article 6',
+      price: 999,
+      liked: true,
+      quantity: 3,
+      cover: 'assets/images/6.jpg',
+      description: 'une description de la photo',
+    },
+    {
+      id: '7',
+      name: 'Article 7',
+      price: 999,
+      liked: true,
+      quantity: 3,
+      cover: 'assets/images/7.jpg',
+      description: 'une description de la photo',
+    },
+    {
+      id: '8',
+      name: 'Article 8',
+      price: 999,
+      liked: true,
+      quantity: 3,
+      cover: 'assets/images/8.jpg',
+      description: 'une description de la photo',
+    },
   ]
 total = 0;
   constructor() { }
