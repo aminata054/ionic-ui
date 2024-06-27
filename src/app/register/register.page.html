@@ -1,0 +1,32 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/login" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="secondary">
+  <div id="header">
+    <h1>Swift Shop</h1>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur.
+    </p>
+  </div>
+  <form id="form">
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="tel" placeholder="Téléphone"></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Nom & Prénom"></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" placeholder="Mot de passe"></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="password" placeholder="Confirmer mot de passe"></ion-input>
+    </ion-item>
+    <ion-button expand="block" color="primary">S'inscrire</ion-button>
+    <p>En cliquant sur 'S'inscrire', vous acceptez nos conditions d'utilisation. </p>
+  </form>
+</ion-content>

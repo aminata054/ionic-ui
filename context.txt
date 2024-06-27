@@ -1,0 +1,26 @@
+  <ion-searchbar placeholder="Rechercher un article"></ion-searchbar>
+
+ <ion-row>
+    @for (item of items; track $index) {
+      <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXl="3" sizeXs="6">
+        <ion-card detail>
+        <ion-thumbnail>
+          <ion-img [src]="item?.cover"></ion-img>
+        </ion-thumbnail>
+
+        <ion-label>
+          <ion-text color="dark">{{item?.name}}</ion-text>
+          <p>
+            <ion-text>
+              <strong>{{item?.price}}</strong>
+            </ion-text>
+
+            <ion-text class="like">
+              <ion-icon name="heart" color="danger"></ion-icon>
+            </ion-text>
+          </p>
+        </ion-label>
+      </ion-card>
+      </ion-col>
+    }
+  </ion-row>

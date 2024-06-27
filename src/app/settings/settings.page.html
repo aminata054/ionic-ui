@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/profile" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Paramètres</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <form>
+    <div align="center">
+      <ion-avatar>
+        <img src="assets/icon/favicon.png" alt="" />
+      </ion-avatar>
+    </div>
+
+    <ion-input inputStyle="outline" labelStyle="floating" startIcon="user4" placeholder="Input with label" label="Name"></ion-input>
+    <ion-input inputStyle="outline" labelStyle="floating" startIcon="material-email" placeholder="With error styling" error="true" label="Email"></ion-input>
+    
+  </form>
+
+</ion-content>

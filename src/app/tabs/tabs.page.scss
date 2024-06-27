@@ -1,0 +1,15 @@
+ion-tab-bar { 
+    --background: var(--ion-color-primary);
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+
+    ion-tab-button {
+        --color: var(--ion-color-light);
+        --color-selected: var(--ion-color-light);
+        ion-icon {
+            font-size: 1.3rem;
+        }
+    }
+}

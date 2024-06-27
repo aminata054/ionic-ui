@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/tabs/profile" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Mon panier</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-icon name="search-outline" color="dark"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-list lines="none">
+      @for (item of items; track $index;) {
+        <div>
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img [src]="item?.cover" alt="" />
+            </ion-thumbnail>
+            <ion-label>
+              <ion-text class="title"> {{item?.name}} </ion-text>
+              <p class="description">
+                <ion-text color="dark">{{item?.description}}</ion-text>
+              </p>
+              <p class="price">
+                <ion-text color="dark">{{item?.price}}</ion-text>
+              </p>
+            </ion-label>
+    
+            <ion-row slot="end">
+              <ion-col>
+                <ion-icon
+                  name="add"
+                  color="danger"
+                  (click)="addQuantity(item)"
+                ></ion-icon>
+              </ion-col>
+              <ion-col class="qty">
+                <ion-text>{{ item?.quantity}}</ion-text>
+              </ion-col>
+              <ion-col>
+                <ion-icon
+                  name="remove"
+                  color="danger"
+                  (click)="minusQuantity(item)"
+                ></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </div>
+
+      }
+  </ion-list>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-item lines="none" color="light" class="total">
+      <ion-label color="primary">
+        Total
+      </ion-label>
+      <ion-text slot="end">
+        FCFA {{total}}
+      </ion-text>
+    </ion-item>
+
+    <ion-button [strong]="true" color="tertiary" expand="block" size="large">
+      <ion-text>Commander</ion-text>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

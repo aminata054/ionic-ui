@@ -1,27 +1,84 @@
-#container {
-  text-align: center;
+* {
+  font-weight: 300;
+}
 
+ion-text {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 25%;
+
+  h1 {
+    font-size: 42px;
+  }
+  p {
+    font-size: 14px;
+    color: var(--ion-color-black);
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.actions {
+  position: absolute;
+  width: 90%;
+  bottom: 16px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-button {
+  --border-radius: 9px;
+  --box-shadow: none;
+  text-transform: initial;
+  font-size: 14px;
 }
 
-#container a {
-  text-decoration: none;
+.login-buttons {
+  display: flex;
+  justify-content: space-between;
+
+  ion-button {
+    width: 45%;
+    --background: var(--ion-color-tertiary);
+    --color: var(--ion-color-light);
+    --border-style: solid;
+    --border-widtdh: 0.5px;
+  }
+
+  ion-avatar {
+    height: 14px;
+    width: 14px;
+  }
+}
+.separator {
+  display: flex;
+  justify-content: center;
+  margin: 8px auto 10px;
+  font-size: 14px;
+
+  .line {
+    position: absolute;
+    width: 50px;
+    height: 2px;
+    top: 8px;
+  }
+
+  .right {
+    right: 98px;
+  }
+
+  .left {
+    left: 98px;
+  }
+}
+
+.login-btn {
+  --background: var(--ion-color-primary);
+}
+
+.signup {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 16px;
+
+  a {
+    color: var(--ion-color-dark);
+    font-weight: 400;
+    margin-left: 5px;
+  }
 }

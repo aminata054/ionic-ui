@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/tabs/homescreen" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Catégories</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-icon name="search-outline" color="dark"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <ion-list lines="none">
+    @for (item of items; track $index) {
+    <ion-item>
+      <h4>{{ item?.name }}</h4>
+      <img [src]="item?.cover" alt="">
+    </ion-item>
+  }
+  </ion-list>
+  
+</ion-content>

@@ -1,0 +1,36 @@
+ion-content {
+  --padding-top: 1.6rem;
+  --padding-end: 0.8rem;
+
+  ion-list {
+    background: transparent;
+    padding: 1rem 1rem 1rem 1rem;
+    ion-item {
+        padding: 8px;
+      --background: transparent;
+      --border-style: none;
+      --border-color: var(--ion-color-tertiary);
+       --padding-bottom: 0.8rem;
+       --padding-top: 0.8rem;
+       --padding-start: 0;
+       --padding-end: 0;
+       
+      h4 {
+        position: absolute;
+        margin-right: 19rem;
+        font-size: 1.3rem;
+        font-weight: bolder;
+      }
+      img {
+        background-size: cover;
+  
+      background-image: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.95) );
+     
+        display: block;
+        width: 100%;
+        padding-left: 0.6rem;
+        z-index: -1;
+      }
+    }
+  }
+}
