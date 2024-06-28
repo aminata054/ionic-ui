@@ -12,7 +12,7 @@
 
 <ion-content [fullscreen]="true" color="light">
   <div class="list-category">
-@for (item of items; track $index) {
+@for (item of category; track $index) {
 
   <div class="card" routerLink="/tabs/product-list">
     <img [src]="item?.cover" alt="">

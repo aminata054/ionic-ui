@@ -12,12 +12,24 @@ export class HomescreenPage implements OnInit {
 
   ngOnInit() {
     this.getItems();
+    this.getCategory();
+
   }
   items: any[] = [];
   allItems: any[] = [];
   banners: any[] = [];
+  category: any[] = [];
+  allCategory: any[] = [];
 
   private api = inject(ApiService);
+
+
+  getCategory() {
+
+    this.allCategory = this.api.category;
+    this.category = [...this.allCategory];
+  }
+
 
   getItems() {
 

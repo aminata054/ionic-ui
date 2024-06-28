@@ -37,7 +37,7 @@
 
   <div class="category-slider ion-padding-start">
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
-      @for (item of items; track $index) {
+      @for (item of category; track $index) {
         <swiper-slide>
           <ion-col>
             <h4>{{item?.name}}</h4>

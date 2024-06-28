@@ -11,18 +11,18 @@ export class CategoryListPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.getItems();
+    this.getCategory();
   }
-  items: any[] = [];
-  allItems: any[] = [];
+  category: any[] = [];
+  allCategory: any[] = [];
   banners: any[] = [];
 
   private api = inject(ApiService);
 
-  getItems() {
+  getCategory() {
 
-    this.allItems = this.api.items;
-    this.items = [...this.allItems];
+    this.allCategory = this.api.category;
+    this.category = [...this.allCategory];
   }
 
 }

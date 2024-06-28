@@ -79,5 +79,34 @@ export class ApiService {
     },
   ]
 total = 0;
+
+
+category: any [] = [
+  {
+    id: '1',
+    name: 'Electro',
+    cover: 'assets/images/cat1.jpeg',
+  },
+  {
+    id: '2',
+    name: 'Maison',
+    cover: 'assets/images/cat2.jpg',
+  },
+  {
+    id: '3',
+    name: 'Outils',
+    cover: 'assets/images/cat3.jpg',
+  },
+  {
+    id: '4',
+    name: 'Jardin',
+    cover: 'assets/images/cat4.jpg',
+  },
+  {
+    id: '5',
+    name: 'Lumière',
+    cover: 'assets/images/cat5.jpg',
+  },
+]
   constructor() { }
 }
