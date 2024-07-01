@@ -1,9 +1,26 @@
-// .full-border {
-//     border: 1px solid var(--ion-color-light);
-//     border-radius: 5px;
-//     margin-bottom: 1rem;
-// }
+ion-content {
+  div {
+    margin-top: 2rem;
 
-ion-input {
-    --border-style: outline;
+    ion-text {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      margin-top: 0.6rem;
+      padding: 2rem;
+    }
+    ion-list {
+      background: transparent;
+      padding: 2rem 1.5rem 1rem 1.5rem;
+
+      ion-item {
+        --background: var(--ion-color-light);
+      }
+
+      ion-button {
+        padding: 2rem 1.5rem 1rem 1.5rem;
+
+      }
+    }
+  }
 }

@@ -10,14 +10,62 @@
 <ion-content [fullscreen]="true" color="light">
 
   <form>
-    <div align="center">
-      <ion-avatar>
-        <img src="assets/icon/favicon.png" alt="" />
-      </ion-avatar>
-    </div>
 
-    <ion-input inputStyle="outline" labelStyle="floating" startIcon="user4" placeholder="Input with label" label="Name"></ion-input>
-    <ion-input inputStyle="outline" labelStyle="floating" startIcon="material-email" placeholder="With error styling" error="true" label="Email"></ion-input>
+    <div class="ion-margin-vertical">
+    <ion-text>Modifier mes informations</ion-text>
+
+    <ion-list>
+      <ion-item>
+        <ion-input class="custom" placeholder="Sylla" label="Nom"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input class="custom" placeholder="Dié" label="Prénom"></ion-input>
+      </ion-item>
+      <ion-item>    
+        <ion-input class="custom" placeholder="example@gmail.com" error="true" label="Email" type="email"></ion-input>
+      </ion-item>
+        <ion-button expand="block" color="tertiary">Modifier</ion-button>
+   
+    </ion-list>
+  </div>
+
+  <div class="ion-margin-vertical">
+    <ion-text>Changer de mot de passe</ion-text>
+    <ion-list>
+      <ion-item>    
+        <ion-input class="custom" error="true" label="Mot de passe" type="password"></ion-input>
+      </ion-item>
+      <ion-item>    
+        <ion-input class="custom" error="true" label="Confimer mot de passe" type="password"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="tertiary">Modifier</ion-button>
+    </ion-list>
+  </div>
+
+  <div class="ion-margin-vertical">
+    <ion-text>Coordonnées</ion-text>
+    <ion-list>
+      <ion-item>
+        <ion-input class="custom" error="true" label="Pays" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input class="custom" error="true" label="Ville" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input class="custom" error="true" label="Adresse" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input class="custom" error="true" label="Téléphone" type="tel"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="tertiary">Modifier</ion-button>
+    </ion-list>
+
+  </div>
+    
+
+  <ion-button fill="clear" class="ion-margin" color="danger">
+    <ion-icon name="alert-circle-outline" slot="start"></ion-icon>Fermer mon compte
+  </ion-button>
     
   </form>
 
