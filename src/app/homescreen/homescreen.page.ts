@@ -1,5 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { Category } from '../models/category';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-homescreen',
@@ -7,12 +10,21 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./homescreen.page.scss'],
 })
 export class HomescreenPage implements OnInit {
+  userId: string = '';
+  categories: Category[] | undefined;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('userId') || '';
+    this.categoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
     this.getItems();
-    this.getCategory();
+    
 
   }
   items: any[] = [];
@@ -22,13 +34,6 @@ export class HomescreenPage implements OnInit {
   allCategory: any[] = [];
 
   private api = inject(ApiService);
-
-
-  getCategory() {
-
-    this.allCategory = this.api.category;
-    this.category = [...this.allCategory];
-  }
 
 
   getItems() {

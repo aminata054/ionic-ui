@@ -3,11 +3,14 @@
     <ion-buttons slot="start" >
       <img src="assets/icon/IMG_9105.png" alt="" >
     </ion-buttons>
+
+    <ion-title color="primary">Bienvenue, {{userId}}</ion-title>
     <ion-buttons slot="end">
       <ion-button class="notifications">
         <ion-icon name="notifications-outline" color="dark"></ion-icon>
         <span>&nbsp;</span>
       </ion-button>
+      
       <ion-button class="filter" routerLink="/tabs/shopping-cart">
         <ion-icon name="cart-outline" color="dark"></ion-icon>
       </ion-button>
@@ -37,14 +40,14 @@
 
   <div class="category-slider ion-padding-start">
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
-      @for (item of category; track $index) {
-        <swiper-slide>
+      
+        <swiper-slide *ngFor="let category of categories">
           <ion-col>
-            <h4>{{item?.name}}</h4>
-            <img [src]="item?.cover" alt="">
+            <h4>{{category.name}}</h4>
+            <img [src]="category.cover" alt="">
           </ion-col>
         </swiper-slide>
-      }
+      
     </swiper-container>
   </div>
 

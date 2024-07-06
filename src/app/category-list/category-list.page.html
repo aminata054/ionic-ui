@@ -11,15 +11,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <div class="list-category">
-@for (item of category; track $index) {
+  <div class="list-category" >
 
-  <div class="card" routerLink="/tabs/product-list">
-    <img [src]="item?.cover" alt="">
+  <div class="card" routerLink="/tabs/product-list" *ngFor="let category of categories">
+    <img [src]="category.cover" alt="">
     <div class="card-content">
-      <h3 class="title">{{ item?.name }}</h3>
+      <h3 class="title">{{ category.name }}</h3>
     </div>
   </div>
-}
+
 </div>
 </ion-content>

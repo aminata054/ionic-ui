@@ -8,65 +8,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Modifier mes informations</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.name || 'Nom' }}" label="Nom" name="name" [(ngModel)]="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.firstname || 'Prénom' }}" label="Prénom" [(ngModel)]="firstname" name="firstname"></ion-input>
+        </ion-item>
+        <ion-item>    
+          <ion-input class="custom" placeholder="{{ user?.email || 'Email' }}" label="Email" type="email" name="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="tertiary" (click)="changeInformations()">Modifier</ion-button>
+      </ion-list>
+    </div>
+  </form>
 
   <form>
-
     <div class="ion-margin-vertical">
-    <ion-text>Modifier mes informations</ion-text>
+      <ion-text>Changer de mot de passe</ion-text>
+      <ion-list>
+        <ion-item>    
+          <ion-input class="custom" label="Mot de passe" type="password" name="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-item>    
+          <ion-input class="custom" label="Confimer mot de passe" type="password" name="confirmPassword" [(ngModel)]="confirmPassword"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="tertiary" (click)="changePassword()">Modifier</ion-button>
+      </ion-list>
+    </div>
+  </form>
 
-    <ion-list>
-      <ion-item>
-        <ion-input class="custom" placeholder="Sylla" label="Nom"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input class="custom" placeholder="Dié" label="Prénom"></ion-input>
-      </ion-item>
-      <ion-item>    
-        <ion-input class="custom" placeholder="example@gmail.com" error="true" label="Email" type="email"></ion-input>
-      </ion-item>
-        <ion-button expand="block" color="tertiary">Modifier</ion-button>
-   
-    </ion-list>
-  </div>
-
-  <div class="ion-margin-vertical">
-    <ion-text>Changer de mot de passe</ion-text>
-    <ion-list>
-      <ion-item>    
-        <ion-input class="custom" error="true" label="Mot de passe" type="password"></ion-input>
-      </ion-item>
-      <ion-item>    
-        <ion-input class="custom" error="true" label="Confimer mot de passe" type="password"></ion-input>
-      </ion-item>
-      <ion-button expand="block" color="tertiary">Modifier</ion-button>
-    </ion-list>
-  </div>
-
-  <div class="ion-margin-vertical">
-    <ion-text>Coordonnées</ion-text>
-    <ion-list>
-      <ion-item>
-        <ion-input class="custom" error="true" label="Pays" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input class="custom" error="true" label="Ville" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input class="custom" error="true" label="Adresse" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input class="custom" error="true" label="Téléphone" type="tel"></ion-input>
-      </ion-item>
-      <ion-button expand="block" color="tertiary">Modifier</ion-button>
-    </ion-list>
-
-  </div>
-    
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Coordonnées</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.country || 'Pays' }}" label="Pays" type="text" [(ngModel)]="country" name="country"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.city || 'Ville' }}" label="Ville" type="text" [(ngModel)]="city" name="city"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.address || 'Adresse' }}" label="Adresse" type="text" [(ngModel)]="address" name="address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.tel || 'Téléphone' }}" label="Téléphone" type="tel" [(ngModel)]="tel" name="tel"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="tertiary" (click)="changeCoord()">Modifier</ion-button>
+      </ion-list>
+    </div>
+  </form>
 
   <ion-button fill="clear" class="ion-margin" color="danger">
     <ion-icon name="alert-circle-outline" slot="start"></ion-icon>Fermer mon compte
   </ion-button>
-    
-  </form>
-
 </ion-content>

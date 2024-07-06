@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,24 +9,29 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    path: 'profile/:userId',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'wishlist',
-    loadChildren: () => import('./wishlist/wishlist.module').then( m => m.WishlistPageModule)
+    path: 'wishlist/:userId',
+    loadChildren: () => import('./wishlist/wishlist.module').then( m => m.WishlistPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+    path: 'settings/:userId',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'shopping-cart',
-    loadChildren: () => import('./shopping-cart/shopping-cart.module').then( m => m.ShoppingCartPageModule)
+    path: 'shopping-cart/:userId',
+    loadChildren: () => import('./shopping-cart/shopping-cart.module').then( m => m.ShoppingCartPageModule),
+
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -36,32 +42,51 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'homescreen',
-    loadChildren: () => import('./homescreen/homescreen.module').then( m => m.HomescreenPageModule)
+    path: 'homescreen/:userId',
+    loadChildren: () => import('./homescreen/homescreen.module').then( m => m.HomescreenPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'product-details',
-    loadChildren: () => import('./product-details/product-details.module').then( m => m.ProductDetailsPageModule)
+    loadChildren: () => import('./product-details/product-details.module').then( m => m.ProductDetailsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'category-list',
-    loadChildren: () => import('./category-list/category-list.module').then( m => m.CategoryListPageModule)
+    loadChildren: () => import('./category-list/category-list.module').then( m => m.CategoryListPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'checkout',
-    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule)
+    path: 'checkout/:userId',
+    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'confirm',
-    loadChildren: () => import('./confirm/confirm.module').then( m => m.ConfirmPageModule)
+    path: 'confirm/:userId',
+    loadChildren: () => import('./confirm/confirm.module').then( m => m.ConfirmPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'product-list',
-    loadChildren: () => import('./product-list/product-list.module').then( m => m.ProductListPageModule)
+    loadChildren: () => import('./product-list/product-list.module').then( m => m.ProductListPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/product',
+    loadChildren: () => import('./admin/product/product.module').then( m => m.ProductPageModule)
+  },
+  {
+    path: 'admin/category',
+    loadChildren: () => import('./admin/category/category.module').then( m => m.CategoryPageModule)
+  },
+  {
+    path: 'admin/home',
+    loadChildren: () => import('./admin/home/home.module').then( m => m.HomePageModule)
   },
 ];
 

@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title color="light">Tableau de bord</ion-title>
+    <ion-buttons slot="end" mode="md">
+      <ion-icon name="log-out-outline" color="light"></ion-icon>
+        </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="header">
+   <ion-img src="assets/icon/IMG_9107.png">
+   </ion-img>
+  </div>
+
+  <div class="first-card">
+    <div class="user">
+      <ion-icon name="person-outline"></ion-icon>
+      <p>430</p>
+      <h6>Utilisateurs</h6>
+    </div>
+    <div class="checkout">
+      <ion-icon name="bag-check-outline"></ion-icon>
+      <p>1200</p>
+      <h6>Commandes</h6>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="grid">
+      <div class="box">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <p>Gestion des produits</p>
+      </div>
+      <div class="box" routerLink="/admin/category">
+        <ion-icon name="list-circle-outline"></ion-icon>
+        <p>Gestion des catégories</p>
+      </div>
+      <div class="box">
+        <ion-icon name="people-outline"></ion-icon>
+        <p>Gestion des utilisateurs</p>
+      </div>
+      <div class="box">
+        <ion-icon name="card-outline"></ion-icon>
+        <p>Gestion des paiements</p>
+      </div>
+    </div>
+  </div>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+

@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/admin/home"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Catégorie</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Ajouter une nouvelle catégorie</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="name"
+            name="name"
+            class="custom"
+            label="Nom de la catégorie"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Photo</ion-label>
+          <ion-input
+          type="file"
+          (change)="onFileSelected($event)"
+          class="custom"
+          />
+        </ion-item>
+        <ion-button expand="block" (click)="addCategory()">Ajouter</ion-button>
+      </ion-list>
+    </div>
+  </form>
+
+  <ion-row class="category-item" >
+    <ion-col size="6" class="ion-text-left" *ngFor="let category of categories">
+      <img [src]="category.cover" alt="Cover image" />
+      <p>{{ category.name }}</p>
+    </ion-col>
+  </ion-row>
+</ion-content>

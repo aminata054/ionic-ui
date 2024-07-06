@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Category } from '../models/category';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -7,22 +9,14 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./category-list.page.scss'],
 })
 export class CategoryListPage implements OnInit {
+  categories: Category[] | undefined;
 
-  constructor() { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
-    this.getCategory();
-  }
-  category: any[] = [];
-  allCategory: any[] = [];
-  banners: any[] = [];
-
-  private api = inject(ApiService);
-
-  getCategory() {
-
-    this.allCategory = this.api.category;
-    this.category = [...this.allCategory];
+    this.categoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
 }

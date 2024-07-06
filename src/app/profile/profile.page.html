@@ -9,7 +9,7 @@
     <ion-avatar>
       <img src="assets/images/profile.png" alt="" />
     </ion-avatar>
-    <ion-label color="primary">Dié Sylla</ion-label>
+    <ion-label color="primary">{{ user?.firstname }} {{ user?.name }}</ion-label>
   </div>
 
   <ion-list>
@@ -40,7 +40,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button fill="clear" class="ion-margin" color="danger">
+  <ion-button fill="clear" class="ion-margin" color="danger" (click)="signout()">
     <ion-icon name="log-out" slot="start"></ion-icon>Deconnexion
   </ion-button>
 </ion-content>
