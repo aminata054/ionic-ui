@@ -1,7 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="light">
     <ion-buttons slot="start" mode="md">
-      <ion-back-button defaultHref="/tabs/homescreen" color="dark"></ion-back-button>
+      <ion-back-button
+        defaultHref="/tabs/homescreen"
+        color="dark"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title color="primary">Catégories</ion-title>
     <ion-buttons slot="end" mode="md">
@@ -11,14 +14,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <div class="list-category" >
-
-  <div class="card" routerLink="/tabs/product-list" *ngFor="let category of categories">
-    <img [src]="category.cover" alt="">
-    <div class="card-content">
-      <h3 class="title">{{ category.name }}</h3>
+  <div class="list-category">
+    <div
+      class="card"
+      [routerLink]="['/tabs/product-list', category.categoryId]"
+      *ngFor="let category of categories"
+    >
+      <img [src]="category.cover" alt="" />
+      <div class="card-content">
+        <h3 class="title">{{ category.name }}</h3>
+      </div>
     </div>
   </div>
-
-</div>
 </ion-content>

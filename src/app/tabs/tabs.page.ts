@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonTabs } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -11,12 +12,20 @@ export class TabsPage implements OnInit {
   
   @ViewChild('tabs', { static: false })
   tabs!: IonTabs;
-  userId: string = '';
   selectedTab: any;
 
-  constructor(private route: ActivatedRoute) { }
-  ngOnInit() {
-      this.userId = this.route.snapshot.paramMap.get('userId') || '';
+  constructor(public router: Router, public authService: AuthService, private route: ActivatedRoute) { }
+   ngOnInit() {
+      
+      
+  }
+
+  async navigate(chemin: any) {
+    const userId = await this.authService.getUserId();
+    if (userId) {
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || `/tabs/${chemin}/${userId}`;
+      this.router.navigateByUrl(returnUrl);
+    }
   }
  
 

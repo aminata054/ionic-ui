@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="header">
     <ion-buttons>
-      <ion-button routerLink="/tabs/homescreen">
+      <ion-button (click)="goBack()">
         <ion-icon color="light" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -14,13 +14,13 @@
 
   <div class="card">
     <div class="image">
-      <img src="/assets/images/1.jpg" alt="" />
+      <img [src]="product?.cover" alt="" />
     </div>
 
     <div class="card-content">
       <div class="card-title">
-        <h1 class="ion-no-margin">Chauffe-eau</h1>
-        <p class="ion-no-margin">FCFA 12500</p>
+        <h1 class="ion-no-margin">{{ product?.name }}</h1>
+        <p class="ion-no-margin">FCFA {{ product?.price }}</p>
       </div>
     </div>
 
@@ -33,10 +33,7 @@
     <div class="about">
       <h1>Description</h1>
       <p>
-        Cet appareil chauffe l'eau uniquement lorsqu'elle est demandée,
-        offrant ainsi une source continue d'eau chaude. Ces appareils sont plus
-        compacts et peuvent être plus efficaces sur le plan énergétique car ils
-        n'ont pas de pertes de chaleur dues au stockage de l'eau.
+        {{ product?.description }}
       </p>
     </div>
 

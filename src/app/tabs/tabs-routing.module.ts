@@ -28,7 +28,7 @@ const routes: Routes = [
         loadChildren: () => import('../wishlist/wishlist.module').then( m => m.WishlistPageModule)
       },
       {
-        path: 'product-details/:userId',
+        path: 'product-details/:productId',
         loadChildren: () => import('../product-details/product-details.module').then( m => m.ProductDetailsPageModule)
       },
       {
@@ -36,7 +36,7 @@ const routes: Routes = [
         loadChildren: () => import('../category-list/category-list.module').then( m => m.CategoryListPageModule)
       },
       {
-        path: 'product-list/:userId',
+        path: 'product-list/:categoryId',
         loadChildren: () => import('../product-list/product-list.module').then( m => m.ProductListPageModule)
       },
       {

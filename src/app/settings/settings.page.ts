@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 
@@ -29,8 +29,13 @@ export class SettingsPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastr: ToastController,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private navCtrl: NavController
   ) {}
+
+  goBack() {
+    this.navCtrl.back();
+  }
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';

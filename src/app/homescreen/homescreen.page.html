@@ -4,14 +4,14 @@
       <img src="assets/icon/IMG_9105.png" alt="" >
     </ion-buttons>
 
-    <ion-title color="primary">Bienvenue, {{userId}}</ion-title>
+    <ion-title color="primary" *ngIf="userId">Bienvenue, {{ user?.firstname }}</ion-title>
     <ion-buttons slot="end">
       <ion-button class="notifications">
         <ion-icon name="notifications-outline" color="dark"></ion-icon>
         <span>&nbsp;</span>
       </ion-button>
       
-      <ion-button class="filter" routerLink="/tabs/shopping-cart">
+      <ion-button class="filter" [routerLink]="['/tabs/shopping-cart', userId]">
         <ion-icon name="cart-outline" color="dark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -35,7 +35,7 @@
 
   <div class="title ion-padding">
     <h2>Catégories</h2>
-    <p routerLink="/category-list">Voir tout</p>
+    <p [routerLink]="['/tabs/category-list', userId]">Voir tout</p>
   </div>
 
   <div class="category-slider ion-padding-start">
@@ -62,7 +62,7 @@
       @for (item of items; track $index) {
         <swiper-slide>
           <ion-col class="ion-text-left">
-            <img [src]="item?.cover" alt="" routerLink="/product-details">
+            <img [src]="item?.cover" alt="" [routerLink]="['/tabs/product-list', userId]" >
             <p>{{item?.price}}</p>
             <h6>{{item?.name}}</h6>
           </ion-col>

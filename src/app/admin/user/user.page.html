@@ -1,0 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/admin/home"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Utilisateurs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-col size="6" class="ion-text-left" *ngFor="let user of users">
+    <p>{{ user.firstname }} {{ user.name }}</p>
+    <p>{{ user.email }}</p>
+    <p>{{ user.address }}</p>
+  </ion-col>
+</ion-content>

@@ -1,26 +1,23 @@
 <ion-tabs #tabs (ionTabsDidChange)="setCurrentTab()">
-  <!-- Tab bar -->
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="homescreen">
-      <ion-icon aria-hidden="true" [name]="selectedTab === 'home' ? 'home': 'home-outline'"></ion-icon>
+    <ion-tab-button (click)="navigate('homescreen')">
+      <ion-icon aria-hidden="true" [name]="selectedTab === 'homescreen' ? 'home' : 'home-outline'"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="category-list">
-      <ion-icon aria-hidden="true" name="bag-handle-outline"></ion-icon>
-        </ion-tab-button>
-
-    <ion-tab-button tab="wishlist">
-      <ion-icon aria-hidden="true" name="heart-outline"></ion-icon>
+    <ion-tab-button (click)="navigate('category-list')">
+      <ion-icon aria-hidden="true" [name]="selectedTab === 'category-list' ? 'bag-handle' : 'bag-handle-outline'"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="shopping-cart">
-      <ion-icon aria-hidden="true" name="cart-outline"></ion-icon>
+    <ion-tab-button (click)="navigate('wishlist')">
+      <ion-icon aria-hidden="true" [name]="selectedTab === 'wishlist' ? 'heart' : 'heart-outline'"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile">
-      <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+    <ion-tab-button (click)="navigate('shopping-cart')" >
+      <ion-icon aria-hidden="true" [name]="selectedTab === 'shopping-cart' ? 'cart' : 'cart-outline'"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="navigate('profile')" >
+      <ion-icon aria-hidden="true" [name]="selectedTab === 'profile' ? 'person' : 'person-outline'"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
-
-

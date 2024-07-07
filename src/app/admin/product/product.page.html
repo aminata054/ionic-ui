@@ -11,5 +11,71 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Ajouter un nouveau produit</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="categoryName"
+            name="categoryName"
+            class="custom"
+            label="Catégorie du produit"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="name"
+            name="name"
+            class="custom"
+            label="Nom du produit"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea
+            [(ngModel)]="description"
+            name="description"
+            class="custom"
+            label="Description du produit"
+          ></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="price"
+            type="number"
+            name="price"
+            class="custom"
+            label="Prix du produit"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="quantity"
+            type="number"
+            name="quantity"
+            class="custom"
+            label="Quantité disponible"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Photo</ion-label>
+          <ion-input
+          type="file"
+          (change)="onFileSelected($event)"
+          class="custom"
+          />
+        </ion-item>
+        <ion-button expand="block" (click)="addProduct()">Ajouter</ion-button>
+      </ion-list>
+    </div>
+  </form>
+
+  <ion-row class="product-item">
+    <ion-col size="6" class="ion-text-left" *ngFor="let product of products">
+      <img [src]="product.cover" alt="Cover image" />
+      <h5>Catégorie : {{ product.category.name }}</h5>
+      <p>Nom : {{ product.name }}</p>
+      <p>Prix : {{ product.price }}</p>
+    </ion-col>
+  </ion-row>
 </ion-content>
