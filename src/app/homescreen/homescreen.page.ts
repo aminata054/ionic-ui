@@ -5,6 +5,8 @@ import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-homescreen',
@@ -14,12 +16,14 @@ import { User } from '../models/user';
 export class HomescreenPage implements OnInit {
   userId: string = '';
   categories: Category[] | undefined;
+  products: Product[] | undefined;
   user: User | undefined ;
   firstname: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private categoryService: CategoryService,
+    private productService: ProductService,
     private userService: UserService,
   ) { }
 
@@ -34,24 +38,9 @@ export class HomescreenPage implements OnInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
-    this.getItems();
-    
 
+    this.productService.getProducts().subscribe((products) => {
+      this.products = products;
+    });
   }
-  items: any[] = [];
-  allItems: any[] = [];
-  banners: any[] = [];
-  category: any[] = [];
-  allCategory: any[] = [];
-
-  private api = inject(ApiService);
-
-
-  getItems() {
-
-    this.allItems = this.api.items;
-    this.items = [...this.allItems];
-  }
-
-
 }

@@ -54,20 +54,18 @@
   
   <div class="title ion-padding">
     <h2>Articles</h2>
-    <p routerLink="/tabs/product-list">Voir tout</p>
+    <p [routerLink]="['/tabs/product-list', userId]">Voir tout</p>
   </div>
 
   <div class="product-slider ion-padding-start">
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
-      @for (item of items; track $index) {
-        <swiper-slide>
+        <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
-            <img [src]="item?.cover" alt="" [routerLink]="['/tabs/product-list', userId]" >
-            <p>{{item?.price}}</p>
-            <h6>{{item?.name}}</h6>
+            <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >
+            <p>{{product.price}}</p>
+            <h6>{{product.name}}</h6>
           </ion-col>
         </swiper-slide>
-      }
     </swiper-container>
   </div>
 
@@ -79,15 +77,13 @@
 
   <div class="product-slider ion-padding-start">
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
-      @for (item of items; track $index) {
-        <swiper-slide>
+        <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
-            <img [src]="item?.cover" alt="" >
-            <p>{{item?.price}}</p>
-            <h6>{{item?.name}}</h6>
+            <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >
+            <p>{{product.price}}</p>
+            <h6>{{product.name}}</h6>
           </ion-col>
         </swiper-slide>
-      }
     </swiper-container>
   </div>
   

@@ -12,30 +12,28 @@
 
 <ion-content [fullscreen]="true" color="light">
   <ion-list>
-   
-    @for (item of items; track $index) {
-    <div>
-      <ion-item lines="none" [detail]="true" class="type">
+    <div *ngFor="let product of products; let i = index">
+      <ion-item lines="none" [detail]="true" class="type" [routerLink]="['/tabs/product-details', product.productId]">
         <ion-thumbnail slot="start">
-          <img [src]="item?.cover" alt="">
+          <img [src]="product?.cover" alt="">
         </ion-thumbnail>
         <ion-label>
-          <ion-text color="dark">{{item?.name}}</ion-text>
+          <ion-text color="dark">{{product?.name}}</ion-text>
           <p>
             <ion-text>
-              <strong>{{item?.description}}</strong>
+              <strong>{{product?.description}}</strong>
             </ion-text>
           </p>
         </ion-label>
       </ion-item>
 
       <ion-row class="ion-padding amount">
-        <ion-text color="dark">FCFA <ion-text color="primary">{{item?.price}}</ion-text></ion-text>
+        <ion-text color="dark">FCFA <ion-text color="primary">{{product?.price}}</ion-text></ion-text>
       </ion-row>
 
       <ion-row class="reorder">
         <ion-col size="6">
-          <ion-button fill="clear">
+          <ion-button fill="clear" (click)="removeWishlist(wishlists[i].wishlistId)">
             <ion-icon color="danger" name="heart" slot="start"></ion-icon>
           </ion-button>
         </ion-col>
@@ -44,12 +42,8 @@
           <ion-button shape="round" expand="block" color="tertiary">
             <ion-icon name="cart-outline"></ion-icon>
           </ion-button>
-
         </ion-col>
-
       </ion-row>
-
     </div>
-  }
   </ion-list>
 </ion-content>
