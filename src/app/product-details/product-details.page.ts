@@ -4,6 +4,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product';
 import { WishlistService } from '../services/wishlist.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,6 +17,7 @@ export class ProductDetailsPage implements OnInit {
   userId: string = '';
   liked: boolean = false;
   wishlistId: string = '';
+  cartId: string = '';
   name: string | undefined;
   description: string | undefined;
   price: number | undefined;
@@ -23,6 +25,7 @@ export class ProductDetailsPage implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private cartService: CartService,
     private route: ActivatedRoute,
     private navCtrl: NavController,
     private wishlistService: WishlistService,
@@ -58,6 +61,15 @@ export class ProductDetailsPage implements OnInit {
     } catch (error) {
       console.error('Erreur lors de l\'ajout à la liste de souhaits', error);
       this.presentToast('Erreur lors de l\'ajout à la liste de souhaits');
+    }
+  }
+  async addCart() {
+    try {
+      this.cartId = await this.cartService.addProductToCart(this.productId, this.userId);
+      this.presentToast('Produit ajouté à la commande');
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout à la commande', error);
+      this.presentToast('Erreur lors de l\'ajout à la commande');
     }
   }
 

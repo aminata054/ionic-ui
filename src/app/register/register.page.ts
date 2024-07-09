@@ -32,7 +32,7 @@ export class RegisterPage implements OnInit {
              uid: res.user.uid
             };
             this.authService.saveDetails(data).then((res: any) => {
-              this.router.navigateByUrl('/tabs/homescreen');
+              this.router.navigateByUrl(`/tabs/homescreen/${data.uid}`);
             }, (err: any) => {
               console.log(err);
             });

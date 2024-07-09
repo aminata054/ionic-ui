@@ -1,0 +1,15 @@
+ion-content {
+    div {
+      margin-top: 2rem;
+
+      ion-list {
+        background: transparent;
+        padding: 0 1.5rem 0 0;
+  
+        ion-item {
+          --background: var(--ion-color-light);
+        }
+      }
+    }
+  }
+  

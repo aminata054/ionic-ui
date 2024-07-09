@@ -4,7 +4,7 @@ import { ProductService } from '../services/product.service';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category';
 import { Product } from '../models/product';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-list',
@@ -17,19 +17,25 @@ export class ProductListPage implements OnInit {
   name: string = '';
   categoryId: string = '';
   category: Category | undefined;
+  userId: string = '';
 
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private navCtrl: NavController
+    private loadingCtrl: LoadingController,
   ) {}
 
-  goBack() {
-    this.navCtrl.back();
-  }
+ 
 
   ngOnInit() {
+     this.userId = this.route.snapshot.paramMap.get('userId') || '';
+    this.loadData();
+  }
+
+  async loadData() {
+    const loading = await this.presentLoading('Chargement de la page');
+    
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
@@ -40,6 +46,7 @@ export class ProductListPage implements OnInit {
       
       this.categoryService.getCategory(categoryId).subscribe((category) => {
         this.category = category;
+        
         if (category) {
           this.name = category.name || '';
         }
@@ -47,7 +54,20 @@ export class ProductListPage implements OnInit {
 
       this.productService.getProductsByCategory(categoryId).subscribe((products) => {
         this.products = products;
+        loading.dismiss(); 
       });
+    } else {
+      loading.dismiss(); 
     }
+  }
+
+  async presentLoading(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
   }
 }

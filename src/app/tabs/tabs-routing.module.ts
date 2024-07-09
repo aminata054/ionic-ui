@@ -23,6 +23,7 @@ const routes: Routes = [
         path: 'shopping-cart/:userId',
         loadChildren: () => import('../shopping-cart/shopping-cart.module').then( m => m.ShoppingCartPageModule)
       },
+     
       {
         path: 'wishlist/:userId',
         loadChildren: () => import('../wishlist/wishlist.module').then( m => m.WishlistPageModule)

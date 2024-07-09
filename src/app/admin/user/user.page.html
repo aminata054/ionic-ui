@@ -11,9 +11,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-col size="6" class="ion-text-left" *ngFor="let user of users">
-    <p>{{ user.firstname }} {{ user.name }}</p>
-    <p>{{ user.email }}</p>
-    <p>{{ user.address }}</p>
-  </ion-col>
+
+  <div class="ion-margin-vertical">
+  <ion-list>
+    <ion-item *ngFor="let user of users">
+      <ion-thumbnail slot="start">
+        <img src="assets/images/profile.png" alt="">
+      </ion-thumbnail>
+      <ion-label class="recent">
+        {{ user.firstname }} {{ user.name }}
+        <p>
+          {{ user.email }}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
 </ion-content>
