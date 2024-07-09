@@ -18,6 +18,6 @@
 
 <ion-footer translucent="true" class="ion-no-border" mode="md">
   <ion-toolbar color="translucent">
-    <ion-button expand="block" class="main-button" routerLink="/tabs/homescreen" routerDirection="forward">Accueil</ion-button>
+    <ion-button expand="block" class="main-button" [routerLink]="['/tabs/homescreen', userId]" routerDirection="forward">Accueil</ion-button>
   </ion-toolbar>
 </ion-footer>

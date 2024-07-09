@@ -24,59 +24,67 @@ export class CartService {
   }
 
   async addProductToCart(productId: string, userId: string): Promise<string> {
-  const user = await this.afAuth.currentUser;
-  if (!user) {
-    throw new Error('User not authenticated');
+    const user = await this.afAuth.currentUser;
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    const cartItemSnapshot = await this.afs.collection<Cart>('cart', ref => ref
+      .where('userId', '==', user.uid)
+      .where('productId', '==', productId)
+    ).get().toPromise();
+
+    if (cartItemSnapshot && !cartItemSnapshot.empty) {
+      const cartItem = cartItemSnapshot.docs[0].data() as Cart;
+      cartItem.quantity += 1;
+      console.log(`Updating existing cart item. Cart ID: ${cartItem.cartId}, New Quantity: ${cartItem.quantity}`);
+      await this.afs.collection('cart').doc(cartItem.cartId).update(cartItem);
+      return cartItem.cartId;
+    } else {
+      const newCartItem: Cart = {
+        userId: user.uid,
+        productId,
+        createdAt: new Date(),
+        quantity: 1,
+        cartId: ''
+      };
+
+      const docRef = await this.cartCol.add(newCartItem);
+      newCartItem.cartId = docRef.id;
+      await docRef.set(newCartItem);
+
+      console.log(`Added new cart item. Cart ID: ${docRef.id}`);
+      return docRef.id;
+    }
   }
-
-  const cartItemSnapshot = await this.afs.collection<Cart>('cart', ref => ref
-    .where('userId', '==', user.uid)
-    .where('productId', '==', productId)
-  ).get().toPromise();
-
-  if (cartItemSnapshot && !cartItemSnapshot.empty) {
-    const cartItem = cartItemSnapshot.docs[0].data() as Cart;
-    cartItem.quantity += 1;
-    console.log(`Updating existing cart item. Cart ID: ${cartItem.cartId}, New Quantity: ${cartItem.quantity}`);
-    await this.afs.collection('cart').doc(cartItem.cartId).update(cartItem);
-    return cartItem.cartId;
-  } else {
-    const newCartItem: Cart = {
-      userId: user.uid,
-      productId,
-      createdAt: new Date(),
-      quantity: 1,
-      cartId: ''
-    };
-
-    const docRef = await this.cartCol.add(newCartItem);
-    newCartItem.cartId = docRef.id;
-    await docRef.set(newCartItem);
-
-    console.log(`Added new cart item. Cart ID: ${docRef.id}`);
-    return docRef.id;
-  }
-
-  
-  
-}
-
-  
 
   async removeProductFromCart(cartId: string): Promise<void> {
-    const productId = await this.getProductIdFromCartId(cartId);
     await this.cartCol.doc(cartId).delete();
   }
 
-  private async getProductIdFromCartId(cartId: string): Promise<string> {
-    const doc = await this.cartCol.doc(cartId).ref.get();
-    if (doc.exists) {
-      const cartItem = doc.data() as Cart;
-      return cartItem.productId;
+  async clearCart(userId: string): Promise<void> {
+    let snapshot;
+    try {
+      snapshot = await this.afs.collection<Cart>('cart', ref => ref.where('userId', '==', userId)).get().toPromise();
+    } catch (error) {
+      console.error('Error fetching snapshot:', error);
+      return; // Exit early or handle the error
+    }
+  
+    if (snapshot && snapshot.docs && snapshot.docs.length > 0) {
+      const batch = this.afs.firestore.batch();
+      snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
     } else {
-      throw new Error('Cart item not found');
+      console.log('No documents found to delete.');
     }
   }
+  
+  
+  
+  
 
   async increaseQuantity(cartId: string): Promise<void> {
     const cartItem = await this.cartCol.doc(cartId).ref.get().then(doc => doc.data() as Cart);
@@ -95,7 +103,4 @@ export class CartService {
       await this.cartCol.doc(cartId).delete();
     }
   }
-  
-
-  
 }

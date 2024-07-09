@@ -52,12 +52,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'product-details',
+    path: 'product-details/:userId',
     loadChildren: () => import('./product-details/product-details.module').then( m => m.ProductDetailsPageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'category-list',
+    path: 'category-list/:userId',
     loadChildren: () => import('./category-list/category-list.module').then( m => m.CategoryListPageModule),
     canActivate: [AuthGuard]
   },
@@ -67,12 +67,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'contact-details/:userId',
+    loadChildren: () => import('./contact-details/contact-details.module').then( m => m.ContactDetailsPageModule)
+  },
+  {
     path: 'confirm/:userId',
     loadChildren: () => import('./confirm/confirm.module').then( m => m.ConfirmPageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'product-list',
+    path: 'product-list/:userId',
     loadChildren: () => import('./product-list/product-list.module').then( m => m.ProductListPageModule),
     canActivate: [AuthGuard]
   },
@@ -93,6 +97,11 @@ const routes: Routes = [
     path: 'admin/user',
     loadChildren: () => import('./admin/user/user.module').then( m => m.UserPageModule)
   },
+  {
+    path: 'order-details/:userId',
+    loadChildren: () => import('./order-details/order-details.module').then( m => m.OrderDetailsPageModule)
+  },
+ 
 ];
 
 @NgModule({

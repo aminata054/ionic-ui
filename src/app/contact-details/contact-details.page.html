@@ -1,0 +1,66 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/tabs/shopping-cart"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Coordonnées</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Adresse de livraison</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.country || 'Pays' }}" label="Pays" type="text" [(ngModel)]="country" name="country"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.city || 'Ville' }}" label="Ville" type="text" [(ngModel)]="city" name="city"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.address || 'Adresse' }}" label="Adresse" type="text" [(ngModel)]="address" name="address"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input class="custom" placeholder="{{ user?.tel || 'Téléphone' }}" label="Téléphone" type="tel" [(ngModel)]="tel" name="tel"></ion-input>
+        </ion-item>
+        <ion-button expand="block" color="tertiary" (click)="changeCoord()">Modifier</ion-button>
+      </ion-list>
+    </div>
+  </form>
+
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Livraison</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-radio-group [(ngModel)]="deliveryMethod" name="deliveryMethod">
+            <ion-radio labelPlacement="start" value="domicile">Livraion à domicile</ion-radio>
+            <ion-radio labelPlacement="start" value="relais">Point relais</ion-radio>
+          </ion-radio-group>
+        </ion-item> 
+      </ion-list>
+    </div>
+
+    <div>
+      <ion-text>Paiement</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-radio-group [(ngModel)]="paymentMethod" name="paymentMethod">
+            <ion-radio labelPlacement="start" value="livraison">Paiement à la livraison</ion-radio>
+            <ion-radio labelPlacement="start" value="mobile">Mobile Money</ion-radio>
+          </ion-radio-group>
+        </ion-item> 
+      </ion-list>
+    </div>
+  </form>
+</ion-content>
+
+<ion-footer translucent="true" class="ion-no-border" mode="md">
+  <ion-toolbar color="translucent">
+    <ion-button expand="block" class="main-button" [routerLink]="['/checkout', userId]" routerDirection="forward" (click)="coord()">Continuer</ion-button>
+  </ion-toolbar>
+</ion-footer>

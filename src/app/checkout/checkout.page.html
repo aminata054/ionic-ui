@@ -2,7 +2,7 @@
   <ion-toolbar color="light">
     <ion-buttons slot="start" mode="md">
       <ion-back-button
-        defaultHref="/tabs/shopping-cart"
+        defaultHref="/tabs/contact-details"
         color="dark"
       ></ion-back-button>
     </ion-buttons>
@@ -11,8 +11,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-list lines="none">
-    
+  <ion-list lines="none">   
     <div>
       <ion-item *ngFor="let product of products">
         <ion-thumbnail slot="start">
@@ -48,27 +47,29 @@
   <div class="cart-total">
     <ion-item lines="none">
       <ion-label>Sous-total</ion-label>
-      <ion-label slot="end" class="ion-text-right">FCA {{ totalPrice | number:'1.0-0' }}</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA {{ total | number:'1.0-0' }}</ion-label>
     </ion-item>
 
     <ion-item lines="none">
       <ion-label>Taux</ion-label>
-      <ion-label slot="end" class="ion-text-right">5%</ion-label>
+      <ion-label slot="end" class="ion-text-right">0%</ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label>Livraison</ion-label>
-      <ion-label slot="end" class="ion-text-right">FCA 1500</ion-label>
+      <ion-label slot="end" class="ion-text-right">
+        {{ user?.deliveryMethod === 'domicile'? 'FCA 1500' : 'FCA 0' }}
+      </ion-label>
     </ion-item>
     <ion-item lines="none">
       <ion-label>Total</ion-label>
-      <ion-label slot="end" class="ion-text-right">FCA 193400</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA {{ totalPrice | number:'1.0-0' }}</ion-label>
     </ion-item>
   </div>
 </ion-content>
 
 <ion-footer translucent="true" class="ion-no-border" mode="md">
   <ion-toolbar color="translucent">
-    <ion-button expand="block" class="main-button" routerLink="/confirm" routerDirection="forward">Acheter</ion-button>
+    <ion-button expand="block" class="main-button" [routerLink]="['/confirm', userId]" routerDirection="forward" (click)="acheter()">Acheter</ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-confirm',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmPage implements OnInit {
 
-  constructor() { }
+  userId: string = '';
+  user: User | undefined;
+  
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+
+  ) { }
 
   ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('userId') || '';
+    this.userService.getUser(this.userId).subscribe((user) => {
+      this.user = user;
+      
+    });
   }
 
 }

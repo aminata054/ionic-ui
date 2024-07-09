@@ -92,7 +92,6 @@ export class ProductPage implements OnInit {
             price: this.price || 0,
             quantity: this.quantity || 0,
             cover: url, // Utilisation de l'URL de type string
-            status: false,
             category: selectedCategory,
           };
   

@@ -7,6 +7,5 @@ export interface Product {
     price: number;
     quantity: number;
     cover: string; 
-    status: boolean;
     category: Category;
   }

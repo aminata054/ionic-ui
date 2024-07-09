@@ -1,0 +1,50 @@
+<!-- checkout.page.html -->
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/tabs/profile" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Commandes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <div *ngFor="let order of orders" class="ion-margin-vertical">
+    <ion-list lines="none">
+      <ion-item *ngFor="let product of order.products">
+        <ion-thumbnail slot="start">
+          <img [src]="product.cover" alt="" />
+        </ion-thumbnail>
+        <ion-label>
+          <ion-text class="title">{{ product.name }}</ion-text>
+          <p class="price">
+            <ion-text color="dark">{{ product.price }}</ion-text>
+          </p>
+        </ion-label>
+
+        <ion-row slot="end">
+          <ion-col class="qty">
+            <ion-text>{{ product.quantity }}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+    <div class="status">
+      <ion-item>
+        {{ order.status }}
+        <ion-badge slot="end">&nbsp;</ion-badge>
+      </ion-item>
+    </div>
+
+    <div class="cart-total">
+      <ion-item lines="none">
+        <ion-label>Total</ion-label>
+        <ion-label slot="end" class="ion-text-right">
+          {{ order.totalPrice }}
+        </ion-label>
+      </ion-item>
+    </div>
+
+  </div>
+</ion-content>

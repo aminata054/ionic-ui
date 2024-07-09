@@ -8,5 +8,7 @@ export interface User {
     tel: number;
     email: string;
     password: string;
+    deliveryMethod: string;
+    paymentMethod: string;
     createdAt: number;
 }

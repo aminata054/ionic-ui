@@ -52,4 +52,9 @@ export class UserService {
       throw new Error('No user is currently logged in');
     }
   }
+  
+  async getTotalUsers(): Promise<number> {
+    const snapshot = await this.userCol.get().toPromise();
+    return snapshot? snapshot.size : 0;
+  }
 }
