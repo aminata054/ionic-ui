@@ -1,0 +1,12 @@
+ion-row {
+    display: flex;
+    justify-content: space-around;
+    ion-button {
+        border-radius: 15px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        height: 30px;
+        text-transform: initial;
+    }
+}

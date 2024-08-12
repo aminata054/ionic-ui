@@ -33,7 +33,11 @@
     <div class="status">
       <ion-item>
         {{ order.status }}
-        <ion-badge slot="end">&nbsp;</ion-badge>
+        <ion-icon name="ellipse" *ngIf="order.status === 'pending'" color="warning" slot="end"></ion-icon>
+        <ion-icon name="ellipse" *ngIf="order.status === 'done'" color="success" slot="end"></ion-icon>
+        <ion-icon name="ellipse" *ngIf="order.status === 'annule'" color="danger" slot="end"></ion-icon>
+          
+          
       </ion-item>
     </div>
 

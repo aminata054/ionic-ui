@@ -101,6 +101,14 @@ const routes: Routes = [
     path: 'order-details/:userId',
     loadChildren: () => import('./order-details/order-details.module').then( m => m.OrderDetailsPageModule)
   },
+  {
+    path: 'complete-profile',
+    loadChildren: () => import('./complete-profile/complete-profile.module').then( m => m.CompleteProfilePageModule)
+  },
+  {
+    path: 'admin/order',
+    loadChildren: () => import('./admin/order/order.module').then( m => m.OrderPageModule)
+  },
  
 ];
 

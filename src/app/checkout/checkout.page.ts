@@ -25,6 +25,7 @@ export class CheckoutPage implements OnInit {
   total: number = 0;
   totalPrice: number = 0;
   user: User | undefined;
+  orderNumber: number = 0;
 
   constructor(
     private cartService: CartService,
@@ -86,6 +87,7 @@ export class CheckoutPage implements OnInit {
 
   acheter() {
     const order: Order = {
+      orderNumber: this.orderNumber,
       orderId: '',
       userId: this.userId,
       status: 'pending',

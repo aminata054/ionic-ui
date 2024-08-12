@@ -54,44 +54,47 @@ export class SettingsPage implements OnInit {
   }
 
   async changeInformations() {
-    if (this.name && this.firstname) {
-      const loading = await this.loadingCtrl.create({
-        message: 'Mise à jour...',
-        spinner: 'crescent',
-        showBackdrop: true,
-      });
-  
-      loading.present();
-  
-      this.afs
-       .collection('user')
-       .doc(this.userId)
-       .update({
-          name: this.name,
-          firstname: this.firstname,
-          email: this.email,
-        })
-       .then(() => {
-          loading.dismiss();
-          this.toastr
-           .create({
-              message: 'Modification effectuée avec succès',
-              duration: 2000,
-            })
-           .then((toast) => toast.present());
-        })
-       .catch((error) => {
-          console.error(error);
-          loading.dismiss();
-          this.toastr
-           .create({
-              message: 'Erreur lors de la mise à jour',
-              duration: 2000,
-            })
-           .then((toast) => toast.present());
+    if (this.name && this.firstname && this.email) {
+        const loading = await this.loadingCtrl.create({
+            message: 'Mise à jour...',
+            spinner: 'crescent',
+            showBackdrop: true,
         });
+
+        await loading.present();
+
+        // Update Firestore
+        try {
+            await this.afs.collection('user').doc(this.userId).update({
+                name: this.name,
+                firstname: this.firstname,
+                email: this.email,
+            });
+
+            // Update Firebase Authentication Email
+            const user = await this.userService.getCurrentUser();
+            if (user) {
+                await user.updateEmail(this.email);
+            }
+
+            loading.dismiss();
+            const toast = await this.toastr.create({
+                message: 'Modification effectuée avec succès',
+                duration: 2000,
+            });
+            toast.present();
+        } catch (error) {
+            console.error(error);
+            loading.dismiss();
+            const toast = await this.toastr.create({
+                message: 'Erreur lors de la mise à jour',
+                duration: 2000,
+            });
+            toast.present();
+        }
     }
-  }
+}
+
 
   async changePassword() {
     if (this.password && this.confirmPassword) {

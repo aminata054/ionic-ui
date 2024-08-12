@@ -24,6 +24,10 @@ export class LoginPage implements OnInit {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || `/tabs/homescreen/${userId}`;
         this.router.navigateByUrl(returnUrl);
       }
+      else if (userId) {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || `/tabs/homescreen/${userId}`;
+        this.router.navigateByUrl(returnUrl);
+      }
     } catch (error) {
       console.log(error);
     }

@@ -29,6 +29,9 @@ export class OrderService {
     if (!user) {
       throw new Error('User not authenticated');
     }
+
+    const totalOrders = await this.getTotalOrders();
+    order.orderNumber = totalOrders + 1;
     
     // Utiliser add pour ajouter la commande
     const docRef = await this.orderCol.add(order);

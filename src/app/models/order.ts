@@ -7,4 +7,5 @@ export interface Order {
     products: Product[];
     totalPrice: number;
     createdAt: Date;
+    orderNumber: number;
 }

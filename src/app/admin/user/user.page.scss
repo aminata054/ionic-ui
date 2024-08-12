@@ -1,4 +1,17 @@
 ion-content {
+  ion-segment {
+    --background: none;
+    ion-segment-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --padding-top: 10px;
+      --padding-bottom: 10px;
+      --border-width: 0;
+      --indicator-color: transparent !important;
+      --color: #000;
+      --color-checked:var(--ion-color-primary);
+    }
+  }
     div {
       margin-top: 2rem;
 

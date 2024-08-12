@@ -21,15 +21,37 @@
 <ion-content [fullscreen]="true" color="light">
   <div class="search ion-padding">
     <ion-item lines="none" color="light">
-      <ion-input placeholder="Trouver un produit..." ></ion-input>
+      <ion-input placeholder="Trouver un produit..." [formControl]="searchField" [clearInput]="true"></ion-input>
       <ion-icon name="search-outline" slot="start"></ion-icon>
     </ion-item>
   </div>
 
+  <div class="search-results ion-padding" *ngIf="searchField.value && filteredProducts.length > 0"> 
+    <ion-list lines="none">
+      <ion-item *ngFor="let product of filteredProducts" [routerLink]="['/tabs/product-details', product.productId]">
+        <ion-thumbnail slot="start">
+          <img [src]="product.cover" alt="" >
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.price }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  
+    </div>
+
   <div class="flash-sale ion-padding-start">
-    <ion-row>
-      <img src="assets/images/flash.jpg" alt="">
-    </ion-row>
+    <swiper-container [slidesPerView]='1' [zoom]="false" [grabCursor]="true">
+      <swiper-slide *ngFor="let category of categories">
+        <ion-row>
+          <img [src]="category.cover" alt="">
+        </ion-row>
+
+      </swiper-slide>
+
+    </swiper-container>
+    
    
   </div>
 

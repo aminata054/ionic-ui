@@ -40,6 +40,39 @@ ion-toolbar {
     }
   }
 }
+.search-results {
+  position: relative;
+  width: 100%;
+  --background: var(--ion-color-light);
+  z-index: 1;
+  padding: 16px;
+  ion-list {
+    background: transparent;
+    padding: 16px;
+  }
+  
+  ion-item {
+    --background: var(--ion-color-light);
+    padding: 16px;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.search-results.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.search-results.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.search-results.show ~ * {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
 
 .title {
   display: flex;

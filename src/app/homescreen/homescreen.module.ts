@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     IonicModule,
     HomescreenPageRoutingModule,
+    ReactiveFormsModule,
     RouterModule.forChild([{ path: '', component: HomescreenPage }])
 
   ],
