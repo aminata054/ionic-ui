@@ -1,0 +1,118 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Commande N˚ {{ order?.orderNumber }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  
+  <ion-item-group>
+
+    <ion-item-divider>
+      <ion-label>Détails de livraison</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>Pays</ion-label>
+      <ion-label slot="end">{{ user?.country}}</ion-label>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label>Ville</ion-label>
+      <ion-label slot="end">{{ user?.city}}</ion-label>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label>Adresse</ion-label>
+      <ion-label slot="end">{{ user?.address}}</ion-label>
+    </ion-item>
+
+    <ion-item-divider>
+      <ion-label>Informations</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-label slot="end">{{ user?.email}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nom</ion-label>
+      <ion-label slot="end">{{ user?.name}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Prénom</ion-label>
+      <ion-label slot="end">{{ user?.firstname}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Téléphone</ion-label>
+      <ion-label slot="end">{{ user?.tel}}</ion-label>
+    </ion-item>
+  
+    <ion-item-divider>
+      <ion-label>Mode d'expédition</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>{{ user?.deliveryMethod}}</ion-label>
+    </ion-item>
+  
+    <ion-item-divider>
+      <ion-label>Méthode de paiement</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>{{ user?.paymentMethod}}</ion-label>
+      <ion-label slot="end" class="ion-text-right">
+      {{ user?.deliveryMethod === 'domicile'? 'FCA 1500' : 'FCA 0' }}
+    </ion-label>
+     
+    </ion-item>
+
+    <ion-item-divider>
+      <ion-label>Produits</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>Article</ion-label>
+      <ion-label>Nom</ion-label>
+        <ion-label>Catégorie</ion-label>
+        <ion-label>Quantité</ion-label>
+        <ion-label slot="end">Prix</ion-label>
+      </ion-item>
+
+      <ion-item *ngFor="let product of order?.products">
+        <ion-thumbnail slot="start">
+          <img [src]="product.cover" alt="" />
+        </ion-thumbnail>
+  
+        <ion-label>{{ product.name }}</ion-label>
+        <ion-label>{{ product.category.name }}</ion-label>
+        <ion-label>{{ product.quantity }}</ion-label>
+        <ion-label slot="end">{{ product.price }} FCFA</ion-label>
+      
+    </ion-item>
+
+
+    <ion-item-divider>
+      <ion-label>Total de la commande</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label slot="end">{{ order?.totalPrice}} FCFA</ion-label>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label [style.color]="order?.status === 'pending' ? 'yellow' : order?.status === 'done' ? 'green' : 'red'">
+        {{ order?.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Terminée' : 'Annulée' }}
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-button slot="end" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Terminer la commande</ion-button>
+    </ion-item>
+  
+  </ion-item-group>
+</ion-content>

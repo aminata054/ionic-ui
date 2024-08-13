@@ -86,5 +86,7 @@ export class ShoppingCartPage implements OnInit {
   hasInsufficientQuantity(): boolean {
     return this.products.some(product => product.quantity < product.cartQuantity);
   }
+
+ 
   
 }

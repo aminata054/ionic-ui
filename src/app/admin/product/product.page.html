@@ -76,6 +76,14 @@
       <h5>Catégorie : {{ product.category.name }}</h5>
       <p>Nom : {{ product.name }}</p>
       <p>Prix : {{ product.price }}</p>
-    </ion-col>
-  </ion-row>
+  
+      <p>
+        <ion-button (click)="deleteProduct(product.productId)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+        <ion-button >
+          <ion-icon name="pencil-outline" ></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
 </ion-content>

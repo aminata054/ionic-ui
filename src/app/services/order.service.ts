@@ -1,8 +1,8 @@
 // order.service.ts
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Order } from '../models/order';
 
 @Injectable({
@@ -11,6 +11,8 @@ import { Order } from '../models/order';
 export class OrderService {
 
   orderCol: AngularFirestoreCollection<Order>;
+  orderDoc: AngularFirestoreDocument<Order> | undefined;
+
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
     this.orderCol = this.afs.collection<Order>('orders', ref => ref.orderBy('createdAt'));
@@ -22,6 +24,17 @@ export class OrderService {
 
   getOrdersForUser(userId: string): Observable<Order[]> {
     return this.afs.collection<Order>('orders', ref => ref.where('userId', '==', userId)).valueChanges({ idField: 'orderId' });
+  }
+
+  getOrder(orderId: string): Observable<Order> {
+    this.orderDoc = this.afs.doc<Order>(`orders/${orderId}`);
+    return this.orderDoc.snapshotChanges().pipe(
+      map(action => {
+        const data = action.payload.data() as Order;
+        data.orderId = action.payload.id;
+        return data;
+      })
+    );
   }
 
   async createOrder(order: Order): Promise<string> {

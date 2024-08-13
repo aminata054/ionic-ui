@@ -8,47 +8,39 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-card *ngFor="let order of orders">
-    <ion-card-header>
-      <!--- <ion-card-subtitle [style.color]="order.status === 'pending' ? 'yellow' : (order.status === 'done' ? 'green' : 'red') ">
-        {{order.status}}
-      </ion-card-subtitle>
-    -->
-      <ion-item>
-        <ion-icon
-          name="ellipse"
-          *ngIf="order.status === 'pending'"
-          color="warning"
-        ></ion-icon>
-        <ion-icon
-          name="ellipse"
-          *ngIf="order.status === 'done' "
-          color="success"
-        ></ion-icon>
-        <ion-icon
-          name="ellipse"
-          *ngIf="order.status === 'annule' "
-          color="danger"
-        ></ion-icon>
-        <ion-label>Commande N˚ {{ order.orderNumber}}</ion-label>
-      </ion-item>
-    </ion-card-header>
+  <ion-segment [(ngModel)]="selectedSegment" color="primary">
+    <ion-segment-button value="pending">
+      <ion-label>En attente</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="done">
+      <ion-label>Terminée</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="delete">
+      <ion-label>Annulée</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-    <ion-card-content>
-      <ion-label>Prix Total : {{ order.totalPrice }} FCFA</ion-label>
-      <p>Passée le 25-07-20</p>
-    </ion-card-content>
-
-    <ion-row>
-      <ion-button>
-        <ion-icon name="checkmark-outline"></ion-icon>
-        <p>Compléter</p>
-      </ion-button>
-
-      <ion-button>
-        <ion-icon name="trash-outline"></ion-icon>
-        <p>Supprimer</p>
-      </ion-button>
-    </ion-row>
-  </ion-card>
+  <ion-list>
+    <ion-card *ngFor="let order of getFilteredOrders()">
+      <ion-card-header>
+        <ion-item>
+          <ion-label>Commande N˚ {{ order.orderNumber }}</ion-label>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Prix Total : {{ order.totalPrice }} FCFA</ion-label>
+        <p>Passée le 25-07-20</p>
+      </ion-card-content>
+      <ion-row>
+        <ion-button [routerLink]="['/admin/order-details', order.orderId]">
+          <ion-icon name="eye-outline"></ion-icon>
+          <p>Détails</p>
+        </ion-button>
+        <ion-button>
+          <ion-icon name="trash-outline"></ion-icon>
+          <p>Supprimer</p>
+        </ion-button>
+      </ion-row>
+    </ion-card>
+  </ion-list>
 </ion-content>

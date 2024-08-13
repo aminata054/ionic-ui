@@ -11,6 +11,7 @@
 <ion-content [fullscreen]="true" color="light">
 
   <div *ngFor="let order of orders" class="ion-margin-vertical">
+    <ion-label>Commande n˚ {{ order.orderNumber }}</ion-label>
     <ion-list lines="none">
       <ion-item *ngFor="let product of order.products">
         <ion-thumbnail slot="start">

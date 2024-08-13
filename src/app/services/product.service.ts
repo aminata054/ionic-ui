@@ -57,4 +57,7 @@ export class ProductService {
       );
   }
   
+  deleteProduct(productId: string): Promise<void> {
+    return this.afs.doc(`product/${productId}`).delete();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
@@ -24,7 +24,8 @@ export class ProductPage implements OnInit {
   products: Product[] = [];
   categoryId: string = '';
   categoryName: string = ''; 
-  
+  selectedProduct: Product | undefined;
+    
   constructor(
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
@@ -131,4 +132,36 @@ export class ProductPage implements OnInit {
       toast.present();
     }
   }
+
+  async deleteProduct(productId: string) {
+    if (!productId) {
+      console.error('Invalid product ID');
+      return;
+    }
+  
+    const loading = await this.loadingCtrl.create({
+      message: "Suppression du produit",
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+  
+    await loading.present();
+  
+    this.productService.deleteProduct(productId).then(() => {
+      loading.dismiss();
+      this.toastr.create({
+        message: 'Produit supprimé avec succès',
+        duration: 2000,
+      }).then((toast) => toast.present());
+    }).catch((error) => {
+      loading.dismiss();
+      console.error(`Error deleting product: ${error}`);
+      this.toastr.create({
+        message: 'Erreur lors de la suppression du produit : ' + error.message,
+        duration: 2000,
+      }).then((toast) => toast.present());
+    });
+  }
 }
+
+
