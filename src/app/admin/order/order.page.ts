@@ -11,12 +11,15 @@ export class OrderPage implements OnInit {
   orders: Order[] | undefined;
   selectedSegment: string = 'pending'; // Default segment
   orderGroups: any[] = [];
+  filteredOrders: Order[] | undefined;
+  searchTerm: string = '';
 
   constructor(private orderService: OrderService) {}
 
   ngOnInit() {
     this.orderService.getOrders().subscribe((orders) => {
       this.orders = orders;
+      this.filteredOrders = orders;
       this.groupOrdersByStatus();
     });
   }
@@ -33,7 +36,16 @@ export class OrderPage implements OnInit {
 
   getFilteredOrders() {
     if (!this.orders) return [];
-    return this.orders.filter(order => order.status === this.selectedSegment);
+    const filteredOrders = this.orders.filter((order) => order.status === this.selectedSegment);
+    if (this.searchTerm) {
+      return filteredOrders.filter((order) => {
+        return (
+          order.orderNumber.toString().includes(this.searchTerm.toLowerCase()) )
+      });
+    } else {
+      return filteredOrders;
+    }
   }
+
 
 }

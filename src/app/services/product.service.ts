@@ -56,8 +56,15 @@ export class ProductService {
         })
       );
   }
+
+  updateProduct(productId: string, product: Partial<Product>): Promise<void> {
+    return this.afs.doc(`product/${productId}`).update(product);
+  }
   
   deleteProduct(productId: string): Promise<void> {
     return this.afs.doc(`product/${productId}`).delete();
   }
+
+ 
+  
 }

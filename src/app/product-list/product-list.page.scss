@@ -1,10 +1,11 @@
 .product-item {
     margin-top: 20px;
     ion-col {
-        img {
+        ion-img {
             width: 100%;
             height: 120px;
             object-fit: cover;
+            
         }
 
         p {

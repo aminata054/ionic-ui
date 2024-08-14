@@ -113,6 +113,14 @@ const routes: Routes = [
     path: 'admin/order-details/:orderId',
     loadChildren: () => import('./admin/order-details/order-details.module').then( m => m.OrderDetailsPageModule)
   },
+  {
+    path: 'edit-products',
+    loadChildren: () => import('./admin/edit-products/edit-products.module').then( m => m.EditProductsPageModule)
+  },
+  {
+    path: 'edit-categories',
+    loadChildren: () => import('./admin/edit-categories/edit-categories.module').then( m => m.EditCategoriesPageModule)
+  },
  
 ];
 

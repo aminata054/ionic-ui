@@ -85,13 +85,13 @@ export class CheckoutPage implements OnInit {
     }
   }
 
-  acheter() {
+  async acheter() {
     const order: Order = {
       orderNumber: this.orderNumber,
       orderId: '',
       userId: this.userId,
       status: 'pending',
-      totalPrice: this.totalPrice ,
+      totalPrice: this.totalPrice,
       products: this.products.map(p => ({
         productId: p.productId,
         name: p.name,
@@ -99,21 +99,25 @@ export class CheckoutPage implements OnInit {
         price: p.price,
         cover: p.cover,
         category: p.category,
-        quantity: p.cartQuantity 
+        quantity: p.cartQuantity
       })),
       createdAt: new Date()
-      
     };
   
-    this.orderService.createOrder(order).then((orderId) => { 
-      console.log('commande ajouté', orderId);
-      this.cartService.clearCart(this.userId).then(() => {
-        console.log('panier supprimé ');
-      }).catch(err => {
-        console.error('errueu lors de la suppression du panier:', err);
-      });
-    }).catch(err => {
-      console.error('erreur lors de la l\'ajout de la commande:', err);
-    });
+    try {
+      const orderId = await this.orderService.createOrder(order);
+      console.log('Commande ajoutée', orderId);
+  
+      // Réduire la quantité de chaque produit dans Firestore
+      for (const product of this.products) {
+        const updatedQuantity = product.quantity - product.cartQuantity;
+        await this.productService.updateProduct(product.productId, { quantity: updatedQuantity });
+      }
+  
+      await this.cartService.clearCart(this.userId);
+      console.log('Panier supprimé');
+    } catch (err) {
+      console.error('Erreur lors de l\'ajout de la commande :', err);
+    }
   }
 }

@@ -20,6 +20,12 @@
     </ion-segment-button>
   </ion-segment>
 
+  <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="getFilteredOrders()"
+      placeholder="Rechercher une commande"
+    ></ion-searchbar>
+
   <ion-list>
     <ion-card *ngFor="let order of getFilteredOrders()">
       <ion-card-header>

@@ -24,8 +24,11 @@ export class ProductListPage implements OnInit {
     private categoryService: CategoryService,
     private route: ActivatedRoute,
     private loadingCtrl: LoadingController,
+    private navCtrl: NavController
   ) {}
-
+  goBack() {
+    this.navCtrl.navigateBack(['/tabs/category-list', this.userId]);
+  }
  
 
   ngOnInit() {

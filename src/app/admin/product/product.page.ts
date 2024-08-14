@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Product } from 'src/app/models/product';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
+import { EditProductsPage } from '../edit-products/edit-products.page';
 
 @Component({
   selector: 'app-product',
@@ -25,6 +26,9 @@ export class ProductPage implements OnInit {
   categoryId: string = '';
   categoryName: string = ''; 
   selectedProduct: Product | undefined;
+  filteredProducts: Product[] = [];
+  searchTerm: string = '';
+  isModalOpen = false;
     
   constructor(
     private afs: AngularFirestore,
@@ -33,7 +37,8 @@ export class ProductPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastr: ToastController,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private modalCtrl: ModalController,
   ) {}
 
   ngOnInit() {
@@ -42,7 +47,42 @@ export class ProductPage implements OnInit {
     });
     this.productService.getProducts().subscribe((products) => {
       this.products = products;
+      this.filteredProducts = products;
     });
+  }
+
+  setOpen(isOpen: boolean, product: Product) {
+    this.isModalOpen = isOpen;
+    this.selectedProduct = product;
+  }
+
+  searchProducts() {
+    if (this.searchTerm) {
+      this.filteredProducts = this.products.filter((product) => {
+        return (
+          product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          product.category.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+      });
+    } else {
+      this.filteredProducts = this.products;
+    }
+  }
+
+  edit(product: Product) {
+    this.modalCtrl.create({
+      component: EditProductsPage,
+      componentProps: { product }
+    }).then(modalres => {
+      modalres.present();
+  
+      modalres.onDidDismiss().then(res => {
+        if (res.data != null) {
+          const updatedProduct = res.data;
+          this.productService.updateProduct(updatedProduct.productId, updatedProduct);
+        }
+      })
+    })
   }
 
   onFileSelected(event: any) {
@@ -92,7 +132,7 @@ export class ProductPage implements OnInit {
             description: this.description,
             price: this.price || 0,
             quantity: this.quantity || 0,
-            cover: url, // Utilisation de l'URL de type string
+            cover: url, 
             category: selectedCategory,
           };
   

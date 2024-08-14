@@ -1,10 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="light">
-    <ion-buttons slot="start" mode="md">
-      <ion-back-button
-      defaultHref="/tabs/category-list"
-        color="dark"
-      ></ion-back-button>
+    <ion-buttons >
+      <ion-back-button (click)="goBack()" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title color="primary">{{ category?.name }}</ion-title>
     <ion-buttons slot="end" mode="md">
@@ -16,13 +13,10 @@
 <ion-content [fullscreen]="true" color="light">
   <ion-row class="product-item">
     <ion-col size="6" class="ion-text-left" *ngFor="let product of products">
-      <img
-        [src]="product.cover"
-        alt=""
-        [routerLink]="['/tabs/product-details', product.productId]"
-      />
+      <ion-img [src]="product.cover" [routerLink]="['/tabs/product-details', product.productId]" ></ion-img>
       <p>FCFA {{ product.price }}</p>
       <h4>{{ product.name }}</h4>
+      <p *ngIf="product.quantity === 0">Ce produit est momentanément indisponible</p>
     </ion-col>
   </ion-row>
 </ion-content>

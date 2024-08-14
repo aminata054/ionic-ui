@@ -42,4 +42,12 @@ export class CategoryService {
       })
     );
   }
+
+  updateCategory(categoryId: string, category: Category): Promise<void> {
+    return this.afs.doc(`category/${categoryId}`).update(category);
+  }
+  
+  deleteCategory(categoryId: string): Promise<void> {
+    return this.afs.doc(`category/${categoryId}`).delete();
+  }
 }

@@ -11,6 +11,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionChange)="searchCategories()"
+      placeholder="Rechercher une catégorie"
+      [debounce]="500"
+    ></ion-searchbar>
   <form>
     <div class="ion-margin-vertical">
       <ion-text>Ajouter une nouvelle catégorie</ion-text>
@@ -37,9 +43,46 @@
   </form>
 
   <ion-row class="category-item" >
-    <ion-col size="6" class="ion-text-left" *ngFor="let category of categories">
+    <ion-col size="6" class="ion-text-left" *ngFor="let category of filteredCategories">
       <img [src]="category.cover" alt="Cover image" />
       <p>{{ category.name }}</p>
+      
+      <p>
+        <ion-button (click)="setOpen(true, category)">
+          <ion-icon name="eye-outline"></ion-icon>
+        </ion-button>
+        <ion-modal [isOpen]="isModalOpen">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar color="light">
+                <ion-title>Produit </ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="setOpen(false, category)">Fermer</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding" color="light">
+              <p>
+                <ion-label>Id : {{ selectedCategory?.categoryId }}</ion-label>
+              </p>
+              <p>
+                <ion-label>Nom : {{ selectedCategory?.name }}</ion-label>
+              </p>
+              <p>
+                <ion-label>
+                  <ion-img [src]="selectedCategory?.cover"></ion-img>
+                </ion-label>
+              </p>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+        <ion-button (click)="edit(category)">
+          <ion-icon name="pencil-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteCategory(category.categoryId)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </p>
     </ion-col>
   </ion-row>
 </ion-content>

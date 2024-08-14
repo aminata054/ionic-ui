@@ -70,7 +70,7 @@ export class ShoppingCartPage implements OnInit {
       await toast.present();
       return;
     }
-  
+    // Sinon, augmenter la quantité normalement
     this.cartService.increaseQuantity(cartId).then(() => {
       this.loadCart();
     });

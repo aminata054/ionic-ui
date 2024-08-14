@@ -16,6 +16,10 @@
     <div class="image">
       <img [src]="product?.cover" alt="" />
     </div>
+    <div>
+      <p *ngIf="product?.quantity === 0">Ce produit est momentanément indisponible</p>
+
+    </div>
 
     <div class="card-content">
       <div class="card-title">
@@ -37,7 +41,7 @@
       </p>
     </div>
 
-    <ion-button expand="block" (click)="addCart()">
+    <ion-button expand="block" (click)="addCart()" [disabled]="product?.quantity === 0">
       <ion-icon name="cart-outline"></ion-icon>
       Ajouter au panier
     </ion-button>
