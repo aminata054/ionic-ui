@@ -12,4 +12,5 @@ export interface User {
     deliveryMethod: string;
     paymentMethod: string;
     createdAt: number;
+    isAdmin: boolean;
 }

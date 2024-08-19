@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-segment value="client">
+  <ion-segment [(ngModel)]="selectedSegment" color="primary">
     <ion-segment-button value="client">
       <ion-label>Client</ion-label>
     </ion-segment-button>
@@ -19,21 +19,34 @@
       <ion-label>Administrateur</ion-label>
     </ion-segment-button>
   </ion-segment>
-  
 
   <div class="ion-margin-vertical">
-  <ion-list>
-    <ion-item *ngFor="let user of users">
-      <ion-thumbnail slot="start">
-        <img src="assets/images/profile.png" alt="">
-      </ion-thumbnail>
-      <ion-label class="recent">
-        {{ user.firstname }} {{ user.name }}
-        <p>
-          {{ user.email }}
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</div>
+    <ion-list *ngIf="selectedSegment === 'admin'">
+      <ion-item *ngFor="let administrator of administrators">
+        <ion-thumbnail slot="start">
+          <img src="assets/images/profile.png" alt="">
+        </ion-thumbnail>
+        <ion-label class="recent">
+          {{ administrator.firstname }} {{ administrator.name }}
+          <p>
+            {{ administrator.email }}
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="selectedSegment === 'client'">
+      <ion-item *ngFor="let client of clients">
+        <ion-thumbnail slot="start">
+          <img src="assets/images/profile.png" alt="">
+        </ion-thumbnail>
+        <ion-label class="recent">
+          {{ client.firstname }} {{ client.name }}
+          <p>
+            {{ client.email }}
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

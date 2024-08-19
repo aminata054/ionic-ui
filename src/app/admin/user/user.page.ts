@@ -8,7 +8,10 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
-  users: User[] | undefined;
+  administrators: User[] | undefined;
+  clients: User[] | undefined;
+  selectedSegment: string = 'client'; 
+
 
 
   constructor(
@@ -17,8 +20,10 @@ export class UserPage implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers().subscribe((users) => {
-      this.users = users;
+      this.administrators = users.filter((user) => user.isAdmin);
+      this.clients = users.filter((user) => !user.isAdmin);
     });
   }
+
 
 }

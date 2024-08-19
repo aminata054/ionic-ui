@@ -36,11 +36,17 @@ export class ProfilePage implements OnInit {
         this.firstname = user.firstname || '';
       }
     });
+
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    }
   }
 
   signout() {
     this.authService.signOut().then(() => {
-      this.router.navigateByUrl('/login');
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 100); // Add a 100ms delay
     });
   }
 

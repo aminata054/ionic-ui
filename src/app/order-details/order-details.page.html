@@ -9,47 +9,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="searchOrder()"
+      placeholder="Rechercher une commande"
+    ></ion-searchbar>
 
   <div *ngFor="let order of orders" class="ion-margin-vertical">
-    <ion-label>Commande n˚ {{ order.orderNumber }}</ion-label>
-    <ion-list lines="none">
-      <ion-item *ngFor="let product of order.products">
-        <ion-thumbnail slot="start">
-          <img [src]="product.cover" alt="" />
-        </ion-thumbnail>
-        <ion-label>
-          <ion-text class="title">{{ product.name }}</ion-text>
-          <p class="price">
-            <ion-text color="dark">{{ product.price }}</ion-text>
-          </p>
-        </ion-label>
-
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-text>{{ product.quantity }}</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-list>
-    <div class="status">
-      <ion-item>
-        {{ order.status }}
-        <ion-icon name="ellipse" *ngIf="order.status === 'pending'" color="warning" slot="end"></ion-icon>
-        <ion-icon name="ellipse" *ngIf="order.status === 'done'" color="success" slot="end"></ion-icon>
-        <ion-icon name="ellipse" *ngIf="order.status === 'annule'" color="danger" slot="end"></ion-icon>
-          
-          
-      </ion-item>
-    </div>
-
-    <div class="cart-total">
-      <ion-item lines="none">
-        <ion-label>Total</ion-label>
-        <ion-label slot="end" class="ion-text-right">
-          {{ order.totalPrice }}
-        </ion-label>
-      </ion-item>
-    </div>
-
+    <ion-item-sliding>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="cancelOrder(order.orderId, 'cancel')">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+  
+      <ion-card>
+        <ion-card-content>
+          <ion-label>Commande n˚ {{ order.orderNumber }}</ion-label>
+          <ion-list lines="none">
+            <ion-item *ngFor="let product of order.products">
+              <ion-thumbnail slot="start">
+                <img [src]="product.cover" alt="" />
+              </ion-thumbnail>
+              <ion-label>
+                <ion-text class="title">{{ product.name }}</ion-text>
+                <p class="price">
+                  <ion-text color="dark">{{ product.price }}</ion-text>
+                </p>
+              </ion-label>
+  
+              <ion-row slot="end">
+                <ion-col class="qty">
+                  <ion-text>{{ product.quantity }}</ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-list>
+          <div class="status">
+            <ion-item>
+              {{ order.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Terminée' : 'Annulée' }}
+              <ion-icon name="ellipse" *ngIf="order.status === 'pending'" color="warning" slot="end"></ion-icon>
+              <ion-icon name="ellipse" *ngIf="order.status === 'done'" color="success" slot="end"></ion-icon>
+              <ion-icon name="ellipse" *ngIf="order.status === 'cancel'" color="danger" slot="end"></ion-icon>
+            </ion-item>
+          </div>
+  
+          <div class="cart-total">
+            <ion-item lines="none">
+              <ion-label>Total</ion-label>
+              <ion-label slot="end" class="ion-text-right">
+                {{ order.totalPrice }} FCFA
+              </ion-label>
+            </ion-item>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item-sliding>
   </div>
 </ion-content>

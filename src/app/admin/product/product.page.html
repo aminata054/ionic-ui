@@ -9,10 +9,10 @@
 
 <ion-content [fullscreen]="true" color="light">
   <ion-searchbar
-  [(ngModel)]="searchTerm"
-  (ngModelChange)="searchProducts()"
-  placeholder="Rechercher un produit"
-></ion-searchbar>
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="searchProducts()"
+    placeholder="Rechercher un produit"
+  ></ion-searchbar>
   <form>
     <div class="ion-margin-vertical">
       <ion-text>Ajouter un nouveau produit</ion-text>
@@ -73,11 +73,15 @@
   </form>
 
   <ion-row class="product-item">
-    <ion-col size="6" class="ion-text-left" *ngFor="let product of filteredProducts">
+    <ion-col
+      size="6"
+      class="ion-text-left"
+      *ngFor="let product of filteredProducts"
+    >
       <img [src]="product.cover" alt="Cover image" />
       <h5>Catégorie : {{ product.category.name }}</h5>
       <p>Nom : {{ product.name }}</p>
-      <p>Prix : {{ product.price }}</p>
+      <p>Prix : {{ product.price }} FCFA</p>
 
       <p>
         <ion-button (click)="setOpen(true, product)">
@@ -87,35 +91,44 @@
           <ng-template>
             <ion-header>
               <ion-toolbar color="light">
-                <ion-title>Produit </ion-title>
+                <ion-title>{{ selectedProduct?.name }} </ion-title>
                 <ion-buttons slot="end">
-                  <ion-button (click)="setOpen(false, product)">Fermer</ion-button>
+                  <ion-button (click)="setOpen(false, product)"
+                    >Fermer</ion-button
+                  >
                 </ion-buttons>
               </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding" color="light">
               <p>
-                <ion-label>Id : {{ selectedProduct?.productId }}</ion-label>
-              </p>
-              <p>
-                <ion-label>Id : {{ selectedProduct?.category?.name }}</ion-label>
-              </p>
-              <p>
-                <ion-label>Id : {{ selectedProduct?.name }}</ion-label>
-              </p>
-              <p>
-                <ion-label>Nom : {{ selectedProduct?.description }}</ion-label>
-              </p>
-              <p>
-                <ion-label>Nom : {{ selectedProduct?.price }}</ion-label>
-              </p>
-              <p>
-                <ion-label>Nom : {{ selectedProduct?.quantity }}</ion-label>
-              </p>
-              <p>
                 <ion-label>
                   <ion-img [src]="selectedProduct?.cover"></ion-img>
                 </ion-label>
+              </p>
+              <p>
+                <ion-label
+                  >Nom de la catégorie : {{ selectedProduct?.category?.name
+                  }}</ion-label
+                >
+              </p>
+              <p>
+                <ion-label>Nom du produit : {{ selectedProduct?.name }}</ion-label>
+              </p>
+              <p>
+                <ion-label
+                  >Description : {{ selectedProduct?.description }}</ion-label
+                >
+              </p>
+              <p>
+                <ion-label>Prix : {{ selectedProduct?.price }} FCFA</ion-label>
+              </p>
+              <p>
+                <ion-label
+                  >Quantité : {{ selectedProduct?.quantity }}</ion-label
+                >
+              </p>
+              <p>
+               
               </p>
             </ion-content>
           </ng-template>
@@ -127,6 +140,7 @@
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
       </p>
-    ></ion-col>
+      </ion-col
+    >
   </ion-row>
 </ion-content>

@@ -9,7 +9,7 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderPage implements OnInit {
   orders: Order[] | undefined;
-  selectedSegment: string = 'pending'; // Default segment
+  selectedSegment: string = 'pending'; 
   orderGroups: any[] = [];
   filteredOrders: Order[] | undefined;
   searchTerm: string = '';

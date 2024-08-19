@@ -81,41 +81,54 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin/product',
-    loadChildren: () => import('./admin/product/product.module').then( m => m.ProductPageModule)
+    path: 'admin/product/:userId',
+    loadChildren: () => import('./admin/product/product.module').then( m => m.ProductPageModule),
+    canActivate: [AuthGuard]
+
   },
   {
-    path: 'admin/category',
-    loadChildren: () => import('./admin/category/category.module').then( m => m.CategoryPageModule)
+    path: 'admin/category/:userId',
+    loadChildren: () => import('./admin/category/category.module').then( m => m.CategoryPageModule),
+    canActivate: [AuthGuard]
+
   },
   {
-    path: 'admin/home',
-    loadChildren: () => import('./admin/home/home.module').then( m => m.HomePageModule)
+    path: 'admin/home/:userId',
+    loadChildren: () => import('./admin/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
+
   },
   
   {
-    path: 'admin/user',
-    loadChildren: () => import('./admin/user/user.module').then( m => m.UserPageModule)
+    path: 'admin/user/:userId',
+    loadChildren: () => import('./admin/user/user.module').then( m => m.UserPageModule),
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'order-details/:userId',
-    loadChildren: () => import('./order-details/order-details.module').then( m => m.OrderDetailsPageModule)
+    loadChildren: () => import('./order-details/order-details.module').then( m => m.OrderDetailsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'complete-profile',
     loadChildren: () => import('./complete-profile/complete-profile.module').then( m => m.CompleteProfilePageModule)
   },
   {
-    path: 'admin/order',
-    loadChildren: () => import('./admin/order/order.module').then( m => m.OrderPageModule)
+    path: 'admin/order/:userId',
+    loadChildren: () => import('./admin/order/order.module').then( m => m.OrderPageModule),
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'admin/order-details/:orderId',
-    loadChildren: () => import('./admin/order-details/order-details.module').then( m => m.OrderDetailsPageModule)
+    loadChildren: () => import('./admin/order-details/order-details.module').then( m => m.OrderDetailsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-products',
-    loadChildren: () => import('./admin/edit-products/edit-products.module').then( m => m.EditProductsPageModule)
+    loadChildren: () => import('./admin/edit-products/edit-products.module').then( m => m.EditProductsPageModule),
+    
   },
   {
     path: 'edit-categories',

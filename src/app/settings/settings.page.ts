@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -29,6 +30,7 @@ export class SettingsPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastr: ToastController,
     private userService: UserService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private navCtrl: NavController
   ) {}
@@ -65,15 +67,16 @@ export class SettingsPage implements OnInit {
 
         // Update Firestore
         try {
-            await this.afs.collection('user').doc(this.userId).update({
-                name: this.name,
-                firstname: this.firstname,
-                email: this.email,
-            });
+          await this.afs.collection('user').doc(this.userId).update({
+            name: this.name,
+            firstname: this.firstname,
+            email: this.email,
+          });
 
             // Update Firebase Authentication Email
             const user = await this.userService.getCurrentUser();
             if (user) {
+              await this.authService.updateEmail(this.email);
                 await user.updateEmail(this.email);
             }
 
@@ -100,7 +103,13 @@ export class SettingsPage implements OnInit {
     if (this.password && this.confirmPassword) {
       if (this.password === this.confirmPassword) {
         try {
-          await this.userService.updatePassword(this.password);
+          const user = await this.userService.getCurrentUser();
+
+          if (user) {
+            await user.updatePassword(this.password);
+          }
+          await this.authService.updatePassword(this.password);
+
           const toast = await this.toastr.create({
             message: 'Mot de passe mis à jour avec succès',
             duration: 2000,

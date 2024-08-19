@@ -1,11 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title color="light">Tableau de bord</ion-title>
-    <ion-buttons slot="end" mode="md">
+    <ion-buttons slot="end" mode="md" (click)="signout()">
       <ion-icon name="log-out-outline" color="light"></ion-icon>
         </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -29,19 +28,19 @@
 
   <div class="content">
     <div class="grid">
-      <div class="box" routerLink="/admin/product">
+      <div class="box" [routerLink]="['/admin/product', userId]">
         <ion-icon name="stats-chart-outline"></ion-icon>
         <p>Produits</p>
       </div>
-      <div class="box" routerLink="/admin/category">
+      <div class="box" [routerLink]="['/admin/category', userId]">
         <ion-icon name="list-circle-outline"></ion-icon>
         <p>Catégories</p>
       </div>
-      <div class="box" routerLink="/admin/user">
+      <div class="box" [routerLink]="['/admin/user', userId]">
         <ion-icon name="people-outline"></ion-icon>
         <p>Utilisateurs</p>
       </div>
-      <div class="box" routerLink="/admin/order">
+      <div class="box" [routerLink]="['/admin/order', userId]">
         <ion-icon name="card-outline"></ion-icon>
         <p>Commandes & Paiements</p>
       </div>
@@ -49,7 +48,7 @@
   </div>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button color="secondary">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name=""></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

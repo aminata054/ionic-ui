@@ -55,7 +55,6 @@
           <ng-template>
             <ion-header>
               <ion-toolbar color="light">
-                <ion-title>Produit </ion-title>
                 <ion-buttons slot="end">
                   <ion-button (click)="setOpen(false, category)">Fermer</ion-button>
                 </ion-buttons>
@@ -66,13 +65,14 @@
                 <ion-label>Id : {{ selectedCategory?.categoryId }}</ion-label>
               </p>
               <p>
-                <ion-label>Nom : {{ selectedCategory?.name }}</ion-label>
-              </p>
-              <p>
                 <ion-label>
                   <ion-img [src]="selectedCategory?.cover"></ion-img>
                 </ion-label>
               </p>
+              <p>
+                <ion-label>Nom : {{ selectedCategory?.name }}</ion-label>
+              </p>
+              
             </ion-content>
           </ng-template>
         </ion-modal>

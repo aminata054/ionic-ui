@@ -34,7 +34,7 @@
         </ion-thumbnail>
         <ion-label>
           <h2>{{ product.name }}</h2>
-          <p>{{ product.price }}</p>
+          <p>{{ product.price }} FCFA</p>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -84,7 +84,7 @@
         <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
             <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >
-            <p>{{product.price}}</p>
+            <p>{{product.price}} FCFA</p>
             <h6>{{product.name}}</h6>
           </ion-col>
         </swiper-slide>
@@ -102,7 +102,7 @@
         <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
             <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >
-            <p>{{product.price}}</p>
+            <p>{{product.price}} FCFA</p>
             <h6>{{product.name}}</h6>
           </ion-col>
         </swiper-slide>

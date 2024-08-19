@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/models/order';
 import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,10 +16,18 @@ export class HomePage implements OnInit {
   orders: Order[] | undefined;
   totalUsers: number | undefined;
   users: User[] | undefined;
+  userId: string = '';
+  user: User | undefined;
+
+
 
   constructor(
     private orderService: OrderService,
+    private authService: AuthService,
     private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router, 
+
   ) { }
 
   ngOnInit() {
@@ -27,7 +37,20 @@ export class HomePage implements OnInit {
     this.userService.getTotalUsers().then((total) => {
       this.totalUsers = total;
     });
+
+    this.userId = this.route.snapshot.paramMap.get('userId') || '';
+    this.userService.getUser(this.userId).subscribe((user) => {
+      this.user = user;
+    });
     
+  }
+
+  signout() {
+    this.authService.signOut().then(() => {
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 100); // Add a 100ms delay
+    });
   }
 
 }

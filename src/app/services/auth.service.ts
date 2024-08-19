@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/user';
+import { map, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -14,10 +15,17 @@ export class AuthService {
   constructor(
     private firestore: AngularFirestore,
     private auth: AngularFireAuth
-  ) {}
+  ) {
+    
+  }
 
-  loginWithEmail(data: { email: string; password: string }) {
-    return this.auth.signInWithEmailAndPassword(data.email, data.password);
+  async loginWithEmail(data: { email: string; password: string }) {
+    try {
+      return await this.auth.signInWithEmailAndPassword(data.email, data.password);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error; // Rethrow error to handle it in the component
+    }
   }
 
   signup(data: { email: string; password: string }) {
@@ -32,13 +40,22 @@ export class AuthService {
     return this.firestore.collection('user').doc(data.uid).set(data);
   }
 
-  getDetails(uid: string) {
-    return this.firestore.collection('user').doc(uid).valueChanges();
-  }
+  getDetails(uid: string): Observable<User> {
+    return this.firestore.collection<User>('user').doc(uid).valueChanges().pipe(
+        map(user => {
+            if (!user) {
+                throw new Error('User not found'); 
+            }
+            return user; 
+        })
+    );
+}
 
-  signOut() {
-    return this.auth.signOut();
-  }
+
+
+signOut() {
+  return this.auth.signOut();
+}
 
   async updateEmail(newEmail: string): Promise<void> {
     const user = await this.auth.currentUser;
@@ -47,6 +64,25 @@ export class AuthService {
       await this.firestore.collection('user').doc(user.uid).update({ email: newEmail });
     }
   }
+  
+  async updatePassword(newPassword: string): Promise<void> {
+    const user = await this.auth.currentUser;
+    if (user) {
+      await user.updatePassword(newPassword);
+
+    } else {
+      throw new Error('No user is currently logged in');
+    }
+  }
+    
+  async deleteUser(): Promise<void> {
+  const user = await this.auth.currentUser;
+  if (user) {
+    await this.firestore.collection('user').doc(user.uid).delete();
+    await user.delete();
+  }
+}
+
 
  
 }
