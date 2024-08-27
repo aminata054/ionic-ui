@@ -47,10 +47,11 @@ export class HomePage implements OnInit {
 
   signout() {
     this.authService.signOut().then(() => {
-      setTimeout(() => {
-        this.router.navigateByUrl('/login');
-      }, 100); // Add a 100ms delay
+      this.router.navigateByUrl('/login'); // Redirection vers la page de connexion
+    }).catch(error => {
+      console.error('Erreur lors de la déconnexion:', error);
     });
   }
+  
 
 }
