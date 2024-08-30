@@ -112,7 +112,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'complete-profile',
+    path: 'complete-profile/:userId',
     loadChildren: () => import('./complete-profile/complete-profile.module').then( m => m.CompleteProfilePageModule)
   },
   {
@@ -134,6 +134,10 @@ const routes: Routes = [
   {
     path: 'edit-categories',
     loadChildren: () => import('./admin/edit-categories/edit-categories.module').then( m => m.EditCategoriesPageModule)
+  },
+  {
+    path: 'location',
+    loadChildren: () => import('./location/location.module').then( m => m.LocationPageModule)
   },
  
 ];
