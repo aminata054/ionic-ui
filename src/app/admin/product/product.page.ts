@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Product } from 'src/app/models/product';
 import { Category } from 'src/app/models/category';
@@ -39,6 +39,7 @@ export class ProductPage implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -152,6 +153,7 @@ export class ProductPage implements OnInit {
               this.quantity = undefined;
               this.coverFile = null;
               this.categoryName = '';
+              this.categoryId = '';
             })
             .catch((error) => {
               loading.dismiss();
@@ -178,30 +180,60 @@ export class ProductPage implements OnInit {
       console.error('Invalid product ID');
       return;
     }
-  
+
+    await this.presentAlert('Confirmation', 'Êtes-vous sûr de vouloir supprimer ce produit ?', productId); 
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastr.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
+  async presentAlert(header: string, message: string, productId: string) {
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            console.log("Bouton d'annulation cliqué")
+          }
+        },
+        {
+          text: 'Supprimer',
+        handler: async () => {
+          try {
+            await this.productService.deleteProduct(productId);
+            const loading = await this.loadingPresent('Suppression en cours...')
+            this.presentToast('Produit supprimé avec succès !')
+            loading.dismiss();
+          } catch (error) {
+            this.presentToast("Erreur lors de la suppression du produit");
+          }
+        }
+      }
+      ]
+    });
+    await alert.present();
+
+  }
+
+  async loadingPresent(message: string) {
     const loading = await this.loadingCtrl.create({
-      message: "Suppression du produit",
+      message: message,
       spinner: 'crescent',
       showBackdrop: true,
     });
-  
     await loading.present();
-  
-    this.productService.deleteProduct(productId).then(() => {
-      loading.dismiss();
-      this.toastr.create({
-        message: 'Produit supprimé avec succès',
-        duration: 2000,
-      }).then((toast) => toast.present());
-    }).catch((error) => {
-      loading.dismiss();
-      console.error(`Error deleting product: ${error}`);
-      this.toastr.create({
-        message: 'Erreur lors de la suppression du produit : ' + error.message,
-        duration: 2000,
-      }).then((toast) => toast.present());
-    });
+    return loading;
   }
+
 }
 
 

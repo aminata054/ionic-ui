@@ -3,7 +3,7 @@
     <ion-button slot="start" mode="md" (click)="close()">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>
-    <ion-title color="primary">Édit</ion-title>
+    <ion-title color="primary">Modification catégorie</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,6 +20,7 @@
           ></ion-input>
         </ion-item>
         <ion-item>
+          <ion-img [src]="category.cover"></ion-img>
           <ion-label position="floating">Photo</ion-label>
           <ion-input
           type="file"

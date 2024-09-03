@@ -18,12 +18,11 @@
       <ion-text>Ajouter un nouveau produit</ion-text>
       <ion-list>
         <ion-item>
-          <ion-input
-            [(ngModel)]="categoryName"
-            name="categoryName"
-            class="custom"
-            label="Catégorie du produit"
-          ></ion-input>
+          <ion-select [(ngModel)]="categoryName" placeholder="Sélectionner une catégorie" label="Catégorie" name="categoryName">
+            <ion-select-option *ngFor="let category of categories" [value]="category.name">
+              {{ category.name }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
         <ion-item>
           <ion-input

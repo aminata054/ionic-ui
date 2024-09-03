@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { GoogleAuthProvider } from "@angular/fire/auth";
 import { User } from '../models/user';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { ToastController } from '@ionic/angular';
+import { Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,8 @@ export class AuthService {
   constructor(
     private firestore: AngularFirestore,
     private auth: AngularFireAuth,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private router: Router
   ) {}
 
   async loginWithEmail(data: { email: string; password: string }) {
@@ -25,8 +28,32 @@ export class AuthService {
     }
   }
 
+  async signInWithGoogle() {
+    try {
+      return await this.auth.signInWithPopup(new GoogleAuthProvider);
+    } catch (error) {
+      console.error('Login error:', error);
+      this.presentToast('Email et/ou mot de passe incorrect');
+      throw error;
+    }
+  }
+
   signup(data: { email: string; password: string }) {
     return this.auth.createUserWithEmailAndPassword(data.email, data.password);
+  }
+
+  sendEmailForValidation(user: any) {
+    user.sendEmailVerification().then(() => {
+      this.router.navigate(['/verify-email', user.uid]); 
+    }).catch((err: any) => {
+      console.log("Unable to send verification email", err);
+    });
+  }
+  
+  
+
+  async getCurrentUser() {
+    return this.auth.authState.pipe(take(1)).toPromise();
   }
 
   async getUserId(): Promise<string | null> {

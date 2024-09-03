@@ -8,9 +8,9 @@ export interface User {
     city: string;
     tel: number;
     email: string;
-    password: string;
     deliveryMethod: string;
     paymentMethod: string;
     createdAt: number;
     isAdmin: boolean;
+    profileComplete: boolean;
 }

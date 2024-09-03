@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Order } from 'src/app/models/order';
+import { User } from 'src/app/models/user';
 import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-order',
@@ -14,10 +16,14 @@ export class OrderPage implements OnInit {
   orderGroups: any[] = [];
   filteredOrders: Order[] | undefined;
   searchTerm: string = '';
+  user: User | undefined;
+  userId: string = '';
+  
 
   constructor(private orderService: OrderService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
+    private userService: UserService
 
   ) {}
 
@@ -26,6 +32,12 @@ export class OrderPage implements OnInit {
       this.orders = orders;
       this.filteredOrders = orders;
       this.groupOrdersByStatus();
+    });
+
+   
+
+    this.userService.getUser(this.userId).subscribe((user) => {
+      this.user = user;
     });
   }
 

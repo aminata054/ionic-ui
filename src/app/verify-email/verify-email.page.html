@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/home" color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" color="light">
+  <div class="confirmation">
+    <div class="ion-text-center">
+      <div class="outer-circle">
+        <div class="inner-circle">
+          <img src="assets/images/mail-envelop.png" alt="">
+        </div>
+      </div>
+
+      <h2>Validation</h2>
+      <p>
+        Un lien a de validation été envoyé à votre E-mail.
+      </p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer translucent="true" class="ion-no-border" mode="md">
+  <ion-toolbar color="translucent">
+    <ion-button expand="block" class="main-button" (click)="resendVerificationEmail()">Renvoyer l'email de vérification</ion-button>
+  </ion-toolbar>
+</ion-footer>

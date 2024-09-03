@@ -139,6 +139,10 @@ const routes: Routes = [
     path: 'location',
     loadChildren: () => import('./location/location.module').then( m => m.LocationPageModule)
   },
+  {
+    path: 'verify-email/:userId',
+    loadChildren: () => import('./verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  },
  
 ];
 

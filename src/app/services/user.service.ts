@@ -44,15 +44,6 @@ export class UserService {
         );
     }
 
-    async updatePassword(newPassword: string): Promise<void> {
-        const user = await this.afAuth.currentUser;
-        if (user) {
-            await user.updatePassword(newPassword);
-        } else {
-            throw new Error('No user is currently logged in');
-        }
-    }
-
     async getCurrentUser(): Promise<firebase.User | null> {
         return this.afAuth.currentUser;
     }

@@ -3,7 +3,7 @@
     <ion-button slot="start" mode="md" (click)="close()">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>
-    <ion-title color="primary">Édit</ion-title>
+    <ion-title color="primary">Modification produit</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -53,7 +53,9 @@
             label="Quantité disponible"
           ></ion-input>
         </ion-item>
+  
         <ion-item>
+          <ion-img [src]="product.cover"></ion-img>
           <ion-label position="floating">Photo</ion-label>
           <ion-input
           type="file"

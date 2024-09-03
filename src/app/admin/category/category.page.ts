@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/services/category.service';
@@ -31,6 +31,7 @@ export class CategoryPage implements OnInit {
     private toastr: ToastController,
     private categoryService: CategoryService,
     private modalCtrl: ModalController,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -122,29 +123,8 @@ export class CategoryPage implements OnInit {
       console.error('Invalid category ID');
       return;
     }
-  
-    const loading = await this.loadingCtrl.create({
-      message: "Suppression de la catégorie",
-      spinner: 'crescent',
-      showBackdrop: true,
-    });
-  
-    await loading.present();
-  
-    this.categoryService.deleteCategory(categoryId).then(() => {
-      loading.dismiss();
-      this.toastr.create({
-        message: 'categorie supprimé avec succès',
-        duration: 2000,
-      }).then((toast) => toast.present());
-    }).catch((error) => {
-      loading.dismiss();
-      console.error(`Error deleting category: ${error}`);
-      this.toastr.create({
-        message: 'Erreur lors de la suppression du categorie : ' + error.message,
-        duration: 2000,
-      }).then((toast) => toast.present());
-    });
+
+    await this.presentAlert('Confirmation', 'Êtes-vous sûr de vouloir supprimer ce produit ?', categoryId); 
   }
 
   edit(category: Category) {
@@ -161,5 +141,43 @@ export class CategoryPage implements OnInit {
         }
       })
     })
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastr.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
+  async presentAlert(header: string, message: string, categoryId: string) {
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            console.log("Bouton d'annulation cliqué")
+          }
+        },
+        {
+          text: 'Supprimer',
+        handler: async () => {
+          try {
+            await this.categoryService.deleteCategory(categoryId);
+            this.presentToast('Catégorie supprimée avec succès !')
+          } catch (error) {
+            this.presentToast("Erreur lors de la suppression de la catégorie");
+          }
+        }
+      }
+      ]
+    });
+    await alert.present();
+
   }
 }

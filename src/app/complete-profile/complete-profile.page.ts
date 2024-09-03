@@ -50,6 +50,7 @@ export class CompleteProfilePage implements OnInit {
             name: this.name,
             firstname: this.firstname,
             tel: this.tel,
+            profileComplete: true,
           });
         
             loading.dismiss();

@@ -18,17 +18,15 @@
         <ion-item>
           <ion-input class="custom" placeholder="{{ user?.firstname || 'Prénom' }}" label="Prénom" [(ngModel)]="firstname" name="firstname"></ion-input>
         </ion-item>
-        <ion-item>    
-          <ion-input class="custom" placeholder="{{ user?.email || 'Email' }}" label="Email" type="email" name="email" [(ngModel)]="email"></ion-input>
-        </ion-item>
         <ion-button expand="block" color="tertiary" (click)="changeInformations()">Modifier</ion-button>
       </ion-list>
     </div>
   </form>
 
+  
   <form>
     <div class="ion-margin-vertical">
-      <ion-text>Changer de mot de passe</ion-text>
+      <ion-text>Changer mon mot de passe</ion-text>
       <ion-list>
         <ion-item>    
           <ion-input class="custom" label="Mot de passe" type="password" name="password" [(ngModel)]="password"></ion-input>

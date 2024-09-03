@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
-import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +13,6 @@ import { AuthService } from '../services/auth.service';
 })
 export class SettingsPage implements OnInit {
   userId: string = '';
-
   name: string = '';
   firstname: string = '';
   email: string = '';
@@ -23,7 +22,8 @@ export class SettingsPage implements OnInit {
   country: string = '';
   address: string = '';
   city: string = '';
-  user: User | undefined ;
+  user: User | undefined;
+
   constructor(
     private afs: AngularFirestore,
     private router: Router,
@@ -56,60 +56,46 @@ export class SettingsPage implements OnInit {
   }
 
   async changeInformations() {
-    if (this.name && this.firstname && this.email) {
-        const loading = await this.loadingCtrl.create({
-            message: 'Mise à jour...',
-            spinner: 'crescent',
-            showBackdrop: true,
+    if (this.name && this.firstname) {
+      const loading = await this.loadingCtrl.create({
+        message: 'Mise à jour...',
+        spinner: 'crescent',
+        showBackdrop: true,
+      });
+
+      await loading.present();
+
+      try {
+        await this.afs.collection('user').doc(this.userId).update({
+          name: this.name,
+          firstname: this.firstname,
         });
 
-        await loading.present();
 
-        // Update Firestore
-        try {
-          await this.afs.collection('user').doc(this.userId).update({
-            name: this.name,
-            firstname: this.firstname,
-            email: this.email,
-          });
-
-            // Update Firebase Authentication Email
-            const user = await this.userService.getCurrentUser();
-            if (user) {
-              await this.authService.updateEmail(this.email);
-                await user.updateEmail(this.email);
-            }
-
-            loading.dismiss();
-            const toast = await this.toastr.create({
-                message: 'Modification effectuée avec succès',
-                duration: 2000,
-            });
-            toast.present();
-        } catch (error) {
-            console.error(error);
-            loading.dismiss();
-            const toast = await this.toastr.create({
-                message: 'Erreur lors de la mise à jour',
-                duration: 2000,
-            });
-            toast.present();
-        }
+        loading.dismiss();
+        const toast = await this.toastr.create({
+          message: 'Modification effectuée avec succès',
+          duration: 2000,
+        });
+        toast.present();
+      } catch (error) {
+        console.error(error);
+        loading.dismiss();
+        const toast = await this.toastr.create({
+          message: 'Erreur lors de la mise à jour',
+          duration: 2000,
+        });
+        toast.present();
+      }
     }
-}
+  }
 
 
   async changePassword() {
     if (this.password && this.confirmPassword) {
       if (this.password === this.confirmPassword) {
         try {
-          const user = await this.userService.getCurrentUser();
-
-          if (user) {
-            await user.updatePassword(this.password);
-          }
           await this.authService.updatePassword(this.password);
-
           const toast = await this.toastr.create({
             message: 'Mot de passe mis à jour avec succès',
             duration: 2000,
@@ -132,7 +118,7 @@ export class SettingsPage implements OnInit {
       }
     } else {
       const toast = await this.toastr.create({
-        message: 'Veuillez remplir tous les champs requis',
+        message: 'Veuillez remplir tous les champs réquis',
         duration: 2000,
       });
       toast.present();
@@ -146,20 +132,18 @@ export class SettingsPage implements OnInit {
         spinner: 'crescent',
         showBackdrop: true,
       });
-  
-      loading.present();
-  
+
+      await loading.present();
+
       try {
-        await this.afs
-          .collection('user')
-          .doc(this.userId)
-          .update({
-            country: this.country,
-            city: this.city,
-            address: this.address,
-            tel: this.tel,
-          });
-  
+        // Update Firestore
+        await this.afs.collection('user').doc(this.userId).update({
+          country: this.country,
+          city: this.city,
+          address: this.address,
+          tel: this.tel,
+        });
+
         loading.dismiss();
         const toast = await this.toastr.create({
           message: 'Coordonnées mises à jour avec succès',
@@ -183,5 +167,4 @@ export class SettingsPage implements OnInit {
       toast.present();
     }
   }
-  
 }
