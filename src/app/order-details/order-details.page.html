@@ -52,6 +52,11 @@
               <ion-icon name="ellipse" *ngIf="order.status === 'done'" color="success" slot="end"></ion-icon>
               <ion-icon name="ellipse" *ngIf="order.status === 'cancel'" color="danger" slot="end"></ion-icon>
             </ion-item>
+            <ion-button *ngIf="order.status !== 'cancel'" slot="end" color="danger" (click)="cancelOrder(order.orderId, 'cancel')">
+
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+
           </div>
   
           <div class="cart-total">

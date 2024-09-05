@@ -12,6 +12,7 @@ import { User } from '../models/user';
 export class LoginPage implements OnInit {
   public email: string = '';
   public password: string = '';
+  public showPassword: boolean = false;
 
   constructor(
     private router: Router,
@@ -21,6 +22,10 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   async login() {
     try {

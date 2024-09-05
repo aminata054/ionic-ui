@@ -20,6 +20,7 @@ export class ProductPage implements OnInit {
   description: string = '';
   quantity: number | undefined;
   price: number | undefined;
+  promo: number | undefined;
   coverFile: File | null = null;
   categories: Category[] = [];
   products: Product[] = [];

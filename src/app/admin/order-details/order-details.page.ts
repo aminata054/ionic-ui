@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Order } from 'src/app/models/order';
 import { User } from 'src/app/models/user';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 import { Dialog } from '@capacitor/dialog';
-
 
 @Component({
   selector: 'app-order-details',
@@ -15,14 +14,15 @@ import { Dialog } from '@capacitor/dialog';
 })
 export class OrderDetailsPage implements OnInit {
   orderId: string = '';
-  order: Order | undefined ;
+  order: Order | undefined;
   user: User | undefined;
 
   constructor(
     private orderService: OrderService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -34,36 +34,60 @@ export class OrderDetailsPage implements OnInit {
         this.getUserDetails(order.userId);
       }
     });
-
   }
+
   getUserDetails(userId: string) {
     this.userService.getUser(userId).subscribe((user: User | undefined) => {
       this.user = user;
     });
   }
 
-  updateOrderStatus(status: string) {
-  this.showConfirm().then(async (confirmed) => {
-    if (confirmed) {
-      this.orderService.updateOrderStatus(this.orderId, status).then(() => {
+  async updateOrderStatus(status: string) {
+    try {
+      const confirmed = await this.presentAlert("Confirmation", "Êtes-vous sûr(e) de vouloir terminer cette commande ?");
+      if (confirmed) {
+        await this.orderService.updateOrderStatus(this.orderId, status);
         if (this.order) {
           this.order.status = status;
         }
-        this.toastCtrl.create({
+        const toast = await this.toastCtrl.create({
           message: `Commande ${status}`,
           duration: 2000
-        }).then(toast => toast.present());
+        });
+        toast.present();
+      }
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: "Erreur lors de la validation de la commande",
+        duration: 2000
       });
+      toast.present();
     }
-  });
-}
+  }
 
-  showConfirm = async () => {
-    const { value } = await Dialog.confirm({
-      title: 'Confirm',
-      message: `Êtes-vous sûr(e) de vouloir terminer cette commande ?`,
+  async presentAlert(header: string, message: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      const alert = await this.alertCtrl.create({
+        header: header,
+        message: message,
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+            handler: () => {
+              console.log("Bouton d'annulation cliqué");
+              resolve(false);
+            }
+          },
+          {
+            text: 'Valider',
+            handler: () => {
+              resolve(true);
+            }
+          }
+        ]
+      });
+      await alert.present();
     });
-    return value;
-  };
-
+  }
 }

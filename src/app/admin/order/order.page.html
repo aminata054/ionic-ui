@@ -34,16 +34,16 @@
         </ion-item>
       </ion-card-header>
       <ion-card-content>
-        <p>Client : {{ user?.name }}</p>
+        <p>Client : {{ getUser(order.userId)?.name }} {{ getUser(order.userId)?.firstname }}</p>
         <ion-label>Prix Total : {{ order.totalPrice }} FCFA</ion-label>
-        <p>Passée le 25-07-20</p>
+        <p>Passée le {{ formatDate(order.createdAt) }}</p>
       </ion-card-content>
       <ion-row>
         <ion-button [routerLink]="['/admin/order-details', order.orderId]">
           <ion-icon name="eye-outline"></ion-icon>
           <p>Détails</p>
         </ion-button>
-        <ion-button (click)="deleteOrder(order.orderId)">
+        <ion-button *ngIf="order.status !== 'cancel'" (click)="deleteOrder(order.orderId)">
           <ion-icon name="trash-outline"></ion-icon>
           <p>Supprimer</p>
         </ion-button>

@@ -51,6 +51,15 @@
         </ion-item>
         <ion-item>
           <ion-input
+            [(ngModel)]="promo"
+            type="number"
+            name="promo"
+            class="custom"
+            label="Prix promo"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
             [(ngModel)]="quantity"
             type="number"
             name="quantity"

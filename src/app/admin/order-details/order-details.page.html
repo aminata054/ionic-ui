@@ -106,12 +106,12 @@
   
     <ion-item>
       <ion-label [style.color]="order?.status === 'pending' ? 'yellow' : order?.status === 'done' ? 'green' : 'red'">
-        {{ order?.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Terminée' : 'Annulée' }}
+        {{ order?.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Validée' : 'Annulée' }}
       </ion-label>
     </ion-item>
     
     <ion-item>
-      <ion-button slot="end" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Terminer la commande</ion-button>
+      <ion-button slot="end" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Valider la commande</ion-button>
     </ion-item>
   
   </ion-item-group>

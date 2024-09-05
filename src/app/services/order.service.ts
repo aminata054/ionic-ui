@@ -25,6 +25,7 @@ export class OrderService {
   getOrdersForUser(userId: string): Observable<Order[]> {
     return this.afs.collection<Order>('orders', ref => ref.where('userId', '==', userId)).valueChanges({ idField: 'orderId' });
   }
+  
 
   getOrder(orderId: string): Observable<Order> {
     this.orderDoc = this.afs.doc<Order>(`orders/${orderId}`);

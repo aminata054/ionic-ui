@@ -18,29 +18,42 @@ export class OrderPage implements OnInit {
   searchTerm: string = '';
   user: User | undefined;
   userId: string = '';
+  users: User[] | undefined;
+
   
 
   constructor(private orderService: OrderService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private userService: UserService
+    private userService: UserService,
 
   ) {}
 
   ngOnInit() {
+    
     this.orderService.getOrders().subscribe((orders) => {
       this.orders = orders;
       this.filteredOrders = orders;
       this.groupOrdersByStatus();
     });
 
-   
-
-    this.userService.getUser(this.userId).subscribe((user) => {
-      this.user = user;
+    this.userService.getUsers().subscribe((users) => {
+      this.users = users;
     });
   }
 
+  getUser(userId: string): User | undefined {
+    return this.users?.find((user) => user.userId === userId);
+  }
+
+  formatDate(date: Date): string {
+  
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  }
   groupOrdersByStatus() {
     const statuses = [...new Set(this.orders?.map((order) => order.status))];
     this.orderGroups = statuses.map((status) => {
@@ -50,6 +63,7 @@ export class OrderPage implements OnInit {
       };
     });
   }
+  
 
   getFilteredOrders() {
     if (!this.orders) return [];
