@@ -5,6 +5,9 @@ import { LoadingController, NavController, ToastController } from '@ionic/angula
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+
 
 @Component({
   selector: 'app-settings',
@@ -12,17 +15,15 @@ import { User } from '../models/user';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  userId: string = '';
-  name: string = '';
-  firstname: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  tel: number | undefined;
-  country: string = '';
-  address: string = '';
-  city: string = '';
-  user: User | undefined;
+  userId?: string;
+  name?: string;
+  firstname?: string;
+  tel?: string;
+  country?: string;
+  address?: string;
+  city?: string;
+  user?: User;
+  passForm!: FormGroup;
 
   constructor(
     private afs: AngularFirestore,
@@ -32,7 +33,8 @@ export class SettingsPage implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private formBuilder: FormBuilder
   ) {}
 
   goBack() {
@@ -46,13 +48,53 @@ export class SettingsPage implements OnInit {
       if (user) {
         this.name = user.name || '';
         this.firstname = user.firstname || '';
-        this.email = user.email || '';
         this.tel = user.tel;
         this.country = user.country || '';
         this.address = user.address || '';
         this.city = user.city || '';
       }
     });
+
+    this.passForm = this.formBuilder.group({
+      oldPassword: ['', [Validators.required]],
+      password: ['', [
+        Validators.required,
+        Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}")
+      ]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validator: this.passwordMatchValidator
+    });
+  }
+
+  validatePhoneNumber(phoneNumber: string): boolean {
+    try {
+      const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
+      return parsedPhoneNumber && isValidPhoneNumber(parsedPhoneNumber.number, parsedPhoneNumber.country) && parsedPhoneNumber.country === 'SN';
+    } catch (error) {
+      return false;
+    }
+  }
+
+  countryCode = "";
+  phoneNumber = [
+    { text: '🇸🇳 +221 Senegal', code: '+221', country: 'SN' },
+
+  ];
+  parsePhoneNumber() {
+    this.countryCode = "";
+    if (this.tel && isValidPhoneNumber(this.tel)) {
+      const phoneNumber = parsePhoneNumber(this.tel)
+      if (phoneNumber?.country) {
+        this.countryCode = phoneNumber.country;
+      }
+    }
+  }
+
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { 'match': true };
   }
 
   async changeInformations() {
@@ -67,61 +109,52 @@ export class SettingsPage implements OnInit {
 
       try {
         await this.afs.collection('user').doc(this.userId).update({
-          name: this.name,
-          firstname: this.firstname,
+          name: this.name.toUpperCase(),
+          firstname: this.firstname.charAt(0).toUpperCase() + this.firstname.slice(1).toLowerCase(),
         });
 
-
-        loading.dismiss();
-        const toast = await this.toastr.create({
-          message: 'Modification effectuée avec succès',
-          duration: 2000,
-        });
-        toast.present();
+        await this.presentToast('Modification effectuée avec succès');
       } catch (error) {
         console.error(error);
+        await this.presentToast('Erreur lors de la mise à jour');
+      } finally {
         loading.dismiss();
-        const toast = await this.toastr.create({
-          message: 'Erreur lors de la mise à jour',
-          duration: 2000,
-        });
-        toast.present();
       }
     }
   }
 
-
   async changePassword() {
-    if (this.password && this.confirmPassword) {
-      if (this.password === this.confirmPassword) {
-        try {
-          await this.authService.updatePassword(this.password);
-          const toast = await this.toastr.create({
-            message: 'Mot de passe mis à jour avec succès',
-            duration: 2000,
-          });
-          toast.present();
-        } catch (error) {
-          console.error(error);
-          const toast = await this.toastr.create({
-            message: 'Erreur lors de la mise à jour du mot de passe',
-            duration: 2000,
-          });
-          toast.present();
+    if (this.passForm.valid) {
+      const oldPassword = this.passForm.get('oldPassword')?.value;
+      const newPassword = this.passForm.get('password')?.value;
+      const confirmPassword = this.passForm.get('confirmPassword')?.value;
+
+      if (newPassword !== confirmPassword) {
+        await this.presentToast("Les nouveaux mots de passe ne correspondent pas.");
+        return;
+      }
+
+      try {
+        const currentUser = await this.authService.getCurrentUser();
+        if (currentUser && currentUser.email) {
+          // Vérifiez le mot de passe actuel
+          await this.authService.signInWithEmail(currentUser.email, oldPassword);
+
+          // Mettre à jour le mot de passe
+          await this.authService.updatePassword(newPassword);
+          await this.presentToast("Mot de passe mis à jour avec succès");
+        } else {
+          await this.presentToast("Impossible de récupérer l'email de l'utilisateur");
         }
-      } else {
-        const toast = await this.toastr.create({
-          message: 'Les mots de passe ne correspondent pas',
-          duration: 2000,
-        });
-        toast.present();
+      } catch (error: any) {
+        if (error.code === 'auth/wrong-password') {
+          await this.presentToast("L'ancien mot de passe ne correspond pas.");
+        } else {
+          await this.presentToast("Erreur lors de la mise à jour du mot de passe.");
+        }
       }
     } else {
-      const toast = await this.toastr.create({
-        message: 'Veuillez remplir tous les champs réquis',
-        duration: 2000,
-      });
-      toast.present();
+      await this.presentToast("Veuillez remplir tous les champs requis");
     }
   }
 
@@ -144,27 +177,34 @@ export class SettingsPage implements OnInit {
           tel: this.tel,
         });
 
-        loading.dismiss();
-        const toast = await this.toastr.create({
-          message: 'Coordonnées mises à jour avec succès',
-          duration: 2000,
-        });
-        toast.present();
+        await this.presentToast('Coordonnées mises à jour avec succès');
       } catch (error) {
         console.error(error);
+        await this.presentToast('Erreur lors de la mise à jour des coordonnées');
+      } finally {
         loading.dismiss();
-        const toast = await this.toastr.create({
-          message: 'Erreur lors de la mise à jour des coordonnées',
-          duration: 2000,
-        });
-        toast.present();
       }
     } else {
-      const toast = await this.toastr.create({
-        message: 'Veuillez remplir tous les champs requis',
-        duration: 2000,
-      });
-      toast.present();
+      await this.presentToast('Veuillez remplir tous les champs requis');
     }
+  }
+
+  async loadingPresent(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastr.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

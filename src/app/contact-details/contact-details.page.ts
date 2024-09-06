@@ -12,7 +12,7 @@ import { UserService } from '../services/user.service';
 })
 export class ContactDetailsPage implements OnInit {
   userId: string = '';
-  tel: number | undefined;
+  tel?: string ;
   country: string = '';
   address: string = '';
   city: string = '';

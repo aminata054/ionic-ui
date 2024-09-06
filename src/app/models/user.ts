@@ -6,7 +6,7 @@ export interface User {
     country: string;
     address: string;
     city: string;
-    tel: number;
+    tel: string;
     email: string;
     deliveryMethod: string;
     paymentMethod: string;

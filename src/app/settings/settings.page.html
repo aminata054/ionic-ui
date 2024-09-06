@@ -24,21 +24,54 @@
   </form>
 
   
-  <form>
+  <form [formGroup]="passForm" (ngSubmit)="changePassword()">
     <div class="ion-margin-vertical">
-      <ion-text>Changer mon mot de passe</ion-text>
+      <ion-text>Mettre le mot de passe à jour</ion-text>
       <ion-list>
-        <ion-item>    
-          <ion-input class="custom" label="Mot de passe" type="password" name="password" [(ngModel)]="password"></ion-input>
+        <ion-item>
+          <ion-input formControlName="oldPassword" class="custom" label="Mot de passe actuel" type="password"></ion-input>
         </ion-item>
-        <ion-item>    
-          <ion-input class="custom" label="Confimer mot de passe" type="password" name="confirmPassword" [(ngModel)]="confirmPassword"></ion-input>
+        <div *ngIf="passForm.get('oldPassword')?.invalid && passForm.get('oldPassword')?.touched">
+          <ion-text color="danger">
+            <p *ngIf="passForm.get('oldPassword')?.errors?.['required']">
+              Le mot de passe actuel est requis. Mot de passe oublié ?
+            </p>
+          </ion-text>
+        </div>
+        <ion-item>
+          <ion-input formControlName="password" class="custom" label="Mot de passe" type="password"></ion-input>
         </ion-item>
-        <ion-button expand="block" color="tertiary" (click)="changePassword()">Modifier</ion-button>
+        <div *ngIf="passForm.get('password')?.invalid && passForm.get('password')?.touched">
+          <ion-text color="danger">
+            <p *ngIf="passForm.get('password')?.errors?.['required']">
+              Le mot de passe est requis.
+            </p>
+            <p *ngIf="passForm.get('password')?.errors?.['pattern']">
+              Le mot de passe doit contenir :
+                <li>Une lettre majuscule</li>
+                <li>Un chiffre</li>
+                <li>Au moins 8 caractères</li>
+            </p>
+          </ion-text>
+        </div>
+        <ion-item>
+          <ion-input formControlName="confirmPassword" class="custom" label="Confirmer mot de passe" type="password"></ion-input>
+        </ion-item>
+        <div *ngIf="passForm.get('confirmPassword')?.invalid && passForm.get('confirmPassword')?.touched">
+          <ion-text color="danger">
+            <p *ngIf="passForm.get('confirmPassword')?.errors?.['required']">
+              La confirmation du mot de passe est requise.
+            </p>
+            <p *ngIf="passForm.get('confirmPassword')?.errors?.['match']">
+              Les mots de passe ne correspondent pas.
+            </p>
+          </ion-text>
+        </div>
+        <ion-button expand="block" color="tertiary" type="submit">Modifier</ion-button>
       </ion-list>
     </div>
   </form>
-
+  
   <form>
     <div class="ion-margin-vertical">
       <ion-text>Coordonnées</ion-text>
@@ -53,7 +86,9 @@
           <ion-input class="custom" placeholder="{{ user?.address || 'Adresse' }}" label="Adresse" type="text" [(ngModel)]="address" name="address"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input class="custom" placeholder="{{ user?.tel || 'Téléphone' }}" label="Téléphone" type="tel" [(ngModel)]="tel" name="tel"></ion-input>
+          <ion-input class="custom" placeholder="{{ user?.tel || 'Téléphone' }}" label="Téléphone" type="tel" [(ngModel)]="tel" name="tel" (ionInput)="parsePhoneNumber()" pattern="[0-9\s\+]*">
+           <ion-label>🇸🇳</ion-label>🇸
+          </ion-input>
         </ion-item>
         <ion-button expand="block" color="tertiary" (click)="changeCoord()">Modifier</ion-button>
       </ion-list>

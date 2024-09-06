@@ -53,7 +53,14 @@ export class AuthService {
   
 
   async getCurrentUser() {
-    return this.auth.authState.pipe(take(1)).toPromise();
+    const user = await this.auth.currentUser;
+    if (user) {
+      return {
+        uid: user.uid,
+        email: user.email,
+      };
+    }
+    return null;
   }
 
   async getUserId(): Promise<string | null> {
@@ -106,6 +113,16 @@ export class AuthService {
       throw new Error('Aucun utilisateur connecté');
     }
   }
+
+  async signInWithEmail(email: string, password: string) {
+    try {
+      return await this.auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.error('Erreur lors de la connexion avec l\'ancien mot de passe:', error);
+      throw error;
+    }
+  }
+  
 
   async deleteUser(): Promise<void> {
     const user = await this.auth.currentUser;
