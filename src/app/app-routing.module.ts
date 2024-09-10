@@ -143,6 +143,14 @@ const routes: Routes = [
     path: 'verify-email/:userId',
     loadChildren: () => import('./verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
   },
+  {
+    path: 'shipping-address/:userId',
+    loadChildren: () => import('./shipping-address/shipping-address.module').then( m => m.ShippingAddressPageModule)
+  },
+  {
+    path: 'payment-method/:userId',
+    loadChildren: () => import('./payment-method/payment-method.module').then( m => m.PaymentMethodPageModule)
+  },
  
 ];
 

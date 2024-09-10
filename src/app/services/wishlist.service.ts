@@ -53,8 +53,14 @@ export class WishlistService {
     await this.wishlistCol.doc(wishlistId).delete();
   }
 
-  isProductLiked(productId: string): boolean {
-    return this.likedProducts[productId] || false;
+  async isProductLiked(userId: string, productId: string): Promise<boolean> {
+    const wishlistRef = this.afs.collection<Wishlist>('wishlist', ref => ref.where('userId', '==', userId).where('productId', '==', productId));
+    const wishlistSnapshot = await wishlistRef.get().toPromise();
+    if (wishlistSnapshot) {
+      return wishlistSnapshot.size > 0;
+    } else {
+      return false;
+    }
   }
 
   updateWishlistItem(wishlistId: string, updates: { liked: boolean }): Promise<void> {

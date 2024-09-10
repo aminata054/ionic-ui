@@ -1,7 +1,7 @@
 // checkout.page.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { combineLatest, map } from 'rxjs';
 import { Cart } from '../models/cart';
 import { Order } from '../models/order';
@@ -33,14 +33,17 @@ export class CheckoutPage implements OnInit {
     private route: ActivatedRoute,
     private toastCtrl: ToastController,
     private userService: UserService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private loadingCtrl: LoadingController
   ) { }
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
+   ngOnInit() {
+    this.route.params.subscribe(async params => {
+      const loading = await this.loadingPresent("Chargement");
       this.userId = params['userId'];
       this.loadCart();
       this.loadInfo();
+      loading.dismiss();
     });
   }
 
@@ -119,5 +122,15 @@ export class CheckoutPage implements OnInit {
     } catch (err) {
       console.error('Erreur lors de l\'ajout de la commande :', err);
     }
+  }
+
+  async loadingPresent(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
   }
 }

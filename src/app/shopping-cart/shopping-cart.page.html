@@ -41,9 +41,17 @@
           </ion-col>
           <ion-col>
             <ion-icon
+            *ngIf="product.cartQuantity > 1"
+
               name="remove"
               color="danger"
               (click)="decreaseQuantity(product.cartId)"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="product.cartQuantity === 1"
+              name="trash"
+              color="danger"
+              (click)="removeProductFromCart(product.cartId)"
             ></ion-icon>
           </ion-col>
         </ion-row>
@@ -55,15 +63,18 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar color="light">
     <ion-item lines="none" color="light" class="total">
-      <ion-label color="primary">
-        Total
-      </ion-label>
-      <ion-text slot="end">
-        FCFA {{ totalPrice | number:'1.0-0' }}
-      </ion-text>
+      <ion-label color="primary"> Total </ion-label>
+      <ion-text slot="end"> FCFA {{ totalPrice | number:'1.0-0' }} </ion-text>
     </ion-item>
 
-    <ion-button [strong]="true" color="tertiary" expand="block" size="large" [routerLink]="['/contact-details', userId]" [disabled]="hasInsufficientQuantity()">
+    <ion-button
+      [strong]="true"
+      color="tertiary"
+      expand="block"
+      size="large"
+      [routerLink]="['/contact-details', userId]"
+      [disabled]="hasInsufficientQuantity()"
+    >
       <ion-text>Commander</ion-text>
     </ion-button>
   </ion-toolbar>

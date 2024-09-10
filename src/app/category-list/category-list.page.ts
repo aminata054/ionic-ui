@@ -3,6 +3,7 @@ import { ApiService } from '../services/api.service';
 import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-category-list',
@@ -16,15 +17,26 @@ export class CategoryListPage implements OnInit {
 
   constructor(private categoryService: CategoryService,
     private route: ActivatedRoute,
+    private loadingCtrl: LoadingController,
     
   ) { }
 
   ngOnInit() {
-    this.categoryService.getCategories().subscribe((categories) => {
+    this.categoryService.getCategories().subscribe(async (categories) => {
+      const loading = await this.loadingPresent('Chargement de la page');
       this.categories = categories;
-    });
+      loading.dismiss();
+    }); 
+  }
 
-    
+  async loadingPresent(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
   }
 
 }

@@ -4,8 +4,8 @@ import { CartService } from '../services/cart.service';
 import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { combineLatest } from 'rxjs';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { combineLatest, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -23,21 +23,25 @@ export class ShoppingCartPage implements OnInit {
     private cartService: CartService,
     private productService: ProductService,
     private route: ActivatedRoute,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingPresent("Chargement");
     this.route.params.subscribe(params => {
       this.userId = params['userId'];
       this.loadCart();
+      loading.dismiss();
     });
   }
 
   loadCart() {
     if (this.userId) {
-      this.cartService.getCartForUser(this.userId).subscribe((carts) => {
+      this.cartService.getCartForUser(this.userId).subscribe(async (carts) => {
         this.carts = carts;
         this.loadProducts();
+
       });
     }
   }
@@ -78,8 +82,29 @@ export class ShoppingCartPage implements OnInit {
   
 
   async decreaseQuantity(cartId: string) {
-    this.cartService.decreaseQuantity(cartId).then(() => {
+    const product = this.products.find(p => p.cartId === cartId);
+  
+    if (product) {
+      if (product.cartQuantity > 1) {
+        // Diminuer la quantité normalement
+        this.cartService.decreaseQuantity(cartId).then(() => {
+          this.loadCart();
+          this.loadProducts();
+        });
+      } else {
+        // Supprimer le produit du panier si la quantité est égale à 1
+        await this.cartService.removeProductFromCart(cartId);
+        this.loadCart();
+        this.loadProducts();
+      }
+    }
+  }
+
+  async removeProductFromCart(cartId: string) {
+    await this.cartService.removeProductFromCart(cartId).then(() => {
+       this.presentToast('Produit supprimé du panier avec succès !')
       this.loadCart();
+      this.loadProducts();
     });
   }
   
@@ -87,6 +112,22 @@ export class ShoppingCartPage implements OnInit {
     return this.products.some(product => product.quantity < product.cartQuantity);
   }
 
+  async loadingPresent(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
+  }
  
-  
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
 }

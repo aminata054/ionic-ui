@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product';
 import { WishlistService } from '../services/wishlist.service';
@@ -29,14 +29,16 @@ export class ProductDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private navCtrl: NavController,
     private wishlistService: WishlistService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('productId') || '';
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
 
-    this.productService.getProduct(this.productId).subscribe((product) => {
+    this.productService.getProduct(this.productId).subscribe(async (product) => {
+      const loading =  await this.loadingPresent("Chargement de la page")
       this.product = product;
       if (product) {
         this.name = product.name || '';
@@ -44,9 +46,14 @@ export class ProductDetailsPage implements OnInit {
         this.price = product.price || undefined;
         this.cover = product.cover || '';
       }
+      loading.dismiss()
     });
 
-    this.liked = this.wishlistService.isProductLiked(this.productId);
+    if (this.userId) {
+      this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId);
+    }
+
+    
   }
 
   goBack() {
@@ -91,5 +98,15 @@ export class ProductDetailsPage implements OnInit {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  async loadingPresent(message: string) {
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'crescent',
+      showBackdrop: true,
+    });
+    await loading.present();
+    return loading;
   }
 }

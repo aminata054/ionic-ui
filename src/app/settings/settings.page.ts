@@ -66,35 +66,22 @@ export class SettingsPage implements OnInit {
       validator: this.passwordMatchValidator
     });
   }
-
-  validatePhoneNumber(phoneNumber: string): boolean {
-    try {
-      const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
-      return parsedPhoneNumber && isValidPhoneNumber(parsedPhoneNumber.number, parsedPhoneNumber.country) && parsedPhoneNumber.country === 'SN';
-    } catch (error) {
-      return false;
-    }
-  }
-
-  countryCode = "";
-  phoneNumber = [
-    { text: '🇸🇳 +221 Senegal', code: '+221', country: 'SN' },
-
-  ];
-  parsePhoneNumber() {
-    this.countryCode = "";
-    if (this.tel && isValidPhoneNumber(this.tel)) {
-      const phoneNumber = parsePhoneNumber(this.tel)
-      if (phoneNumber?.country) {
-        this.countryCode = phoneNumber.country;
-      }
-    }
-  }
-
+  
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { 'match': true };
+  }
+
+  onTelInput(event: any) {
+    const phoneNumber = event.target.value;
+    const parsedPhoneNumber = parsePhoneNumber(phoneNumber, 'SN'); 
+    if (parsedPhoneNumber) {
+      const formattedPhoneNumber = `+221 ${parsedPhoneNumber.nationalNumber.slice(0, 2)}-${parsedPhoneNumber.nationalNumber.slice(2, 5)}-${parsedPhoneNumber.nationalNumber.slice(5, 7)}-${parsedPhoneNumber.nationalNumber.slice(7)}`;
+      this.tel = formattedPhoneNumber;
+    } else {
+      this.tel = phoneNumber;
+    }
   }
 
   async changeInformations() {

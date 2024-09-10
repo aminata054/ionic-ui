@@ -81,10 +81,6 @@ export class CartService {
       console.log('No documents found to delete.');
     }
   }
-  
-  
-  
-  
 
   async increaseQuantity(cartId: string): Promise<void> {
     const cartItem = await this.cartCol.doc(cartId).ref.get().then(doc => doc.data() as Cart);
@@ -96,11 +92,13 @@ export class CartService {
   
   async decreaseQuantity(cartId: string): Promise<void> {
     const cartItem = await this.cartCol.doc(cartId).ref.get().then(doc => doc.data() as Cart);
-    if (cartItem && cartItem.quantity > 1) {
-      cartItem.quantity -= 1;
-      await this.cartCol.doc(cartId).update(cartItem);
-    } else {
-      await this.cartCol.doc(cartId).delete();
+    if (cartItem) {
+      if (cartItem.quantity > 1) {
+        cartItem.quantity -= 1;
+        await this.cartCol.doc(cartId).update(cartItem);
+      } else {
+        await this.cartCol.doc(cartId).delete();
+      }
     }
   }
 }

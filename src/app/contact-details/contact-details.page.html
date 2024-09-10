@@ -11,56 +11,62 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <form>
-    <div class="ion-margin-vertical">
-      <ion-text>Adresse de livraison</ion-text>
-      <ion-list>
-        <ion-item>
-          <ion-input class="custom" placeholder="{{ user?.country || 'Pays' }}" label="Pays" type="text" [(ngModel)]="country" name="country"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input class="custom" placeholder="{{ user?.city || 'Ville' }}" label="Ville" type="text" [(ngModel)]="city" name="city"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input class="custom" placeholder="{{ user?.address || 'Adresse' }}" label="Adresse" type="text" [(ngModel)]="address" name="address"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input class="custom" placeholder="{{ user?.tel || 'Téléphone' }}" label="Téléphone" type="tel" [(ngModel)]="tel" name="tel"></ion-input>
-        </ion-item>
-        <ion-button expand="block" color="tertiary" (click)="changeCoord()">Modifier</ion-button>
-      </ion-list>
-    </div>
-  </form>
+  <ion-list class="ion-margin-bottom liste">
+    <ion-item class="ion-margin-bottom">
+      <ion-thumbnail slot="start">
+        <ion-icon name="location-outline"></ion-icon>
+      </ion-thumbnail>
+      <ion-label>
+        Adresse de Livraion
+        <p>
+          {{ user?.country || 'Ajouter une adresse' }}, {{ user?.city || 'Ville' }}, {{
+          user?.address || 'Adresse' }}
+        </p>
+      </ion-label>
+      <ion-text slot="end" color="dark" [routerLink]="['/shipping-address', userId]">
+        <ng-container *ngIf="user?.address; else chooseLink">Modifier</ng-container>
+        <ng-template #chooseLink>Choisir</ng-template>
+      </ion-text>
+    </ion-item>
 
-  <form>
-    <div class="ion-margin-vertical">
-      <ion-text>Livraison</ion-text>
-      <ion-list>
-        <ion-item>
-          <ion-radio-group [(ngModel)]="deliveryMethod" name="deliveryMethod">
-            <ion-radio labelPlacement="start" value="domicile">Livraion à domicile</ion-radio>
-            <ion-radio labelPlacement="start" value="relais">Point relais</ion-radio>
-          </ion-radio-group>
-        </ion-item> 
-      </ion-list>
-    </div>
+    <ion-item class="ion-margin-bottom">
+      <ion-thumbnail slot="start">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </ion-thumbnail>
+      <ion-label>
+        Méthode de paiement
+        <p>{{ user?.deliveryMethod || 'Ajouter une méthode de paiement' }}</p>
+      </ion-label>
+      <ion-text slot="end" color="dark" [routerLink]="['/payment-method', userId]">
+        <ng-container *ngIf="user?.deliveryMethod; else chooseLink">Modifier</ng-container>
+        <ng-template #chooseLink>Choisir</ng-template>
+      </ion-text>
+    </ion-item>
 
-    <div>
-      <ion-text>Paiement</ion-text>
-      <ion-list>
-        <ion-item>
-          <ion-radio-group [(ngModel)]="paymentMethod" name="paymentMethod">
-            <ion-radio labelPlacement="start" value="livraison">Paiement à la livraison</ion-radio>
-            <ion-radio labelPlacement="start" value="mobile">Mobile Money</ion-radio>
-          </ion-radio-group>
-        </ion-item> 
-      </ion-list>
-    </div>
-  </form>
+    <ion-item class="ion-margin-bottom">
+      <ion-thumbnail slot="start">
+        <ion-icon name="navigate-outline"></ion-icon>
+      </ion-thumbnail>
+      <ion-label>
+        Méthode de livraison
+        <p>{{ user?.paymentMethod || 'Ajouter une méthode de livraison' }}</p>
+      </ion-label>
+      <ion-text slot="end" color="dark" [routerLink]="['/payment-method', userId]">
+        <ng-container *ngIf="user?.paymentMethod; else chooseLink">Modifier</ng-container>
+        <ng-template #chooseLink>Choisir</ng-template>
+      </ion-text>
+    </ion-item>
+  </ion-list>
 </ion-content>
 
 <ion-footer translucent="true" class="ion-no-border" mode="md">
   <ion-toolbar color="translucent">
-    <ion-button expand="block" class="main-button" [routerLink]="['/checkout', userId]" routerDirection="forward" (click)="coord()">Continuer</ion-button>
+    <ion-button
+      expand="block"
+      class="main-button"
+      [routerLink]="['/checkout', userId]"
+      routerDirection="forward"
+      >Continuer</ion-button
+    >
   </ion-toolbar>
 </ion-footer>

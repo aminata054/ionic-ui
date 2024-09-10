@@ -16,6 +16,7 @@ export class OrderDetailsPage implements OnInit {
   orderId: string = '';
   order: Order | undefined;
   user: User | undefined;
+  orders: Order[] = [];
 
   constructor(
     private orderService: OrderService,
@@ -42,9 +43,32 @@ export class OrderDetailsPage implements OnInit {
     });
   }
 
+  async cancelOrder(status: string) {
+    if (!this.orderId) return;
+    try {
+      const confirmed = await this.presentAlert("Annuler la commande", "Êtes-vous sûr(e) de vouloir annuler cette commande ?", 'Retour', 'Annuler');
+      if (confirmed) {
+        await this.orderService.updateOrderStatus(this.orderId, status).then(() => {
+          this.orders = this.orders.filter((order) => order.orderId !== this.orderId);
+          this.toastCtrl.create({
+            message: `Commande ${status}`,
+            duration: 2000
+          }).then(toast => toast.present());
+        })     
+      }  
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: "Erreur lors de la validation de la commande",
+        duration: 2000
+      });
+      toast.present();
+      
+    }
+  }
+
   async updateOrderStatus(status: string) {
     try {
-      const confirmed = await this.presentAlert("Confirmation", "Êtes-vous sûr(e) de vouloir terminer cette commande ?");
+      const confirmed = await this.presentAlert("Confirmation", "Êtes-vous sûr(e) de vouloir terminer cette commande ?", 'Annuler', 'Valider');
       if (confirmed) {
         await this.orderService.updateOrderStatus(this.orderId, status);
         if (this.order) {
@@ -65,14 +89,14 @@ export class OrderDetailsPage implements OnInit {
     }
   }
 
-  async presentAlert(header: string, message: string): Promise<boolean> {
+  async presentAlert(header: string, message: string, text: string, text2: string): Promise<boolean> {
     return new Promise<boolean>(async (resolve) => {
       const alert = await this.alertCtrl.create({
         header: header,
         message: message,
         buttons: [
           {
-            text: 'Annuler',
+            text: text,
             role: 'cancel',
             handler: () => {
               console.log("Bouton d'annulation cliqué");
@@ -80,7 +104,7 @@ export class OrderDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Valider',
+            text: text2,
             handler: () => {
               resolve(true);
             }

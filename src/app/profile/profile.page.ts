@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -24,7 +24,8 @@ export class ProfilePage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastr: ToastController,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -42,12 +43,31 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  signout() {
-    this.authService.signOut().then(() => {
-      setTimeout(() => {
-        this.router.navigateByUrl('/login');
-      }, 100); // Add a 100ms delay
+  async signout() {
+    const alert = await this.alertCtrl.create({
+      header: "Déconnexion",
+      message: "Voulez-vous vraiment vous déconnecter ?",
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            console.log("Bouton d'annulation cliqué")
+          }
+        },
+        {
+          text: 'Se déconnecter',
+        handler: async () => {
+          this.authService.signOut().then(() => {
+            setTimeout(() => {
+              this.router.navigateByUrl('/login');
+            }, 100); // Add a 100ms delay
+          });
+        }
+      }
+      ]
     });
-  }
+    await alert.present();
 
+  }
 }

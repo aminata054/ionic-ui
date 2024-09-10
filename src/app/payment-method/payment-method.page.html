@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/tabs/shopping-cart"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Paiement & Livraison</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light"> 
+  <form>
+    <div class="ion-margin-vertical">
+      <ion-text>Livraison</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-radio-group [(ngModel)]="deliveryMethod" name="deliveryMethod">
+            <ion-radio labelPlacement="start" value="domicile">Livraion à domicile</ion-radio>
+            <ion-radio labelPlacement="start" value="relais">Point relais</ion-radio>
+          </ion-radio-group>
+        </ion-item> 
+      </ion-list>
+    </div>
+
+    <div>
+      <ion-text>Paiement</ion-text>
+      <ion-list>
+        <ion-item>
+          <ion-radio-group [(ngModel)]="paymentMethod" name="paymentMethod">
+            <ion-radio labelPlacement="start" value="livraison">Paiement à la livraison</ion-radio>
+            <ion-radio labelPlacement="start" value="mobile">Mobile Money</ion-radio>
+          </ion-radio-group>
+        </ion-item> 
+      </ion-list>
+    </div>
+    <ion-button expand="block" color="tertiary" [routerLink]="['/contact-details', userId]"routerDirection="forward" (click)="coord()">Continuer</ion-button>
+
+  </form>
+</ion-content>

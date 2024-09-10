@@ -6,9 +6,13 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons>
-      <ion-button type="button" (click)="liked? removeWishlist() : addWishlist()">
-        <ion-icon [name]="liked? 'heart': 'heart-outline'" [color]="liked? 'danger': 'light'"></ion-icon>
+      <ion-button type="button" (click)="liked ? removeWishlist() : addWishlist()">
+        <ion-icon 
+          [name]="liked ? 'heart' : 'heart-outline'"
+          [color]="liked ? 'danger' : 'light'">
+        </ion-icon>
       </ion-button>
+      
     </ion-buttons>
   </div>
 
