@@ -190,6 +190,7 @@ export class SettingsPage implements OnInit {
     const toast = await this.toastr.create({
       message: message,
       duration: 2000,
+      swipeGesture: 'vertical',
       position: 'bottom'
     });
     toast.present();

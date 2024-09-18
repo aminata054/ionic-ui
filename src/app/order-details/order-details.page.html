@@ -2,7 +2,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="light">
     <ion-buttons slot="start" mode="md">
-      <ion-back-button defaultHref="/tabs/profile" color="dark"></ion-back-button>
+      <ion-back-button
+        defaultHref="/tabs/profile"
+        color="dark"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title color="primary">Commandes</ion-title>
   </ion-toolbar>
@@ -10,20 +13,53 @@
 
 <ion-content [fullscreen]="true" color="light">
   <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="searchOrder()"
-      placeholder="Rechercher une commande"
-    ></ion-searchbar>
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="searchOrder()"
+    placeholder="Rechercher une commande"
+  ></ion-searchbar>
 
   <div *ngFor="let order of orders" class="ion-margin-vertical">
     <ion-item-sliding>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="cancelOrder(order.orderId, 'cancel')">
+        <ion-item-option
+          color="danger"
+          (click)="cancelOrder(order.orderId, 'cancel')"
+        >
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-  
+
       <ion-card>
+        <ion-list>
+          <ion-item detail>
+            <ion-icon
+              [name]="order.status === 'done' ? 'checkmark-circle' : 
+                  order.status === 'pending' ? 'ellipse' : 
+                  order.status === 'ongoing' ? 'arrow-forward-circle' : 
+                  order.status === 'delivered' ? 'location' : 
+                  'close-circle'"
+              [color]="order.status === 'done' ? 'success' : 
+                  order.status === 'pending' ? 'warning' : 
+                  order.status === 'ongoing' ? 'primary' : 
+                  order.status === 'delivered' ? 'success' : 
+                  'danger'"
+            ></ion-icon>
+            <ion-label>
+              <ion-text
+                [color]="order.status === 'done' ? 'success' : 
+        order.status === 'pending' ? 'warning' : 
+        order.status === 'ongoing' ? 'primary' : 
+        order.status === 'delivered' ? 'success' : 
+        'danger'"
+              >
+                {{ order.status === 'pending' ? 'Commande en attente' :
+                order.status === 'done' ? 'Commande validée' : order.status ===
+                'ongoing' ? 'Commande expediée' : order.status === 'delivered' ?
+                'Commande livrée' : 'Commande anulée' }}
+              </ion-text>
+            </ion-label>
+          </ion-item>
+        </ion-list>
         <ion-card-content>
           <ion-label>Commande n˚ {{ order.orderNumber }}</ion-label>
           <ion-list lines="none">
@@ -37,7 +73,7 @@
                   <ion-text color="dark">{{ product.price }}</ion-text>
                 </p>
               </ion-label>
-  
+
               <ion-row slot="end">
                 <ion-col class="qty">
                   <ion-text>{{ product.quantity }}</ion-text>
@@ -45,27 +81,30 @@
               </ion-row>
             </ion-item>
           </ion-list>
-          <div class="status">
-            <ion-item>
-              {{ order.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Terminée' : 'Annulée' }}
-              <ion-icon name="ellipse" *ngIf="order.status === 'pending'" color="warning" slot="end"></ion-icon>
-              <ion-icon name="ellipse" *ngIf="order.status === 'done'" color="success" slot="end"></ion-icon>
-              <ion-icon name="ellipse" *ngIf="order.status === 'cancel'" color="danger" slot="end"></ion-icon>
-            </ion-item>
-            <ion-button *ngIf="order.status !== 'cancel'" slot="end" color="danger" (click)="cancelOrder(order.orderId, 'cancel')">
 
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-
-          </div>
-  
           <div class="cart-total">
-            <ion-item lines="none">
+            <ion-item>
               <ion-label>Total</ion-label>
               <ion-label slot="end" class="ion-text-right">
                 {{ order.totalPrice }} FCFA
               </ion-label>
             </ion-item>
+          </div>
+
+          <div>
+            <ion-button
+              expand="block"
+              [routerLink]="['/track-order', order.orderId]"
+              >Voir les détails</ion-button
+            >
+            <ion-button
+              expand="block"
+              fill="outline"
+              color="tertiary"
+              *ngIf="order.status !== 'cancel'"
+              (click)="cancelOrder(order.orderId, 'cancel')"
+              >Annuler la commande</ion-button
+            >
           </div>
         </ion-card-content>
       </ion-card>

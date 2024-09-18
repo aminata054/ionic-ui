@@ -136,6 +136,7 @@ export class AuthService {
     const toast = await this.toastCtrl.create({
       message: message,
       duration: 2000,
+      swipeGesture: 'vertical',
       position: 'bottom'
     });
     toast.present();

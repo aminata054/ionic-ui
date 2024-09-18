@@ -4,6 +4,7 @@ import { Order } from 'src/app/models/order';
 import { User } from 'src/app/models/user';
 import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
+import { Timestamp } from 'firebase/firestore'
 
 @Component({
   selector: 'app-order',
@@ -45,15 +46,7 @@ export class OrderPage implements OnInit {
   getUser(userId: string): User | undefined {
     return this.users?.find((user) => user.userId === userId);
   }
-
-  formatDate(date: Date): string {
   
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-  
-    return `${day}/${month}/${year}`;
-  }
   groupOrdersByStatus() {
     const statuses = [...new Set(this.orders?.map((order) => order.status))];
     this.orderGroups = statuses.map((status) => {
@@ -91,6 +84,7 @@ export class OrderPage implements OnInit {
     const toast = await this.toastCtrl.create({
       message: message,
       duration: 2000,
+      swipeGesture: 'vertical',
       position: 'bottom'
     });
     toast.present();

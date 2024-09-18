@@ -151,6 +151,14 @@ const routes: Routes = [
     path: 'payment-method/:userId',
     loadChildren: () => import('./payment-method/payment-method.module').then( m => m.PaymentMethodPageModule)
   },
+  {
+    path: 'track-order/:orderId',
+    loadChildren: () => import('./track-order/track-order.module').then( m => m.TrackOrderPageModule)
+  },
+  {
+    path: 'track-order',
+    loadChildren: () => import('./admin/track-order/track-order.module').then( m => m.TrackOrderPageModule)
+  },
  
 ];
 

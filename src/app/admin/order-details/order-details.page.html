@@ -3,114 +3,160 @@
     <ion-buttons slot="start" mode="md">
       <ion-back-button defaultHref="" color="dark"></ion-back-button>
     </ion-buttons>
-    <ion-title color="primary">Commande N˚ {{ order?.orderNumber }}</ion-title>
+    <ion-title color="primary">Détail de commande</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  
-  <ion-item-group>
 
-    <ion-item-divider>
-      <ion-label>Détails de livraison</ion-label>
-    </ion-item-divider>
+  <ion-list>
 
-    <ion-item>
-      <ion-label>Pays</ion-label>
-      <ion-label slot="end">{{ user?.country || 'N/A' }}</ion-label>
-    </ion-item>
-  
-    <ion-item>
-      <ion-label>Ville</ion-label>
-      <ion-label slot="end">{{ user?.city || 'N/A' }}</ion-label>
-    </ion-item>
-  
-    <ion-item>
-      <ion-label>Adresse</ion-label>
-      <ion-label slot="end">{{ user?.address || 'N/A' }}</ion-label>
-    </ion-item>
+    <ion-card>
+      <ion-card-header>
+          <ion-item>
+            <ion-label>N˚Commande </ion-label>
+                <ion-text slot="end">{{ order?.orderNumber }}</ion-text>   
+          </ion-item>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+            <ion-item *ngFor="let product of order?.products || []">
+              <ion-thumbnail slot="start">
+                <img [src]="product.cover" alt="" />
+              </ion-thumbnail>
+              <ion-label>
+                <ion-text class="title">{{ product.name }}</ion-text>
+                <p class="price">
+                  <ion-text color="dark">{{ product.price }} FCFA</ion-text>
+                </p>
+              </ion-label>
+              <ion-label slot="end">{{ product.quantity }}</ion-label>               
+            </ion-item>
 
-    <ion-item-divider>
-      <ion-label>Informations</ion-label>
-    </ion-item-divider>
+            <ion-item>
+              <ion-text>Prix total</ion-text>
+              <ion-label slot="end">{{ order?.totalPrice || 'N/A' }} FCFA</ion-label>
+            </ion-item>
+          
 
-    <ion-item>
-      <ion-label>Email</ion-label>
-      <ion-label slot="end">{{ user?.email || 'N/A' }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Nom</ion-label>
-      <ion-label slot="end">{{ user?.name || 'N/A' }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Prénom</ion-label>
-      <ion-label slot="end">{{ user?.firstname || 'N/A' }}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Téléphone</ion-label>
-      <ion-label slot="end">{{ user?.tel || 'N/A' }}</ion-label>
-    </ion-item>
-  
-    <ion-item-divider>
-      <ion-label>Mode d'expédition</ion-label>
-    </ion-item-divider>
+            <ion-label></ion-label>
+            <p></p>      
+        </ion-list>
+      </ion-card-content>
+      
+    </ion-card>
 
-    <ion-item>
-      <ion-label>{{ user?.deliveryMethod || 'N/A' }}</ion-label>
-    </ion-item>
-  
-    <ion-item-divider>
-      <ion-label>Méthode de paiement</ion-label>
-    </ion-item-divider>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-label>Informations du client</ion-label>
+        </ion-item>
+      </ion-card-header>
 
-    <ion-item>
-      <ion-label>{{ user?.paymentMethod || 'N/A' }}</ion-label>
-      <ion-label slot="end" class="ion-text-right">
-        {{ user?.deliveryMethod === 'domicile' ? 'FCA 1500' : 'FCA 0' }}
-      </ion-label>
-    </ion-item>
+      <ion-card-content>
+        <ion-item>
+          <ion-text>Nom & Prénom</ion-text>
+          <ion-label slot="end">{{ user?.name || 'N/A' }} {{ user?.firstname || 'N/A' }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>Téléphone</ion-text>
+          <ion-label slot="end">{{ user?.tel || 'N/A' }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>Email</ion-text>
+          <ion-label slot="end">{{ user?.email || 'N/A' }}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-item-divider>
-      <ion-label>Produits</ion-label>
-    </ion-item-divider>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-label>Détail de livraison</ion-label>
+        </ion-item>
+      </ion-card-header>
 
-    <ion-item>
-      <ion-label>Article</ion-label>
-      <ion-label>Nom</ion-label>
-      <ion-label>Catégorie</ion-label>
-      <ion-label>Quantité</ion-label>
-      <ion-label slot="end">Prix</ion-label>
-    </ion-item>
+      <ion-card-content>
+        <ion-item>
+          <ion-text>Pays</ion-text>
+          <ion-label slot="end">{{ user?.country || 'N/A' }} </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>Ville</ion-text>
+          <ion-label slot="end">{{ user?.city || 'N/A' }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>Adresse</ion-text>
+          <ion-label slot="end">{{ user?.address || 'N/A' }}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-item *ngFor="let product of order?.products || []">
-      <ion-thumbnail slot="start">
-        <img [src]="product.cover" alt="" />
-      </ion-thumbnail>
-  
-      <ion-label>{{ product.name }}</ion-label>
-      <ion-label>{{ product.category.name }}</ion-label>
-      <ion-label>{{ product.quantity }}</ion-label>
-      <ion-label slot="end">{{ product.price }} FCFA</ion-label>
-    </ion-item>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-label>Mode de paiement et d'expédition</ion-label>
+        </ion-item>
+      </ion-card-header>
 
-    <ion-item-divider>
-      <ion-label>Total de la commande</ion-label>
-    </ion-item-divider>
+      <ion-card-content>
+        <ion-item>
+          <ion-text>Expédition</ion-text>
+          <ion-label slot="end">{{ user?.deliveryMethod || 'N/A' }} </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>Paiement</ion-text>
+          <ion-label slot="end">{{ user?.paymentMethod || 'N/A' }}</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-item>
-      <ion-label slot="end">{{ order?.totalPrice || 'N/A' }} FCFA</ion-label>
-    </ion-item>
-  
-    <ion-item>
-      <ion-label [style.color]="order?.status === 'pending' ? 'yellow' : order?.status === 'done' ? 'green' : 'red'">
-        {{ order?.status === 'pending' ? 'En attente' : order?.status === 'done' ? 'Validée' : 'Annulée' }}
-      </ion-label>
-    </ion-item>
+    <ion-card>
+      <ion-card-header>
+        <ion-item>
+          <ion-label>Gestion de la commande</ion-label>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content>
     
-    <ion-item>
-      <ion-button slot="start" *ngIf="order?.status === 'pending'" (click)="cancelOrder('cancel')">Annuler la commande</ion-button>
-      <ion-button slot="end" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Valider la commande</ion-button>
-    </ion-item>
-  
-  </ion-item-group>
+          <ion-button expand="block" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Valider la commande</ion-button>              
+          <ion-button expand="block" (click)="track()">Gérer la commande</ion-button>
+          <ion-button expand="block" fill="outline" *ngIf="order?.status === 'pending'" (click)="cancelOrder('cancel')">Annuler la commande</ion-button>
+
+        <div class="timeline">
+          <div *ngFor="let event of events" class="timeline-event">
+            <div class="timeline-point-track-container">
+              <div
+                class="timeline-point"
+                [ngClass]="{'hightlight': event.status === true}"
+
+              >
+                <ion-icon
+                *ngIf="event.status === true "
+                  name="checkmark-outline"
+                  color="light"
+                ></ion-icon>
+              </div>
+              <div
+                class="timeline-track"
+                [ngClass]="{'hightlight': event.status === true}"
+
+              ></div>
+            </div>
+    
+            <div class="timeline-content">  
+              <ion-label>{{ event.content }}</ion-label>
+              <p class="timeline-date">{{ event.date }}</p>
+
+           
+            </div>
+          </div>
+        </div>
+    
+      </ion-card-content>
+
+    </ion-card>
+  </ion-list>
+
 </ion-content>

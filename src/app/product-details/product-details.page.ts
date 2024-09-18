@@ -95,7 +95,8 @@ export class ProductDetailsPage implements OnInit {
     const toast = await this.toastCtrl.create({
       message: message,
       duration: 2000,
-      position: 'bottom'
+      swipeGesture: 'vertical',
+      position: 'bottom',
     });
     toast.present();
   }

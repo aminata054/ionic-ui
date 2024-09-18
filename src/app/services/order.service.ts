@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { map, Observable } from 'rxjs';
 import { Order } from '../models/order';
+import { arrayUnion } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,13 @@ export class OrderService {
   async updateOrderStatus(orderId: string, status: string): Promise<void> {
     await this.orderCol.doc(orderId).update({ status });
   }
+  
+  async updateOrderStatusHistory(orderId: string, newStatusHistoryEntry: any): Promise<void> {
+    const orderRef = this.afs.doc(`orders/${orderId}`);
+    orderRef.update({
+      statusHistory: arrayUnion(newStatusHistoryEntry)
+    });
+  }
 
   async deleteOrder(orderId: string): Promise<void> {
     await this.orderCol.doc(orderId).delete();
@@ -70,4 +78,6 @@ export class OrderService {
     const snapshot = await this.orderCol.get().toPromise();
     return snapshot?.size ?? 0;
   }
+
+  
 }

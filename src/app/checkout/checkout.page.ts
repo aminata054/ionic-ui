@@ -11,6 +11,7 @@ import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { OrderService } from '../services/order.service';
 import { User } from '../models/user';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-checkout',
@@ -94,6 +95,13 @@ export class CheckoutPage implements OnInit {
       orderId: '',
       userId: this.userId,
       status: 'pending',
+      statusHistory: [
+        {
+          content: "Commande créée",
+          date: Timestamp.now().toDate().toLocaleString(),
+          status: true
+        }
+      ],
       totalPrice: this.totalPrice,
       products: this.products.map(p => ({
         productId: p.productId,
@@ -104,7 +112,7 @@ export class CheckoutPage implements OnInit {
         category: p.category,
         quantity: p.cartQuantity
       })),
-      createdAt: new Date()
+      createdAt: Timestamp.now()
     };
   
     try {

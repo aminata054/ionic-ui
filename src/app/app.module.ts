@@ -17,6 +17,7 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AuthService } from "./services/auth.service";
 
 import { environment } from '../environments/environment';
+import { TrackOrderPageModule } from './track-order/track-order.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,7 @@ import { environment } from '../environments/environment';
     FormsModule,  
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    TrackOrderPageModule
     
   ],
   providers: [

@@ -8,15 +8,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-segment [(ngModel)]="selectedSegment" color="primary">
+  <ion-segment [(ngModel)]="selectedSegment" color="primary" [scrollable]="true">
     <ion-segment-button value="pending">
       <ion-label>En attente</ion-label>
     </ion-segment-button>
     <ion-segment-button value="done">
-      <ion-label>Terminée</ion-label>
+      <ion-label>Validée</ion-label>
     </ion-segment-button>
     <ion-segment-button value="cancel">
       <ion-label>Annulée</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="ongoing">
+      <ion-label>En cours de livraison</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="delivered">
+      <ion-label>Livrée</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -36,17 +42,19 @@
       <ion-card-content>
         <p>Client : {{ getUser(order.userId)?.name }} {{ getUser(order.userId)?.firstname }}</p>
         <ion-label>Prix Total : {{ order.totalPrice }} FCFA</ion-label>
-        <p>Passée le {{ order.createdAt }}</p>
-      </ion-card-content>
+        <p>Passée le {{ order.createdAt.toDate().toLocaleString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}</p>      </ion-card-content>
       <ion-row>
         <ion-button [routerLink]="['/admin/order-details', order.orderId]">
           <ion-icon name="eye-outline"></ion-icon>
           <p>Détails</p>
         </ion-button>
+        
         <ion-button *ngIf="order.status !== 'cancel'" (click)="deleteOrder(order.orderId)">
           <ion-icon name="trash-outline"></ion-icon>
           <p>Supprimer</p>
         </ion-button>
+
+        
       </ion-row>
     </ion-card>
   </ion-list>
