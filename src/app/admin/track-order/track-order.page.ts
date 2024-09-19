@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { AlertController, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
@@ -24,7 +24,9 @@ export class TrackOrderPage {
     private orderService: OrderService,
     private navParam: NavParams,
     private datePipe: DatePipe,
-    private deliveryService: DeliveryService
+    private deliveryService: DeliveryService,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) {
     this.order = this.navParam.get('order');
   }
@@ -37,7 +39,16 @@ export class TrackOrderPage {
   }
 
   updateCommentPlaceholder() {
-    this.commentPlaceholder = `Votre achat est en cours de livraison et sera disponible le ${this.selectedDates}`;
+    if (this.status === 'delivered') {
+      this.commentPlaceholder = `Votre achat a maintenant été livré le ${this.selectedDates}`;
+    } else {
+      this.commentPlaceholder = `Votre achat est en cours de livraison et sera disponible le ${this.selectedDates}`;
+    }
+  }
+
+  onStatusChange(event: any) {
+    this.status = event.detail.value; 
+    this.updateCommentPlaceholder(); 
   }
 
   edit() {
@@ -88,6 +99,51 @@ export class TrackOrderPage {
     }
   }
 
+  async saveStatus() {
+    try {
+
+      const confirmed = await this.presentAlert(
+        'Confirmation',
+        'Êtes-vous sûr(e) de vouloir valider cette commande ?',
+        'Annuler',
+        'Valider'
+      );
+
+      if (confirmed) {
+        await this.orderService.updateOrderStatus(this.order.orderId, this.status);
+        await this.orderService.updateOrderStatusHistory(this.order.orderId, {
+          content: 'Commande ${this.status}',
+          date: Timestamp.now().toDate().toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric', 
+        minute: 'numeric'
+      }),
+          status: true,
+        });
+
+        if (this.order) {
+          this.order.status = status;
+        }
+        const toast = await this.toastCtrl.create({
+          message: `Commande ${this.status}`,
+          duration: 2000,
+        });
+        toast.present();
+      }
+      
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Erreur',
+        duration: 2000,
+      });
+      toast.present();
+      
+    }
+
+  }
+
   getStatusContent(status: string): string {
     switch (status) {
       case 'pending':
@@ -101,5 +157,36 @@ export class TrackOrderPage {
       default:
         return '';
     }
+  }
+
+  async presentAlert(
+    header: string,
+    message: string,
+    text: string,
+    text2: string
+  ): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      const alert = await this.alertCtrl.create({
+        header: header,
+        message: message,
+        buttons: [
+          {
+            text: text,
+            role: 'cancel',
+            handler: () => {
+              console.log("Bouton d'annulation cliqué");
+              resolve(false);
+            },
+          },
+          {
+            text: text2,
+            handler: () => {
+              resolve(true);
+            },
+          },
+        ],
+      });
+      await alert.present();
+    });
   }
 }

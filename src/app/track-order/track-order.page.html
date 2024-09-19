@@ -11,165 +11,106 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-list>
-    <!-- Order summary -->
-    <ion-item *ngFor="let product of order?.products || []">
-      <ion-thumbnail slot="start">
-        <img [src]="product.cover" alt="" />
-      </ion-thumbnail>
-      <ion-label>
-        <ion-text class="title">{{ product.name }}</ion-text>
-        <p class="price">
-          <ion-text color="dark">{{ product.price }}</ion-text>
-        </p>
-      </ion-label>
-      <ion-row slot="end">
-        <ion-col class="qty">
-          <ion-text>{{ product.quantity }}</ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-
-    <ion-item>
-      <ion-label> Total </ion-label>
-      <ion-row slot="end">
-        <ion-text>{{ order?.totalPrice || 'N/A' }} FCFA</ion-text>
-      </ion-row>
-    </ion-item>
-
-    <!-- Order details -->
-    <ion-item>
-      <ion-label>
-        <ion-text>Détail de la commande</ion-text>
-
-        <ion-row>
-          <ion-col size="6">
-            <p>Date de livraison prévue</p>
-          </ion-col>
-          <ion-col size="6" class="ion-text-right">
-            <p>15/05/2024</p>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <p>ID Livraison</p>
-          </ion-col>
-          <ion-col size="6" class="ion-text-right">
-            <p>#45432</p>
-          </ion-col>
-        </ion-row>
-      </ion-label>
-    </ion-item>
-
-    <!-- Order status -->
-
-    <div class="timeline">
-      <div *ngFor="let event of events" class="timeline-event">
-        <div class="timeline-point-track-container">
-          <div
-            class="timeline-point"
-            [ngClass]="{'hightlight': event.status === true}"
-            >
-            <ion-icon
-            *ngIf="event.status === true "
-            name="checkmark-outline"
-              color="light"
-            ></ion-icon>
-          </div>
-          <div
-            class="timeline-track"
-            [ngClass]="{'hightlight': event.status === true}"
-            ></div>
-        </div>
-
-        <div class="timeline-content">
-          <ion-label>{{ event.content }}</ion-label>
-          <p class="timeline-date">{{ event.date}}</p>
-        </div>
-
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-icon
-            color="tertiary"
-              [name]="event.content === 'Commande validée' ? 'checkmark-circle' : 
-                  event.content === 'Commande créée' ? 'ellipse' : 
-                  event.content === 'Commande expédiée' ? 'arrow-forward-circle' : 
-                  event.content === 'Commande livrée' ? 'location' : 
-                  'close-circle'"
-              
-            ></ion-icon>
-          </ion-col>
-        </ion-row>
-      </div>
-    </div>
-
-    <!-- 
-    <ion-list lines="none">
-      <ion-label class="ion-margin-horizontal">Statut de la commande</ion-label>
-
-
+  <ion-card>
+    <ion-card-header>
       <ion-item>
-        <ion-label>
-          <p class="title">
-            <ion-icon name="checkmark-circle" color="success"></ion-icon>
-            Commande validée
-          </p>
-          <p>date</p>
-        </ion-label>
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-icon name="checkbox-outline"></ion-icon>
-          </ion-col>
-        </ion-row>
+        <ion-label>N˚Commande </ion-label>
+        <ion-text slot="end">{{ order?.orderNumber }}</ion-text>
       </ion-item>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let product of order?.products || []">
+          <ion-thumbnail slot="start">
+            <img [src]="product.cover" alt="" />
+          </ion-thumbnail>
+          <ion-label>
+            <ion-text class="title">{{ product.name }}</ion-text>
+            <p class="price">
+              <ion-text color="dark">{{ product.price }} FCFA</ion-text>
+            </p>
+          </ion-label>
+          <ion-label slot="end">{{ product.quantity }}</ion-label>
+        </ion-item>
 
-      <ion-item class="track">
-        <ion-label>
-          <p class="title">
-            <ion-icon name="checkmark-circle"></ion-icon>
-            En préparation
-          </p>
-          <p>date</p>
-        </ion-label>
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-icon name="cube-outline"></ion-icon>
-          </ion-col>
-        </ion-row>
+        <ion-item>
+          <ion-text>Prix total</ion-text>
+          <ion-label slot="end"
+            >{{ order?.totalPrice || 'N/A' }} FCFA</ion-label
+          >
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-text>Détail de la commande</ion-text>
       </ion-item>
+    </ion-card-header>
 
-      <ion-item class="track">
-        <ion-label>
-          <p class="title">
-            <ion-icon name="checkmark-circle"></ion-icon>
-            En cours de livraison
-          </p>
-          <p>date</p>
-        </ion-label>
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-icon name="id-card-outline"></ion-icon>
-          </ion-col>
-        </ion-row>
+    <ion-card-content>  
+     
+        <h2>Date de livraison prévue</h2>
+         <b *ngIf="delivery && delivery.deliveryDate">
+           {{ formatDate(delivery.deliveryDate) }}
+         </b>
+         <b *ngIf="!(delivery && delivery.deliveryDate)">
+           Aucune date de livraison prévue
+         </b>
+
+        <h2>ID Livraison</h2>
+        <b slot="end">{{ delivery?.deliveryId }}</b>
+   
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-text>Suivi de commande</ion-text>
       </ion-item>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="timeline">
+        <div *ngFor="let event of events" class="timeline-event">
+          <div class="timeline-point-track-container">
+            <div
+              class="timeline-point"
+              [ngClass]="{'hightlight': event.status === true}"
+            >
+              <ion-icon
+                *ngIf="event.status === true "
+                name="checkmark-outline"
+                color="light"
+              ></ion-icon>
+            </div>
+            <div
+              class="timeline-track"
+              [ngClass]="{'hightlight': event.status === true}"
+            ></div>
+          </div>
 
-      <ion-item class="track">
-        <ion-label>
-          <p class="title">
-            <ion-icon name="checkmark-circle"></ion-icon>
-            Commande livrée
-          </p>
-          <p>date</p>
-        </ion-label>
-        <ion-row slot="end">
-          <ion-col class="qty">
-            <ion-icon name="send-outline"></ion-icon>
-          </ion-col>
-        </ion-row>
-      </ion-item>
+          <div class="timeline-content">
+            <ion-label>{{ event.content }}</ion-label>
+            <p class="timeline-date">{{ event.date}}</p>
+          </div>
 
-
-    </ion-list>
-    -->
-  </ion-list>
+          <ion-row slot="end">
+            <ion-col class="qty">
+              <ion-icon
+                color="tertiary"
+                [name]="event.content === 'Commande validée' ? 'checkmark-circle' : 
+                      event.content === 'Commande créée' ? 'ellipse' : 
+                      event.content === 'Commande expédiée' ? 'arrow-forward-circle' : 
+                      event.content === 'Commande livrée' ? 'location' : 
+                      'close-circle'"
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

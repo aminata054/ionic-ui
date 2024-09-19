@@ -121,7 +121,7 @@
       <ion-card-content>
     
           <ion-button expand="block" *ngIf="order?.status === 'pending'" (click)="updateOrderStatus('done')">Valider la commande</ion-button>              
-          <ion-button expand="block" (click)="track()">Gérer la commande</ion-button>
+          <ion-button expand="block" *ngIf="!(order?.status === 'pending')" (click)="track()">Gérer la commande</ion-button>
           <ion-button expand="block" fill="outline" *ngIf="order?.status === 'pending'" (click)="cancelOrder('cancel')">Annuler la commande</ion-button>
 
         <div class="timeline">

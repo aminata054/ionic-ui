@@ -8,77 +8,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-
   <form>
-  <ion-card>
-    <ion-card-content>
-      <h2>Sélectionner la date et l'heure de livraison</h2>
-      <ion-datetime-button
-        slot="end"
-        datetime="livraison"
-      ></ion-datetime-button>
-    </ion-card-content>
-  </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <h2>Statut de la commande</h2>
+        <ion-chip slot="end" [color]="order.status === 'pending' ? 'warning' : order.status === 'done' ? 'success' : order.status === 'ongoing' ? 'tertiary' : order.status === 'delivered' ? 'primary' : 'danger'">
+          {{ order.status === 'pending' ? 'En attente' : order.status === 'done' ? 'Validée' : order.status === 'ongoing' ? 'Expediée' : order.status === 'delivered' ? 'Livrée' : 'Annulée' }}
+        </ion-chip>
 
-  <ion-modal [keepContentsMounted]="true">
-    <ng-template>
-      <ion-datetime
-        class="ion-margin"
-        [showDefaultButtons]="true"
-        (ionChange)="showSelectedDates($event)"
-        presentation="date-time"
-        locale="fr-FR"
-        id="livraison"
-      >
-      </ion-datetime>
-    </ng-template>
-  </ion-modal>
-
-  <ion-card>
-    <ion-card-content>
-      <h2>Date sélectionnée</h2>
-      <b>{{ selectedDates }}</b>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content>
-      <h2>Commentaire</h2>
-      <ion-textarea
-        fill="outline"
-        [value]="commentPlaceholder"
-      ></ion-textarea>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content>
-      <h2>Choisir la zone</h2>
-      <ion-select placeholder="Sélectionner" label="Zone">
-        <ion-select-option> </ion-select-option>
-      </ion-select>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content>
-
-      <h2>Statut de la commande</h2>
-      <ion-label slot="end" [style.color]="order.status === 'pending' ? 'yellow' : order.status === 'done' ? 'green' : order.status === 'ongoing' ? 'blue' : order.status === 'delivered' ? 'green' : 'red'">
-        {{ order.status === 'pending' ? 'En attente' : order.status === 'done' ? 'Validée' : order.status === 'ongoing' ? 'Expediée' :  order.status === 'delivered' ? 'Livrée' : 'Annulée' }}
-      </ion-label>
-
-      <ion-select [(ngModel)]="status" name="status" placeholder="Sélectionner" label="Statut">
+        <ion-select [(ngModel)]="status" name="status" (ionChange)="onStatusChange($event)" placeholder="Sélectionner" label="Statut">
           <ion-select-option value="pending">En attente</ion-select-option>
           <ion-select-option value="done">Validée</ion-select-option>
           <ion-select-option value="ongoing">Expédiée</ion-select-option>
           <ion-select-option value="delivered">Livrée</ion-select-option>
           <ion-select-option value="cancel">Annulée</ion-select-option>
-
         </ion-select>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-button (click)="saveDelivery()">Enregistrer les changements</ion-button>
-</form>
+    <ion-card *ngIf="status === 'delivered' || status === 'ongoing'">
+      <ion-card-content>
+        <h2>Sélectionner la date et l'heure de livraison</h2>
+        <ion-datetime-button slot="end" datetime="livraison"></ion-datetime-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime class="ion-margin" [showDefaultButtons]="true" (ionChange)="showSelectedDates($event)" presentation="date-time" locale="fr-FR" id="livraison"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+    <ion-card *ngIf="status === 'delivered' || status === 'ongoing'">
+      <ion-card-content>
+        <h2>Date sélectionnée</h2>
+        <b>{{ selectedDates }}</b>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="status === 'delivered' || status === 'ongoing'">
+      <ion-card-content>
+        <h2>Commentaire</h2>
+        <ion-textarea fill="outline" [value]="commentPlaceholder"></ion-textarea>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="status === 'ongoing'">
+      <ion-card-content>
+        <h2>Choisir la zone</h2>
+        <ion-select placeholder="Sélectionner" label="Zone">
+          <ion-select-option></ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button *ngIf="status === 'ongoing'" (click)="saveDelivery()">Mettre à jour la livraison</ion-button>
+    <ion-button *ngIf="status !== 'ongoing'" (click)="saveStatus()">Mettre à jour le statut</ion-button>
+  </form>
 </ion-content>

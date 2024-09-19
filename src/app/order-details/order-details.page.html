@@ -45,7 +45,7 @@
                   'danger'"
             ></ion-icon>
             <ion-label>
-              <ion-text
+              <ion-chip
                 [color]="order.status === 'done' ? 'success' : 
         order.status === 'pending' ? 'warning' : 
         order.status === 'ongoing' ? 'primary' : 
@@ -55,8 +55,8 @@
                 {{ order.status === 'pending' ? 'Commande en attente' :
                 order.status === 'done' ? 'Commande validée' : order.status ===
                 'ongoing' ? 'Commande expediée' : order.status === 'delivered' ?
-                'Commande livrée' : 'Commande anulée' }}
-              </ion-text>
+                'Commande livrée' : 'Commande annulée' }}
+              </ion-chip>
             </ion-label>
           </ion-item>
         </ion-list>

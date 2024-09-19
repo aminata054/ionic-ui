@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Timestamp } from 'firebase/firestore';
 import { Delivery } from '../models/delivery';  
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +24,7 @@ export class DeliveryService {
     console.log(`Added new delivery. Delivery ID: ${delivery.deliveryId}`);
   }
 
-  getDelivery(deliveryId: string) {
-    return this.afs.collection('deliveries').doc(deliveryId).valueChanges() as Observable<Delivery>;
+  getDelivery(orderId: string): Observable<Delivery[]> {
+    return this.afs.collection<Delivery>('deliveries', ref => ref.where('orderId', '==', orderId)).valueChanges({ idField: 'orderId' });
   }
 }

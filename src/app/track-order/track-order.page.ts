@@ -3,6 +3,9 @@ import { User } from 'firebase/auth';
 import { OrderService } from '../services/order.service';
 import { ActivatedRoute } from '@angular/router';
 import { Order } from '../models/order';
+import { DeliveryService } from '../services/delivery.service';
+import { Delivery } from '../models/delivery';
+import { Timestamp } from "firebase/firestore";
 
 @Component({
   selector: 'app-track-order',
@@ -14,6 +17,8 @@ export class TrackOrderPage implements OnInit {
   orderId: string = '';
   user: User | undefined;
   order: Order | undefined;
+  delivery: Delivery | undefined;
+  deliveryId: string = '';
 
 
   events: any[] = [];
@@ -22,6 +27,7 @@ export class TrackOrderPage implements OnInit {
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
+    private deliveryService: DeliveryService
 
   ) { }
 
@@ -29,6 +35,12 @@ export class TrackOrderPage implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
 
     this.orderId = this.route.snapshot.paramMap.get('orderId') || '';
+
+    this.deliveryService.getDelivery(this.orderId).subscribe((deliveries: Delivery[] ) => {
+      if (deliveries.length > 0) {
+        this.delivery = deliveries[0]; // Assuming there's only one delivery per order
+      }    });
+  
 
     this.orderService.getOrder(this.orderId).subscribe((order: Order ) => {
       this.order = order;
@@ -55,9 +67,19 @@ export class TrackOrderPage implements OnInit {
             );
           })
         );
+    });   
+  }
+
+  formatDate(date: Timestamp) {
+    const formattedDate = date.toDate().toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric', 
+      minute: 'numeric'
     });
 
-    
+    return formattedDate;
   }
 
 }
