@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button
+        defaultHref="/tabs/homescreen"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-list [inset]="true">
+
+    <ion-item [button]="true" detail="false">
+      <div class="unread-indicator-wrapper" slot="start"></div>
+      <ion-label>
+        <strong>Commande</strong>
+        <ion-text>Suivez votre colis 📦 !</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">Votre commande a maintenant été expediée ! Appuyez pour plus d'informations.</ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note color="medium">03:44</ion-note>
+        <ion-icon color="medium" name="chevron-forward"></ion-icon>
+      </div>
+    </ion-item>
+
+
+    <ion-item [button]="true" detail="false">
+      <div class="unread-indicator-wrapper" slot="start">
+        <div class="unread-indicator"></div>
+      </div>
+      <ion-label>
+        <strong>Liste de souhait</strong>
+        <ion-text>Produit disponible ❤️‍🔥</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">
+          Le produit que vous avez ajouté à votre liste de souhait est de nouveau disponible !
+        </ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note color="medium">Hier</ion-note>
+        <ion-icon color="medium" name="chevron-forward"></ion-icon>
+      </div>
+    </ion-item>
+
+    <ion-item [button]="true" detail="false">
+      <div class="unread-indicator-wrapper" slot="start"></div>
+      <ion-label>
+        <strong>Mise à jour</strong>
+        <ion-text>Nouveaux changements 🎉</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">Consultez les nouvelles politiques d'utilisation.</ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note color="medium">Hier</ion-note>
+        <ion-icon color="medium" name="chevron-forward"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

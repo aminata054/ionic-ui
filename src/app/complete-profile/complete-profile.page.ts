@@ -15,7 +15,7 @@ import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 export class CompleteProfilePage implements OnInit {
   public name?: string;
   public firstname?: string;
-  public tel?: string; // Changer le type en string pour une meilleure gestion des numéros
+  public tel?: string; 
   public userId?: string;
   public user?: User;
 
@@ -35,18 +35,19 @@ export class CompleteProfilePage implements OnInit {
       this.user = user;
     });
   }
-
-  validatePhoneNumber(phoneNumber: string): boolean {
-    try {
-      const parsedPhoneNumber = parsePhoneNumber(phoneNumber);
-      return parsedPhoneNumber && isValidPhoneNumber(parsedPhoneNumber.number, parsedPhoneNumber.country) && parsedPhoneNumber.country === 'SN';
-    } catch (error) {
-      return false;
+  onTelInput(event: any) {
+    const phoneNumber = event.target.value;
+    const parsedPhoneNumber = parsePhoneNumber(phoneNumber, 'SN'); 
+    if (parsedPhoneNumber) {
+      const formattedPhoneNumber = `+221 ${parsedPhoneNumber.nationalNumber.slice(0, 2)}-${parsedPhoneNumber.nationalNumber.slice(2, 5)}-${parsedPhoneNumber.nationalNumber.slice(5, 7)}-${parsedPhoneNumber.nationalNumber.slice(7)}`;
+      this.tel = formattedPhoneNumber;
+    } else {
+      this.tel = phoneNumber;
     }
   }
 
   async addInformations() {
-    if (this.name && this.firstname && this.tel && this.validatePhoneNumber(this.tel)) {
+    if (this.name && this.firstname && this.tel ) {
       const loading = await this.loadingCtrl.create({
         message: 'Ajout de l\'utilisateur...',
         spinner: 'crescent',

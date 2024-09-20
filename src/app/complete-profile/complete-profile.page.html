@@ -8,20 +8,36 @@
 <ion-content [fullscreen]="true" color="primary">
   <div id="header">
     <h1>Swift Shop</h1>
-    <p>
-      Vous y êtes presque...
-    </p>
+    <p>Vous y êtes presque...</p>
   </div>
   <form id="form">
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Nom" name="name" [(ngModel)]="name"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Nom"
+        name="name"
+        [(ngModel)]="name"
+      ></ion-input>
     </ion-item>
     <ion-item class="ion-margin-bottom">
-      <ion-input type="text" placeholder="Prénom" name="firstname" [(ngModel)]="firstname"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Prénom"
+        name="firstname"
+        [(ngModel)]="firstname"
+      ></ion-input>
     </ion-item>
     <ion-item class="ion-margin-bottom">
-      <ion-input type="tel" placeholder="Téléphone" name="tel" [(ngModel)]="tel"></ion-input>
+      <ion-input
+        type="tel"
+        placeholder="Téléphone"
+        name="tel"
+        [(ngModel)]="tel"
+        (input)="onTelInput($event)"
+      ></ion-input>
     </ion-item>
-    <ion-button expand="block" color="secondary" (click)="addInformations()">Continuer</ion-button>
+    <ion-button expand="block" color="secondary" (click)="addInformations()"
+      >Continuer</ion-button
+    >
   </form>
 </ion-content>

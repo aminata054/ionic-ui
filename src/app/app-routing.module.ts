@@ -159,6 +159,10 @@ const routes: Routes = [
     path: 'track-order',
     loadChildren: () => import('./admin/track-order/track-order.module').then( m => m.TrackOrderPageModule)
   },
+  {
+    path: 'notifications/:userId',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
  
 ];
 

@@ -6,7 +6,7 @@
 
     <ion-title color="primary" *ngIf="userId">Bienvenue, {{ user?.firstname }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button class="notifications">
+      <ion-button class="notifications" [routerLink]="['/notifications', userId]">
         <ion-icon name="notifications-outline" color="dark"></ion-icon>
         <span>&nbsp;</span>
       </ion-button>
@@ -64,9 +64,9 @@
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
       
         <swiper-slide *ngFor="let category of categories">
-          <ion-col>
+          <ion-col [routerLink]="['/tabs/product-list', category.categoryId]">
             <h4>{{category.name}}</h4>
-            <img [src]="category.cover" alt="">
+            <img [src]="category.cover" alt="" > 
           </ion-col>
         </swiper-slide>
       
@@ -83,7 +83,7 @@
     <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
         <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
-            <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >
+            <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-details', product.productId]">
             <p>{{product.price}} FCFA</p>
             <h6>{{product.name}}</h6>
           </ion-col>

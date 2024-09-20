@@ -13,7 +13,7 @@ import { Timestamp } from 'firebase/firestore'
 })
 export class OrderPage implements OnInit {
   orders: Order[] | undefined;
-  selectedSegment: string = 'pending'; 
+  selectedSegment: string = 'all'; 
   orderGroups: any[] = [];
   filteredOrders: Order[] | undefined;
   searchTerm: string = '';
@@ -60,14 +60,27 @@ export class OrderPage implements OnInit {
 
   getFilteredOrders() {
     if (!this.orders) return [];
-    const filteredOrders = this.orders.filter((order) => order.status === this.selectedSegment);
+    const filteredOrders = this.orders.filter((order) => {
+      if (this.selectedSegment === 'all') {
+        return true; // show all orders
+      } else {
+        return order.status === this.selectedSegment;
+      }
+    });
+  
     if (this.searchTerm) {
       return filteredOrders.filter((order) => {
         return (
-          order.orderNumber.toString().includes(this.searchTerm.toLowerCase()) )
+          order.orderNumber.toString().includes(this.searchTerm.toLowerCase())
+        );
       });
     } else {
-      return filteredOrders;
+      // sort orders by day
+      return filteredOrders.sort((a, b) => {
+        const dateA = a.createdAt.toDate();
+        const dateB = b.createdAt.toDate();
+        return dateB.getTime() - dateA.getTime();
+      });
     }
   }
 
