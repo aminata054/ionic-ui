@@ -18,6 +18,8 @@ export class TrackOrderPage {
   status: string = '';
   commentPlaceholder: string =
     'Votre achat est en cours de livraison et sera disponible le';
+    minDate: string;
+
 
   constructor(
     private modalCtrl: ModalController,
@@ -29,6 +31,11 @@ export class TrackOrderPage {
     private toastCtrl: ToastController
   ) {
     this.order = this.navParam.get('order');
+    // Définir la date minimale à la date actuelle
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    this.minDate = today.toISOString(); 
+  
   }
 
   showSelectedDates(e: any) {

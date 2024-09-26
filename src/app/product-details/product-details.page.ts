@@ -18,10 +18,6 @@ export class ProductDetailsPage implements OnInit {
   liked: boolean = false;
   wishlistId: string = '';
   cartId: string = '';
-  name: string | undefined;
-  description: string | undefined;
-  price: number | undefined;
-  cover: string | undefined;
 
   constructor(
     private productService: ProductService,
@@ -37,23 +33,15 @@ export class ProductDetailsPage implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('productId') || '';
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
 
+    // Récupérer le produit
+    const loading = await this.loadingPresent("Chargement de la page");
     this.productService.getProduct(this.productId).subscribe(async (product) => {
-      const loading =  await this.loadingPresent("Chargement de la page")
       this.product = product;
       if (product) {
-        this.name = product.name || '';
-        this.description = product.description || '';
-        this.price = product.price || undefined;
-        this.cover = product.cover || '';
+        this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId); 
       }
-      loading.dismiss()
+      loading.dismiss();
     });
-
-    if (this.userId) {
-      this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId);
-    }
-
-    
   }
 
   goBack() {
@@ -62,7 +50,7 @@ export class ProductDetailsPage implements OnInit {
 
   async addWishlist() {
     try {
-      this.wishlistId = await this.wishlistService.addProductToWishlist(this.productId, this.userId);
+      await this.wishlistService.addProductToWishlist(this.productId, this.userId);
       this.liked = true;
       this.presentToast('Produit ajouté à la liste de souhaits');
     } catch (error) {
@@ -70,24 +58,29 @@ export class ProductDetailsPage implements OnInit {
       this.presentToast('Erreur lors de l\'ajout à la liste de souhaits');
     }
   }
-  async addCart() {
-    try {
-      this.cartId = await this.cartService.addProductToCart(this.productId, this.userId);
-      this.presentToast('Produit ajouté à la commande');
-    } catch (error) {
-      console.error('Erreur lors de l\'ajout à la commande', error);
-      this.presentToast('Erreur lors de l\'ajout à la commande');
-    }
-  }
 
   async removeWishlist() {
-    try {
-      await this.wishlistService.removeProductFromWishlist(this.wishlistId);
-      this.liked = false;
+  try {
+    const wishlistId = await this.wishlistService.getWishlistId(this.userId, this.productId);
+    if (wishlistId) {
+      await this.wishlistService.removeProductFromWishlist(wishlistId);
+      this.liked = false; // Met à jour l'état local
       this.presentToast('Produit retiré de la liste de souhaits');
+    }
+  } catch (error) {
+    console.error('Erreur lors du retrait de la liste de souhaits', error);
+    this.presentToast('Erreur lors du retrait de la liste de souhaits');
+  }
+}
+
+
+  async addCart() {
+    try {
+      await this.cartService.addProductToCart(this.productId, this.userId);
+      this.presentToast('Produit ajouté au panier');
     } catch (error) {
-      console.error('Erreur lors du retrait de la liste de souhaits', error);
-      this.presentToast('Erreur lors du retrait de la liste de souhaits');
+      console.error('Erreur lors de l\'ajout au panier', error);
+      this.presentToast('Erreur lors de l\'ajout au panier');
     }
   }
 
@@ -95,7 +88,6 @@ export class ProductDetailsPage implements OnInit {
     const toast = await this.toastCtrl.create({
       message: message,
       duration: 2000,
-      swipeGesture: 'vertical',
       position: 'bottom',
     });
     toast.present();

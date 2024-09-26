@@ -44,7 +44,7 @@
 
     <ion-modal [keepContentsMounted]="true">
       <ng-template>
-        <ion-datetime class="ion-margin" [showDefaultButtons]="true" (ionChange)="showSelectedDates($event)" presentation="date-time" locale="fr-FR" id="livraison"></ion-datetime>
+        <ion-datetime class="ion-margin" [showDefaultButtons]="true" (ionChange)="showSelectedDates($event)" presentation="date-time" locale="fr-FR" id="livraison" [min]="minDate"></ion-datetime>
       </ng-template>
     </ion-modal>
 

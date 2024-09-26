@@ -49,8 +49,15 @@ export class AuthService {
       console.log("Unable to send verification email", err);
     });
   }
-  
-  
+
+  forgotPassword(email: string) {
+    return this.auth.sendPasswordResetEmail(email).then(async () => {
+      await this.presentToast("Email de vérification envoyé dans votre boite mail")
+    }, async (err) => {
+      await this.presentToast("Erreur lors de l'envoi :")
+      console.log(err)
+    })
+  }
 
   async getCurrentUser() {
     const user = await this.auth.currentUser;
@@ -131,6 +138,7 @@ export class AuthService {
       await user.delete();
     }
   }
+
 
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({

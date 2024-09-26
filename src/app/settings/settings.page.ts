@@ -7,15 +7,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import { NativeGeocoder } from '@capgo/nativegeocoder';
 
-const reverseOptions = {
-  latitude: 37.7749,
-  longitude: -122.4194,
-};
-
-const address = NativeGeocoder.reverseGeocode(reverseOptions);
-console.log(address);
 
 @Component({
   selector: 'app-settings',
@@ -32,7 +24,6 @@ export class SettingsPage implements OnInit {
   city?: string;
   user?: User;
   passForm!: FormGroup;
-  
 
   constructor(
     private afs: AngularFirestore,
