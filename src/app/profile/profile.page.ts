@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../models/user';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
+import { User } from '../models/user'; 
+import { AlertController } from '@ionic/angular'; 
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -13,20 +12,17 @@ import { UserService } from '../services/user.service';
 })
 export class ProfilePage implements OnInit {
   userId: string = '';
-  user: User | undefined ;
+  user: User | undefined;
   name: string = '';
   firstname: string = '';
-  
 
   constructor(
-    private authService: AuthService, 
-    private router: Router, 
-    private loadingCtrl: LoadingController,
-    private toastr: ToastController,
-    private userService: UserService,
+    private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
+    private userService: UserService,
     private alertCtrl: AlertController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
@@ -43,6 +39,7 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  // Gère la déconnexion de l'utilisateur avec une alerte de confirmation
   async signout() {
     const alert = await this.alertCtrl.create({
       header: "Déconnexion",
@@ -52,22 +49,19 @@ export class ProfilePage implements OnInit {
           text: 'Annuler',
           role: 'cancel',
           handler: () => {
-            console.log("Bouton d'annulation cliqué")
+            console.log("Bouton d'annulation cliqué");
           }
         },
         {
           text: 'Se déconnecter',
-        handler: async () => {
-          this.authService.signOut().then(() => {
-            setTimeout(() => {
+          handler: async () => {
+            this.authService.signOut().then(() => {
               this.router.navigateByUrl('/login');
-            }, 100); // Add a 100ms delay
-          });
+            });
+          }
         }
-      }
       ]
     });
     await alert.present();
-
   }
 }

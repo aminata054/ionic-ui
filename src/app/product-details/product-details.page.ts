@@ -12,13 +12,12 @@ import { CartService } from '../services/cart.service';
   styleUrls: ['./product-details.page.scss'],
 })
 export class ProductDetailsPage implements OnInit {
-  productId: string = '';
-  product: Product | undefined;
-  userId: string = '';
-  liked: boolean = false;
-  wishlistId: string = '';
-  cartId: string = '';
-
+  productId: string = ''; 
+  product: Product | undefined; 
+  userId: string = ''; 
+  liked: boolean = false; 
+  wishlistId: string = ''; 
+  cartId: string = ''; 
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -30,28 +29,31 @@ export class ProductDetailsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    // Récupérer les paramètres de la route
     this.productId = this.route.snapshot.paramMap.get('productId') || '';
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
 
-    // Récupérer le produit
+    // Charger les détails du produit
     const loading = await this.loadingPresent("Chargement de la page");
     this.productService.getProduct(this.productId).subscribe(async (product) => {
       this.product = product;
       if (product) {
-        this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId); 
+        this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId); // Vérifier si le produit est aimé
       }
-      loading.dismiss();
+      loading.dismiss(); // Cacher le loader
     });
   }
 
+  // Retour à la page précédente
   goBack() {
     this.navCtrl.back();
   }
 
+  // Ajouter le produit à la liste de souhaits
   async addWishlist() {
     try {
       await this.wishlistService.addProductToWishlist(this.productId, this.userId);
-      this.liked = true;
+      this.liked = true; // Mettre à jour l'état local
       this.presentToast('Produit ajouté à la liste de souhaits');
     } catch (error) {
       console.error('Erreur lors de l\'ajout à la liste de souhaits', error);
@@ -59,21 +61,22 @@ export class ProductDetailsPage implements OnInit {
     }
   }
 
+  // Retirer le produit de la liste de souhaits
   async removeWishlist() {
-  try {
-    const wishlistId = await this.wishlistService.getWishlistId(this.userId, this.productId);
-    if (wishlistId) {
-      await this.wishlistService.removeProductFromWishlist(wishlistId);
-      this.liked = false; // Met à jour l'état local
-      this.presentToast('Produit retiré de la liste de souhaits');
+    try {
+      const wishlistId = await this.wishlistService.getWishlistId(this.userId, this.productId);
+      if (wishlistId) {
+        await this.wishlistService.removeProductFromWishlist(wishlistId);
+        this.liked = false; // Mettre à jour l'état local
+        this.presentToast('Produit retiré de la liste de souhaits');
+      }
+    } catch (error) {
+      console.error('Erreur lors du retrait de la liste de souhaits', error);
+      this.presentToast('Erreur lors du retrait de la liste de souhaits');
     }
-  } catch (error) {
-    console.error('Erreur lors du retrait de la liste de souhaits', error);
-    this.presentToast('Erreur lors du retrait de la liste de souhaits');
   }
-}
 
-
+  // Ajouter le produit au panier
   async addCart() {
     try {
       await this.cartService.addProductToCart(this.productId, this.userId);
@@ -84,6 +87,7 @@ export class ProductDetailsPage implements OnInit {
     }
   }
 
+  // Fonction pour afficher un toast
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({
       message: message,
@@ -93,6 +97,7 @@ export class ProductDetailsPage implements OnInit {
     toast.present();
   }
 
+  // Fonction pour afficher un indicateur de chargement
   async loadingPresent(message: string) {
     const loading = await this.loadingCtrl.create({
       message: message,

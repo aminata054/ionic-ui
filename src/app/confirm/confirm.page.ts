@@ -9,22 +9,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./confirm.page.scss'],
 })
 export class ConfirmPage implements OnInit {
-
   userId: string = '';
   user: User | undefined;
-  
+
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute,
-
-  ) { }
-
+    private route: ActivatedRoute
+  ) {}
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
     this.userService.getUser(this.userId).subscribe((user) => {
-      this.user = user;
-      
+      this.user = user; // Assigne les informations utilisateur récupérées
     });
   }
-
 }

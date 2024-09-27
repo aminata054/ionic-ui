@@ -43,14 +43,12 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'homescreen/:userId',
+    path: 'homescreen',
     loadChildren: () => import('./homescreen/homescreen.module').then( m => m.HomescreenPageModule),
-    canActivate: [AuthGuard]
   },
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
-    canActivate: [AuthGuard]
   },
   {
     path: 'product-details/:userId',
@@ -166,6 +164,10 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'terms',
+    loadChildren: () => import('./terms/terms.module').then( m => m.TermsPageModule)
   },
  
 ];

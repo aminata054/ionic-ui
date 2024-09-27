@@ -8,11 +8,10 @@ const routes: Routes = [
   {
     path: '',
     component: TabsPage,
-    canActivate: [AuthGuard],
     children: [
 
       {
-        path: 'homescreen/:userId',
+        path: 'homescreen',
         loadChildren: () => import('../homescreen/homescreen.module').then( m => m.HomescreenPageModule)
       },
       {

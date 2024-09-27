@@ -5,7 +5,7 @@ import { UserService } from '../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
-import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
+import { parsePhoneNumber } from 'libphonenumber-js';
 
 @Component({
   selector: 'app-complete-profile',
@@ -27,14 +27,23 @@ export class CompleteProfilePage implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private authService: AuthService
-  ) { }
+  ) {}
 
+  /**
+   * Méthode exécutée à l'initialisation de la page.
+   * Elle récupère l'utilisateur à partir de l'ID utilisateur dans la route et charge ses informations.
+   */
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
     this.userService.getUser(this.userId).subscribe((user) => {
       this.user = user;
     });
   }
+
+  /**
+   * Gère l'entrée de numéro de téléphone et le formate en fonction du pays (ici 'SN' pour Sénégal).
+   * @param event - L'événement contenant le numéro de téléphone saisi.
+   */
   onTelInput(event: any) {
     const phoneNumber = event.target.value;
     const parsedPhoneNumber = parsePhoneNumber(phoneNumber, 'SN'); 
@@ -46,8 +55,12 @@ export class CompleteProfilePage implements OnInit {
     }
   }
 
+  /**
+   * Ajoute les informations de l'utilisateur à Firestore et met à jour son profil.
+   * Vérifie que tous les champs requis sont renseignés et affiche un message de succès ou d'erreur.
+   */
   async addInformations() {
-    if (this.name && this.firstname && this.tel ) {
+    if (this.name && this.firstname && this.tel) {
       const loading = await this.loadingCtrl.create({
         message: 'Ajout de l\'utilisateur...',
         spinner: 'crescent',
@@ -78,6 +91,10 @@ export class CompleteProfilePage implements OnInit {
     }
   }
 
+  /**
+   * Affiche un message toast pour fournir des retours à l'utilisateur.
+   * @param message - Le message à afficher dans le toast.
+   */
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({
       message: message,

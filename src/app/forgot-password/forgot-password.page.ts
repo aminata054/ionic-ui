@@ -14,12 +14,8 @@ export class ForgotPasswordPage {
     private auth: AuthService
   ) { }
 
- 
-
   forgotPassword() {
     this.auth.forgotPassword(this.email);
     this.email = '';
-
   }
-
 }

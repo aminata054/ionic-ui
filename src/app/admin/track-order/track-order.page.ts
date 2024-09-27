@@ -106,6 +106,37 @@ export class TrackOrderPage {
     }
   }
 
+  async deliveryComplete() {
+    try {
+      const deliveryDate = Timestamp.fromDate(new Date(this.selectedDates));
+      const formattedDate = deliveryDate.toDate().toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric', 
+        minute: 'numeric'
+      });
+      
+      await this.orderService.updateOrderStatus(
+        this.order.orderId,
+        this.status
+      );
+
+      await this.orderService.updateOrderStatusHistory(this.order.orderId, {
+        content: this.getStatusContent(this.status),
+        date: formattedDate,
+        status: true,
+      });
+
+      this.modalCtrl.dismiss();
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'enregistrement des détails de livraison:",
+        error
+      );
+    }
+  }
+
   async saveStatus() {
     try {
 

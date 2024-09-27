@@ -72,6 +72,7 @@
     </ion-card>
 
     <ion-button *ngIf="status === 'ongoing'" (click)="saveDelivery()">Mettre à jour la livraison</ion-button>
-    <ion-button *ngIf="status !== 'ongoing'" (click)="saveStatus()">Mettre à jour le statut</ion-button>
+    <ion-button *ngIf="status === 'delivered'" (click)="deliveryComplete()">Mettre à jour la date de livraison </ion-button>
+    <ion-button *ngIf="status !== 'ongoing' && status !== 'delivered'" (click)="saveStatus()">Mettre à jour le statut</ion-button>
   </form>
 </ion-content>

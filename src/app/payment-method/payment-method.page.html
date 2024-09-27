@@ -2,7 +2,7 @@
   <ion-toolbar color="light">
     <ion-buttons slot="start" mode="md">
       <ion-back-button
-        defaultHref="/tabs/shopping-cart"
+        [defaultHref]="['/tabs/shopping-cart', userId]"
         color="dark"
       ></ion-back-button>
     </ion-buttons>
@@ -35,7 +35,7 @@
         </ion-item> 
       </ion-list>
     </div>
-    <ion-button expand="block" color="tertiary" [routerLink]="['/contact-details', userId]"routerDirection="forward" (click)="coord()">Continuer</ion-button>
+    <ion-button expand="block" color="tertiary" [routerLink]="['/contact-details', userId]"routerDirection="forward" (click)="updateMethods()">Continuer</ion-button>
 
   </form>
 </ion-content>

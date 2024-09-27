@@ -7,7 +7,6 @@ import { User } from '../models/user';
 import { Dialog } from '@capacitor/dialog';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
-
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.page.html',
@@ -20,8 +19,6 @@ export class OrderDetailsPage implements OnInit {
   searchTerm: string = '';
   filteredOrder: Order[] = [];
 
-
-
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -29,7 +26,7 @@ export class OrderDetailsPage implements OnInit {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
@@ -38,20 +35,20 @@ export class OrderDetailsPage implements OnInit {
   }
 
   async loadOrders() {
-    const loading = await this.loadingPresent('Chargement...');
+    const loading = await this.loadingPresent('Chargement...'); // Afficher un indicateur de chargement
     this.orderService.getOrdersForUser(this.userId).subscribe(async (orders) => {
       this.orders = orders;
-      loading.dismiss();
+      loading.dismiss(); // Masquer l'indicateur de chargement
     }, async (error) => {
       console.error('Error loading orders', error);
-      loading.dismiss(); // Hide the loading indicator even if there is an error
-      await this.presentToast('Erreur lors du chargement des commandes');
+      loading.dismiss(); // Masquer l'indicateur de chargement même en cas d'erreur
+      await this.presentToast('Erreur lors du chargement des commandes'); // Afficher un message d'erreur
     });
   }
 
   loadUserInfo() {
     this.userService.getUser(this.userId).subscribe((user) => {
-      this.user = user;
+      this.user = user; // Charger les informations de l'utilisateur
     });
   }
 
@@ -60,20 +57,19 @@ export class OrderDetailsPage implements OnInit {
       const confirmed = await this.presentAlert("Annuler la commande", "Êtes-vous sûr(e) de vouloir annuler cette commande ?");
       if (confirmed) {
         await this.orderService.updateOrderStatus(orderId, status).then(() => {
-          this.orders = this.orders.filter((order) => order.orderId !== orderId);
+          this.orders = this.orders.filter((order) => order.orderId !== orderId); // Mettre à jour la liste des commandes
           this.toastCtrl.create({
-            message: `Commande ${status}`,
+            message: `Commande ${status}`, // Afficher un message de confirmation
             duration: 2000
           }).then(toast => toast.present());
-        })     
+        });     
       }  
     } catch (error) {
       const toast = await this.toastCtrl.create({
-        message: "Erreur lors de la validation de la commande",
+        message: "Erreur lors de la validation de la commande", // Afficher un message d'erreur
         duration: 2000
       });
       toast.present();
-      
     }
   }
 
@@ -87,7 +83,7 @@ export class OrderDetailsPage implements OnInit {
         );
       });
     } else {
-      this.loadOrders(); 
+      this.loadOrders(); // Recharger toutes les commandes si le terme de recherche est vide
     }
   }
 
@@ -98,7 +94,7 @@ export class OrderDetailsPage implements OnInit {
       swipeGesture: 'vertical',
       position: 'bottom'
     });
-    toast.present();
+    toast.present(); // Afficher le message toast
   }
 
   async presentAlert(header: string, message: string): Promise<boolean> {
@@ -112,18 +108,18 @@ export class OrderDetailsPage implements OnInit {
             role: 'cancel',
             handler: () => {
               console.log("Bouton d'annulation cliqué");
-              resolve(false);
+              resolve(false); // Résoudre avec 'false' si le bouton d'annulation est cliqué
             }
           },
           {
             text: 'Annuler',
             handler: () => {
-              resolve(true);
+              resolve(true); // Résoudre avec 'true' si l'utilisateur confirme l'annulation
             }
           }
         ]
       });
-      await alert.present();
+      await alert.present(); // Afficher l'alerte
     });
   }
 
@@ -134,6 +130,6 @@ export class OrderDetailsPage implements OnInit {
       showBackdrop: true,
     });
     await loading.present();
-    return loading;
+    return loading; // Afficher un spinner de chargement avec un message
   }
 }

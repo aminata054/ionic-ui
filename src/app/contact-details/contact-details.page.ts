@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 })
 export class ContactDetailsPage implements OnInit {
   userId?: string;
-  tel?: string ;
+  tel?: string;
   country?: string;
   address?: string;
   city?: string;
@@ -20,18 +20,19 @@ export class ContactDetailsPage implements OnInit {
   paymentMethod?: string;
 
   constructor(
-   private loadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     private userService: UserService,
     private route: ActivatedRoute
   ) {}
 
-   ngOnInit() {
+  ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';
     this.userService.getUser(this.userId).subscribe(async (user) => {
-      const loading = await this.loadingPresent('Chargement');
+      const loading = await this.loadingPresent('Chargement');  // Affiche le loading pendant la récupération des données
       this.user = user;
-      loading.dismiss();
+      loading.dismiss();  // Masque le loading une fois les données chargées
       if (user) {
+        // Assignation des informations utilisateur récupérées
         this.tel = user.tel;
         this.country = user.country || '';
         this.address = user.address || '';
@@ -39,6 +40,11 @@ export class ContactDetailsPage implements OnInit {
       }
     });
   }
+
+  /**
+   * Affiche un indicateur de chargement avec un message personnalisé.
+   * @param message - Le message à afficher pendant le chargement.
+   */
   async loadingPresent(message: string) {
     const loading = await this.loadingCtrl.create({
       message: message,

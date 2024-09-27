@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="light">
     <ion-buttons >
-      <ion-back-button (click)="goBack()" color="dark"></ion-back-button>
+      <ion-back-button [defaultHref]="['/category-list', userId]" color="dark"></ion-back-button>
     </ion-buttons>
     <ion-title color="primary">{{ category?.name }}</ion-title>
     <ion-buttons slot="end" mode="md">

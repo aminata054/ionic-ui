@@ -27,7 +27,6 @@ export class SettingsPage implements OnInit {
 
   constructor(
     private afs: AngularFirestore,
-    private router: Router,
     private loadingCtrl: LoadingController,
     private toastr: ToastController,
     private userService: UserService,
@@ -36,10 +35,6 @@ export class SettingsPage implements OnInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder
   ) {}
-
-  goBack() {
-    this.navCtrl.back();
-  }
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('userId') || '';

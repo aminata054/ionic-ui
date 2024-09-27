@@ -9,7 +9,7 @@ import { User } from '../models/user';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   public email: string = '';
   public password: string = '';
   public showPassword: boolean = false;
@@ -21,10 +21,8 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {}
-
   togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+    this.showPassword = !this.showPassword; // Basculer la visibilité du champ de mot de passe
   }
 
   async login() {
@@ -34,7 +32,7 @@ export class LoginPage implements OnInit {
   
       if (user) {
         if (!user.emailVerified) {
-          await this.authService.sendEmailForValidation(user);
+          await this.authService.sendEmailForValidation(user); // Envoyer un e-mail de validation si l'utilisateur n'est pas vérifié
           return; 
         }
   
@@ -43,30 +41,28 @@ export class LoginPage implements OnInit {
           this.authService.getDetails(userId).subscribe(async (user: User) => {
             if (user.isAdmin) {
               const loading = await this.loadingPresent('Connexion en cours...');
-              this.router.navigate(['admin/home', userId]);
-              loading.dismiss()
+              this.router.navigate(['admin/home', userId]); // Naviguer vers la page d'accueil admin si l'utilisateur est un admin
+              loading.dismiss();
             } else {
               if (user.profileComplete) {
                 const loading = await this.loadingPresent('Connexion en cours...');
-                this.router.navigate(['/tabs/homescreen', userId]);
+                this.router.navigate(['/tabs/homescreen', userId]); // Naviguer vers l'écran d'accueil si le profil est complet
                 loading.dismiss();
               } else {
                 const loading = await this.loadingPresent('Connexion en cours...');
-                this.router.navigate([`/complete-profile/${userId}`]);
+                this.router.navigate([`/complete-profile/${userId}`]); // Naviguer vers le profil à compléter si ce n'est pas le cas
                 loading.dismiss();
-
               }
             }
           });
         }
       }
     } catch (error) {
-      console.error('Login failed:', error);
-      await this.presentToast('Email et/ou mot de passe incorrect');
+      console.error('Échec de la connexion :', error);
+      await this.presentToast('Email et/ou mot de passe incorrect'); // Afficher un toast en cas d'échec de la connexion
     }
   }
   
-
   async presentToast(message: string) {
     const toast = await this.toastCtrl.create({
       message: message,
@@ -74,7 +70,7 @@ export class LoginPage implements OnInit {
       swipeGesture: 'vertical',
       position: 'bottom'
     });
-    toast.present();
+    toast.present(); // Afficher le message toast
   }
 
   async loadingPresent(message: string) {
@@ -84,6 +80,6 @@ export class LoginPage implements OnInit {
       showBackdrop: true,
     });
     await loading.present();
-    return loading;
+    return loading; // Afficher un spinner de chargement avec un message
   }
 }
