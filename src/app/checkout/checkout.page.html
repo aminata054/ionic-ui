@@ -23,7 +23,7 @@
             <ion-text color="dark">{{product?.description}}</ion-text>
           </p>
           <p class="price">
-            <ion-text color="dark">{{product?.price}}</ion-text>
+            <ion-text color="dark">{{product?.price | number: '1.2-2' }}</ion-text>
           </p>
         </ion-label>
 
@@ -63,7 +63,7 @@
     </ion-item>
     <ion-item lines="none">
       <ion-label>Total</ion-label>
-      <ion-label slot="end" class="ion-text-right">FCA {{ totalPrice | number:'1.0-0' }}</ion-label>
+      <ion-label slot="end" class="ion-text-right">FCA {{ totalPrice | number: '1.2-2' }}</ion-label>
     </ion-item>
   </div>
 </ion-content>

@@ -1,34 +1,41 @@
-<ion-content [fullscreen]="true">
-  <div class="header">
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
     <ion-buttons>
-      <ion-button (click)="goBack()">
-        <ion-icon color="light" name="arrow-back"></ion-icon>
-      </ion-button>
+      <ion-back-button
+        [defaultHref]="['/product-list']"
+        color="dark"
+      >
+     Retour
+    </ion-back-button>
     </ion-buttons>
-    <ion-buttons>
-      <ion-button type="button" (click)="liked ? removeWishlist() : addWishlist()">
-        <ion-icon 
-          [name]="liked ? 'heart' : 'heart-outline'"
-          [color]="liked ? 'danger' : 'light'">
-        </ion-icon>
-      </ion-button>
-      
+    <ion-buttons
+      slot="end"
+      mode="md"
+      type="button"
+      (click)="liked ? removeWishlist() : addWishlist()"
+    >
+      <ion-icon
+        [name]="liked ? 'heart' : 'heart-outline'"
+        [color]="liked ? 'danger' : 'light'"
+      >
+      </ion-icon>
     </ion-buttons>
-  </div>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true">
   <div class="card">
     <div class="image">
       <img [src]="product?.cover" alt="" />
     </div>
     <div>
       <p *ngIf="product?.quantity === 0">Ce produit est indisponible</p>
-
     </div>
 
     <div class="card-content">
       <div class="card-title">
         <h1 class="ion-no-margin">{{ product?.name }}</h1>
-        <p class="ion-no-margin">FCFA {{ product?.price }}</p>
+        <p class="ion-no-margin">{{ product?.price | number: '1.2-2' }} FCFA</p>
       </div>
     </div>
 
@@ -40,12 +47,14 @@
 
     <div class="about">
       <h1>Description</h1>
-      <p>
-        {{ product?.description }}
-      </p>
+      <p>{{ product?.description }}</p>
     </div>
 
-    <ion-button expand="block" (click)="addCart()" [disabled]="product?.quantity === 0">
+    <ion-button
+      expand="block"
+      (click)="addCart()"
+      [disabled]="product?.quantity === 0"
+    >
       <ion-icon name="cart-outline"></ion-icon>
       Ajouter au panier
     </ion-button>

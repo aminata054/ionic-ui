@@ -49,9 +49,10 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule),
+    
   },
   {
-    path: 'product-details/:userId',
+    path: 'product-details/:productId',
     loadChildren: () => import('./product-details/product-details.module').then( m => m.ProductDetailsPageModule),
     canActivate: [AuthGuard]
   },
@@ -75,7 +76,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'product-list/:userId',
+    path: 'product-list',
     loadChildren: () => import('./product-list/product-list.module').then( m => m.ProductListPageModule),
     canActivate: [AuthGuard]
   },
@@ -168,6 +169,10 @@ const routes: Routes = [
   {
     path: 'terms',
     loadChildren: () => import('./terms/terms.module').then( m => m.TermsPageModule)
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
  
 ];

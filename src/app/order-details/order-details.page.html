@@ -69,7 +69,7 @@
               <ion-label>
                 <ion-text class="title">{{ product.name }}</ion-text>
                 <p class="price">
-                  <ion-text color="dark">{{ product.price }}</ion-text>
+                  <ion-text color="dark">{{ product.price | number: '1.2-2' }}</ion-text>
                 </p>
               </ion-label>
 
@@ -85,7 +85,7 @@
             <ion-item>
               <ion-label>Total</ion-label>
               <ion-label slot="end" class="ion-text-right">
-                {{ order.totalPrice }} FCFA
+                {{ order.totalPrice | number: '1.2-2' }} FCFA
               </ion-label>
             </ion-item>
           </div>

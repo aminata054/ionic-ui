@@ -8,23 +8,31 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './tabs.page.html',
   styleUrls: ['./tabs.page.scss'],
 })
-export class TabsPage implements OnInit {
+export class TabsPage  {
   
   @ViewChild('tabs', { static: false })
   tabs!: IonTabs;
   selectedTab: any;
 
   constructor(public router: Router, public authService: AuthService, private route: ActivatedRoute) { }
-   ngOnInit() {
-      
-      
-  }
+  
 
   async navigate(chemin: any) {
     const userId = await this.authService.getUserId();
-    if (userId) {
-      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || `/tabs/${chemin}/${userId}`;
-      this.router.navigateByUrl(returnUrl);
+    if (!userId) {
+      const allowedPages = ['homescreen', 'category-list', 'product-list', 'product-details'];
+      if (allowedPages.includes(chemin)) {
+        this.router.navigate(['/tabs/' + chemin]);
+      } else {
+        this.router.navigate(['/not-found']);
+      }
+    }
+    else {
+      if (chemin === 'homescreen' || chemin === 'profile' || chemin === 'wishlist' || chemin === 'shopping-cart') {
+        this.router.navigate(['/tabs/' + chemin + '/' + userId]);
+      } else {
+        this.router.navigate(['/tabs/' + chemin]);
+      }
     }
   }
  

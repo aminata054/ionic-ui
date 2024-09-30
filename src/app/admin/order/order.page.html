@@ -44,7 +44,7 @@
       </ion-card-header>
       <ion-card-content>
         <p>Client : {{ getUser(order.userId)?.name }} {{ getUser(order.userId)?.firstname }}</p>
-        <ion-label>Prix Total : {{ order.totalPrice }} FCFA</ion-label>
+        <ion-label>Prix Total : {{ order.totalPrice | number: '1.2-2' }} FCFA</ion-label>
         <p>Passée le {{ order.createdAt.toDate().toLocaleString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}</p>      </ion-card-content>
       <ion-row>
         <ion-button [routerLink]="['/admin/order-details', order.orderId]">

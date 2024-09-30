@@ -11,7 +11,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <ion-list lines="none">
+  <div *ngIf="products.length === 0">
+    <ion-text class="empty-cart-message">
+      Commencez à shopper maintenant
+    </ion-text>
+  </div>
+  <ion-list lines="none" *ngIf="products.length > 0">
     <div *ngFor="let product of products">
       <ion-item>
         <ion-thumbnail slot="start">
@@ -23,7 +28,7 @@
             <ion-text color="dark">{{ product?.description }}</ion-text>
           </p>
           <p class="price">
-            <ion-text color="dark">{{ product?.price }}</ion-text>
+            <ion-text color="dark">{{ product?.price | number: '1.2-2' }}</ion-text>
           </p>
         </ion-label>
         <ion-row slot="end">
@@ -60,11 +65,11 @@
   </ion-list>
 </ion-content>
 
-<ion-footer class="ion-no-border">
+<ion-footer class="ion-no-border" *ngIf="products.length > 0">
   <ion-toolbar color="light">
     <ion-item lines="none" color="light" class="total">
       <ion-label color="primary"> Total </ion-label>
-      <ion-text slot="end"> FCFA {{ totalPrice | number:'1.0-0' }} </ion-text>
+      <ion-text slot="end"> FCFA {{ totalPrice | number: '1.2-2' }} </ion-text>
     </ion-item>
 
     <ion-button

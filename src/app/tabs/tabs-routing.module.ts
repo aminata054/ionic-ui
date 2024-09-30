@@ -15,8 +15,16 @@ const routes: Routes = [
         loadChildren: () => import('../homescreen/homescreen.module').then( m => m.HomescreenPageModule)
       },
       {
+        path: 'homescreen/:userId',
+        loadChildren: () => import('../homescreen/homescreen.module').then( m => m.HomescreenPageModule)
+      },
+      {
         path: 'profile/:userId',
         loadChildren: () => import('../profile/profile.module').then( m => m.ProfilePageModule)
+      },
+      {
+        path: 'shopping-cart',
+        loadChildren: () => import('../shopping-cart/shopping-cart.module').then( m => m.ShoppingCartPageModule)
       },
       {
         path: 'shopping-cart/:userId',
@@ -32,11 +40,19 @@ const routes: Routes = [
         loadChildren: () => import('../product-details/product-details.module').then( m => m.ProductDetailsPageModule)
       },
       {
+        path: 'category-list',
+        loadChildren: () => import('../category-list/category-list.module').then( m => m.CategoryListPageModule)
+      },
+      {
         path: 'category-list/:userId',
         loadChildren: () => import('../category-list/category-list.module').then( m => m.CategoryListPageModule)
       },
       {
         path: 'product-list/:categoryId',
+        loadChildren: () => import('../product-list/product-list.module').then( m => m.ProductListPageModule)
+      },
+      {
+        path: 'product-list',
         loadChildren: () => import('../product-list/product-list.module').then( m => m.ProductListPageModule)
       },
       {

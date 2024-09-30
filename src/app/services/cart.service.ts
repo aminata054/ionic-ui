@@ -3,6 +3,7 @@ import { Cart } from '../models/cart';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class CartService {
 
   cartCol: AngularFirestoreCollection<Cart>;
 
-  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) { 
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth, private router: Router) { 
     this.cartCol = this.afs.collection<Cart>('cart', ref => ref.orderBy('createdAt'));
   }
 
@@ -26,6 +27,7 @@ export class CartService {
   async addProductToCart(productId: string, userId: string): Promise<string> {
     const user = await this.afAuth.currentUser;
     if (!user) {
+      this.router.navigate(['/not-found']);
       throw new Error('User not authenticated');
     }
 

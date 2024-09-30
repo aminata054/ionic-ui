@@ -14,7 +14,7 @@
   <ion-row class="product-item">
     <ion-col size="6" class="ion-text-left" *ngFor="let product of products">
       <ion-img [src]="product.cover" [routerLink]="['/tabs/product-details', product.productId]" ></ion-img>
-      <p>FCFA {{ product.price }}</p>
+      <p>FCFA {{ product.price | number: '1.2-2' }}</p>
       <h4>{{ product.name }}</h4>
       <p *ngIf="product.quantity === 0">Ce produit est momentanément indisponible</p>
     </ion-col>

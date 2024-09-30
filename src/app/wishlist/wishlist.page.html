@@ -28,7 +28,7 @@
       </ion-item>
 
       <ion-row class="ion-padding amount">
-        <ion-text color="dark">FCFA <ion-text color="primary">{{product?.price}} FCFA</ion-text></ion-text>
+        <ion-text color="dark">FCFA <ion-text color="primary">{{product?.price | number: '1.2-2' }} FCFA</ion-text></ion-text>
       </ion-row>
 
       <ion-row class="reorder">

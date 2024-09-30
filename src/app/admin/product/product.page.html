@@ -89,7 +89,7 @@
       <img [src]="product.cover" alt="Cover image" />
       <h5>Catégorie : {{ product.category.name }}</h5>
       <p>Nom : {{ product.name }}</p>
-      <p>Prix : {{ product.price }} FCFA</p>
+      <p>Prix : {{ product.price | number: '1.2-2' }} FCFA</p>
 
       <p>
         <ion-button (click)="setOpen(true, product)">
@@ -128,7 +128,7 @@
                 >
               </p>
               <p>
-                <ion-label>Prix : {{ selectedProduct?.price }} FCFA</ion-label>
+                <ion-label>Prix : {{ selectedProduct?.price | number: '1.2-2' }} FCFA</ion-label>
               </p>
               <p>
                 <ion-label

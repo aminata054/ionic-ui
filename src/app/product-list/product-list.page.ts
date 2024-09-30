@@ -65,7 +65,11 @@ export class ProductListPage implements OnInit {
         loading.dismiss(); // Masquer le loader après le chargement des produits
       });
     } else {
-      loading.dismiss(); // Masquer le loader si aucune catégorie n'est trouvée
+      // Récupérer tous les produits si aucune catégorie n'est spécifiée
+      this.productService.getProducts().subscribe((products) => {
+        this.products = products;
+        loading.dismiss(); // Masquer le loader après le chargement des produits
+      });
     }
   }
 

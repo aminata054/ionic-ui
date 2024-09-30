@@ -1,0 +1,29 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white">
+    <ion-buttons>
+      <ion-back-button
+        [defaultHref]="['/tabs/homescreen']"
+        color="dark"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="confirmation">
+    <div class="ion-text-center">
+      <div class="outer-circle">
+        <div class="inner-circle">
+          <img src="assets/images/login.jpg" alt="">
+        </div>
+      </div>
+
+      <h2>Non connecté</h2>
+      <p>
+        Veuillez vous connecter afin d'accéder à cette page<br>
+      </p>
+      <ion-button routerLink="/login">Connexion</ion-button>
+    </div>
+  </div>
+</ion-content>
+

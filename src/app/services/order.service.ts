@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { map, Observable } from 'rxjs';
 import { Order } from '../models/order';
 import { arrayUnion } from 'firebase/firestore';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class OrderService {
   orderDoc: AngularFirestoreDocument<Order> | undefined;
 
 
-  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth, private router: Router) {
     this.orderCol = this.afs.collection<Order>('orders', ref => ref.orderBy('createdAt'));
   }
 
@@ -42,6 +43,7 @@ export class OrderService {
   async createOrder(order: Order): Promise<string> {
     const user = await this.afAuth.currentUser;
     if (!user) {
+      this.router.navigate(['/not-found']);
       throw new Error('User not authenticated');
     }
 

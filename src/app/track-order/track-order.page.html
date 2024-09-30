@@ -27,7 +27,7 @@
           <ion-label>
             <ion-text class="title">{{ product.name }}</ion-text>
             <p class="price">
-              <ion-text color="dark">{{ product.price }} FCFA</ion-text>
+              <ion-text color="dark">{{ product.price | number: '1.2-2' }} FCFA</ion-text>
             </p>
           </ion-label>
           <ion-label slot="end">{{ product.quantity }}</ion-label>
@@ -36,7 +36,7 @@
         <ion-item>
           <ion-text>Prix total</ion-text>
           <ion-label slot="end"
-            >{{ order?.totalPrice || 'N/A' }} FCFA</ion-label
+            >{{ order?.totalPrice || 'N/A' | number: '1.2-2' }} FCFA</ion-label
           >
         </ion-item>
       </ion-list>

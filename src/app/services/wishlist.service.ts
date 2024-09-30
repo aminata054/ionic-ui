@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Wishlist } from '../models/wishlist';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 export class WishlistService {
   private wishlistCol: AngularFirestoreCollection<Wishlist>;
 
-  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) { 
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth, private router: Router) { 
     this.wishlistCol = this.afs.collection<Wishlist>('wishlist', ref => ref.orderBy('createdAt'));
   }
 
@@ -36,6 +37,7 @@ export class WishlistService {
   async addProductToWishlist(productId: string, userId: string): Promise<void> {
     const user = await this.afAuth.currentUser;
     if (!user) {
+      this.router.navigate(['/not-found']);
       throw new Error('User not authenticated');
     }
 

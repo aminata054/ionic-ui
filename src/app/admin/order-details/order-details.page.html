@@ -35,7 +35,7 @@
 
             <ion-item>
               <ion-text>Prix total</ion-text>
-              <ion-label slot="end">{{ order?.totalPrice || 'N/A' }} FCFA</ion-label>
+              <ion-label slot="end">{{ order?.totalPrice || 'N/A' | number: '1.2-2' }} FCFA</ion-label>
             </ion-item>
           
 
