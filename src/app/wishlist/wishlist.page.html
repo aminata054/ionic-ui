@@ -11,6 +11,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <div class="confirmation" *ngIf="products.length === 0">
+    <div class="ion-text-center">
+      <img src="assets/images/wishlist.png" alt="" />
+      <p> Votre liste de souhait est actuellement vide.</p>
+    </div>
+  </div>
+
   <ion-list>
     <div *ngFor="let product of products; let i = index">
       <ion-item lines="none" [detail]="true" class="type" [routerLink]="['/tabs/product-details', product.productId]">

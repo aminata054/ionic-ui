@@ -41,7 +41,9 @@
 
     <div class="set">
       <div class="set-icon">
-        <ion-icon name="share-social-outline"></ion-icon>
+        <ion-button id="open-modal" (click)="shareProduct()">
+          <ion-icon name="share-social-outline"></ion-icon>
+        </ion-button>
       </div>
     </div>
 
@@ -59,4 +61,34 @@
       Ajouter au panier
     </ion-button>
   </div>
+<!--
+  <ion-modal
+    trigger="open-modal"
+    [initialBreakpoint]="0.25"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    handleBehavior="cycle"
+  >
+    <ng-template>
+      <ion-content class="ion-padding" color="light">
+        <div class="ion-margin-top share">
+          <ion-button >
+            <ion-icon name="logo-twitter"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon name="logo-whatsapp"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon name="logo-facebook"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon name="logo-instagram"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon name="mail-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+-->
 </ion-content>

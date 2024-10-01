@@ -42,7 +42,7 @@
     </div>
 
   <div class="flash-sale ion-padding-start">
-    <swiper-container [slidesPerView]='1' [zoom]="false" [grabCursor]="true">
+    <swiper-container [slidesPerView]='1' [zoom]="false" [grabCursor]="true" [loop]="true">
       <swiper-slide *ngFor="let category of categories">
         <ion-row>
           <img [src]="category.cover" alt="">
@@ -61,7 +61,7 @@
   </div>
 
   <div class="category-slider ion-padding-start">
-    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
+    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true" [loop]="true">
       
         <swiper-slide *ngFor="let category of categories">
           <ion-col [routerLink]="['/tabs/product-list', category.categoryId]">
@@ -80,7 +80,7 @@
   </div>
 
   <div class="product-slider ion-padding-start">
-    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
+    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true" [loop]="true">
         <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
             <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-details', product.productId]">
@@ -98,7 +98,7 @@
   </div>
 
   <div class="product-slider ion-padding-start">
-    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true">
+    <swiper-container [slidesPerView]='2' [zoom]="false" [grabCursor]="true" [loop]="true">
         <swiper-slide *ngFor="let product of products">
           <ion-col class="ion-text-left">
             <img [src]="product.cover" alt="" [routerLink]="['/tabs/product-list']" >

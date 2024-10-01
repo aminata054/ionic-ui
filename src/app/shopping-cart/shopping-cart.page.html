@@ -10,12 +10,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="light">
-  <div *ngIf="products.length === 0">
-    <ion-text class="empty-cart-message">
-      Commencez à shopper maintenant
-    </ion-text>
+<ion-content [fullscreen]="true" color="light" class="ion-padding">
+  <div class="confirmation" *ngIf="products.length === 0">
+    <div class="ion-text-center">
+      <img src="assets/images/basket.png" alt="" />
+
+      <h2>Votre panier est vide.</h2>
+      <p>Commencez à shopper dès maintenant !</p>
+    </div>
   </div>
+
   <ion-list lines="none" *ngIf="products.length > 0">
     <div *ngFor="let product of products">
       <ion-item>
@@ -28,7 +32,9 @@
             <ion-text color="dark">{{ product?.description }}</ion-text>
           </p>
           <p class="price">
-            <ion-text color="dark">{{ product?.price | number: '1.2-2' }}</ion-text>
+            <ion-text color="dark"
+              >{{ product?.price | number: '1.2-2' }}</ion-text
+            >
           </p>
         </ion-label>
         <ion-row slot="end">
@@ -46,8 +52,7 @@
           </ion-col>
           <ion-col>
             <ion-icon
-            *ngIf="product.cartQuantity > 1"
-
+              *ngIf="product.cartQuantity > 1"
               name="remove"
               color="danger"
               (click)="decreaseQuantity(product.cartId)"

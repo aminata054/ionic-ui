@@ -5,6 +5,8 @@ import { ProductService } from '../services/product.service';
 import { Product } from '../models/product';
 import { WishlistService } from '../services/wishlist.service';
 import { CartService } from '../services/cart.service';
+import { Share } from '@capacitor/share';
+
 
 @Component({
   selector: 'app-product-details',
@@ -41,6 +43,20 @@ export class ProductDetailsPage implements OnInit {
         this.liked = await this.wishlistService.isProductLiked(this.userId, this.productId); // Vérifier si le produit est aimé
       }
       loading.dismiss(); // Cacher le loader
+    });
+  }
+
+  async shareProduct() {
+    const title = 'Découvrez ce produit incroyable';
+    const text = `Découvrez ce produit incroyable : ${this.product?.name} - ${this.product?.price} FCFA`;
+    const url = `http://localhost:8100/tabs/product-details/${this.product?.productId}`;
+    const dialogTitle = 'Partager avec vos amis';
+  
+    await Share.share({
+      title,
+      text,
+      url,
+      dialogTitle,
     });
   }
 

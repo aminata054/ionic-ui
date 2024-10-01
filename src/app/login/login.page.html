@@ -17,6 +17,7 @@
         placeholder="Email"
         [(ngModel)]="email"
         name="email"
+        enterkeyhint="next"
       ></ion-input>
     </ion-item>
     <ion-item class="ion-margin-bottom">
@@ -25,6 +26,7 @@
         placeholder="Mot de passe"
         [(ngModel)]="password"
         name="password"
+        enterkeyhint="done"
       ></ion-input>
       <ion-icon
         [name]="showPassword ? 'eye-off' : 'eye'"

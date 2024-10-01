@@ -62,6 +62,13 @@ export class CartService {
 
   async removeProductFromCart(cartId: string): Promise<void> {
     await this.cartCol.doc(cartId).delete();
+    const user = await this.afAuth.currentUser;
+    if (user) {
+      const snapshot = await this.afs.collection<Cart>('cart', ref => ref.where('userId', '==', user.uid)).get().toPromise();
+      if (snapshot && snapshot.docs && snapshot.docs.length === 0) {
+        await this.clearCart(user.uid);
+      }
+    }
   }
 
   async clearCart(userId: string): Promise<void> {
@@ -100,6 +107,13 @@ export class CartService {
         await this.cartCol.doc(cartId).update(cartItem);
       } else {
         await this.cartCol.doc(cartId).delete();
+        const user = await this.afAuth.currentUser;
+        if (user) {
+          const snapshot = await this.afs.collection<Cart>('cart', ref => ref.where('userId', '==', user.uid)).get().toPromise();
+          if (snapshot && snapshot.docs && snapshot.docs.length === 0) {
+            await this.clearCart(user.uid);
+          }
+        }
       }
     }
   }

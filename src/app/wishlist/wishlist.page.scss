@@ -5,6 +5,16 @@ ion-header {
 }
 
 ion-content {
+  .confirmation {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 15vh;
+  }
+}
   ion-list {
     border-radius: 10px 10px 0 0;
 

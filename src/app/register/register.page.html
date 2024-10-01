@@ -17,6 +17,7 @@
         type="text"
         placeholder="Email"
         formControlName="email"
+        enterkeyhint="next"
       ></ion-input>
     </ion-item>
 
@@ -36,6 +37,7 @@
         [type]="showPassword ? 'text' : 'password'"
         placeholder="Mot de passe"
         formControlName="password"
+        enterkeyhint="next"
       ></ion-input>
       <ion-icon
         [name]="showPassword ? 'eye-off' : 'eye'"
@@ -64,6 +66,7 @@
         [type]="showConfirmPassword ? 'text' : 'password'"
         placeholder="Confirmer mot de passe"
         formControlName="confirmPassword"
+        enterkeyhint="done"
       ></ion-input>
       <ion-icon
         [name]="showConfirmPassword ? 'eye-off' : 'eye'"
