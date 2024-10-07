@@ -10,8 +10,16 @@
     <h1>Swift Shop</h1>
     <p>Retrouvez les meilleurs articles, à prix réduit.</p>
   </div>
+  <ion-segment [(ngModel)]="loginMethod" color="primary">
+    <ion-segment-button value="email">
+      <ion-label>Email</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="phone">
+      <ion-label>Téléphone</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   <form id="form">
-    <ion-item class="ion-margin-bottom">
+    <ion-item class="ion-margin-bottom" *ngIf="loginMethod === 'email'">
       <ion-input
         type="text"
         placeholder="Email"
@@ -20,7 +28,7 @@
         enterkeyhint="next"
       ></ion-input>
     </ion-item>
-    <ion-item class="ion-margin-bottom">
+    <ion-item class="ion-margin-bottom" *ngIf="loginMethod === 'email'">
       <ion-input
         [type]="showPassword ? 'text' : 'password'"
         placeholder="Mot de passe"
@@ -34,10 +42,22 @@
         (click)="togglePasswordVisibility()"
       ></ion-icon>
     </ion-item>
-    <p routerLink="/forgot-password">Mot de passe oublié ?</p>
-    <ion-button expand="block" color="secondary" (click)="login()"
-      >Se connecter</ion-button
-    >
+    <ion-item class="ion-margin-bottom" *ngIf="loginMethod === 'phone'">
+      <ion-input
+        type="tel"
+        placeholder="Téléphone"
+        [(ngModel)]="tel"
+        name="tel"
+        enterkeyhint="done"
+      ></ion-input>
+    </ion-item>
+    <div id="captcha"></div>
+    <ion-button expand="block" color="secondary" *ngIf="loginMethod === 'email'" (click)="login()">
+      Se connecter
+    </ion-button>
+    <ion-button expand="block" color="secondary" *ngIf="loginMethod === 'phone'" >
+      Se connecter
+    </ion-button>
     <p>
       Pas de compte ?
       <ion-text color="secondary" routerLink="/register">S'inscrire</ion-text>

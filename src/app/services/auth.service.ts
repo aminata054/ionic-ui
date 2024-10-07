@@ -3,31 +3,66 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { GoogleAuthProvider } from "@angular/fire/auth";
 import { User } from '../models/user';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
+    private storage!: Storage;
+
   constructor(
     private firestore: AngularFirestore,
     private auth: AngularFireAuth,
     private toastCtrl: ToastController,
     private router: Router
-  ) {}
+  ) {
+  }
 
   async loginWithEmail(data: { email: string; password: string }) {
     try {
-      return await this.auth.signInWithEmailAndPassword(data.email, data.password);
-    } catch (error) {
+      const res = await this.auth.signInWithEmailAndPassword(data.email, data.password);
+      return res;
+        } catch (error) {
       console.error('Login error:', error);
       this.presentToast('Email et/ou mot de passe incorrect');
       throw error;
     }
   }
+
+  // loginWithPhoneNumber(phoneNumber: string): Promise<any> {
+  //   const appVerifier = new RecaptchaVerifier(this.auth, 'recaptcha-container', {
+  //     'size': 'invisible',
+  //     'callback': (response: any) => {
+  //       // reCAPTCHA solved, allow signInWithPhoneNumber.
+  //     }
+  //   });
+  
+  //   return signInWithPhoneNumber(this.auth, phoneNumber, appVerifier)
+  //     .then((confirmationResult) => {
+  //       // SMS sent, prompt user to type the code from the message
+  //       const prompt = `Enter the verification code sent to ${phoneNumber}`;
+  //       const code = window.prompt(prompt, '');
+  //       if (code) {
+  //         return confirmationResult.confirm(code);
+  //       } else {
+  //         throw new Error('Verification code not entered');
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error during phone number authentication:', error);
+  //       this.presentToast('Erreur lors de la connexion avec le numéro de téléphone');
+  //       throw error;
+  //     });
+  // }
+  
 
   async signInWithGoogle() {
     try {

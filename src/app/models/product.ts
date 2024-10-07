@@ -8,4 +8,5 @@ export interface Product {
     quantity: number;
     cover: string; 
     category: Category;
+    available: boolean;
   }

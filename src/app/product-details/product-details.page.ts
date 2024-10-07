@@ -20,6 +20,8 @@ export class ProductDetailsPage implements OnInit {
   liked: boolean = false; 
   wishlistId: string = ''; 
   cartId: string = ''; 
+  isCollapsed: boolean = true;
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
@@ -61,8 +63,9 @@ export class ProductDetailsPage implements OnInit {
   }
 
   // Retour à la page précédente
-  goBack() {
-    this.navCtrl.back();
+  toggleDescription() {
+    this.isCollapsed = !this.isCollapsed; 
+    
   }
 
   // Ajouter le produit à la liste de souhaits

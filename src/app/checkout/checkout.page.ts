@@ -129,7 +129,8 @@ export class CheckoutPage implements OnInit {
         price: p.price,
         cover: p.cover,
         category: p.category,
-        quantity: p.cartQuantity
+        quantity: p.cartQuantity,
+        available: true,
       })),
       createdAt: Timestamp.now()
     };

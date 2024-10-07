@@ -136,6 +136,7 @@ export class ProductPage implements OnInit {
             quantity: this.quantity || 0,
             cover: url, 
             category: selectedCategory,
+            available: true,
           };
   
           // Ajout du produit à Firestore

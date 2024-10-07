@@ -49,8 +49,14 @@
 
     <div class="about">
       <h1>Description</h1>
-      <p>{{ product?.description }}</p>
+      <p [ngClass]="{'collapsed': isCollapsed}">
+        {{ isCollapsed ? (product?.description | slice:0:100) + '...' : product?.description }}
+      </p>
+      <ion-button (click)="toggleDescription()">
+        {{ isCollapsed ? 'Lire plus' : 'Lire moins' }}
+      </ion-button>
     </div>
+    
 
     <ion-button
       expand="block"

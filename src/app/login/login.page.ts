@@ -9,10 +9,13 @@ import { User } from '../models/user';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   public email: string = '';
   public password: string = '';
+  public tel: string = '';
   public showPassword: boolean = false;
+  public loginMethod: string = 'email'; 
+  public verificationCode: any;
 
   constructor(
     private router: Router,
@@ -20,6 +23,41 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {}
+  ngOnInit(): void {
+    
+    this.authService.isLoggedIn().then((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigate(['/tabs/homescreen']);
+      }
+    });  }
+
+  // loginWithPhoneNumber() {
+  //   if (this.tel) {
+  //     this.authService.loginWithPhoneNumber(this.tel).then((confirmationResult) => {
+  //       // Handle the confirmation result
+  //       const prompt = `Enter the verification code sent to ${this.tel}`;
+  //       const code = window.prompt(prompt, '');
+  //       if (code) {
+  //         confirmationResult.confirm(code).then((result: { user: { uid: any; }; }) => {
+  //           // User signed in successfully
+  //           console.log('User  signed in with phone number:', result.user);
+  //           // Navigate to the home screen or complete profile screen
+  //           this.router.navigate(['/tabs/homescreen', result.user.uid]);
+  //         }).catch((error: any) => {
+  //           console.error('Error during phone number authentication:', error);
+  //           this.presentToast('Erreur lors de la connexion avec le numéro de téléphone');
+  //         });
+  //       } else {
+  //         throw new Error('Verification code not entered');
+  //       }
+  //     }).catch((error) => {
+  //       console.error('Error during phone number authentication:', error);
+  //       this.presentToast('Erreur lors de la connexion avec le numéro de téléphone');
+  //     });
+  //   } else {
+  //     this.presentToast('Veuillez entrer un numéro de téléphone valide');
+  //   }
+  // }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword; // Basculer la visibilité du champ de mot de passe

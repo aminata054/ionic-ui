@@ -1,0 +1,16 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" mode="md">
+      <ion-back-button defaultHref="/login" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" color="primary">
+    <p>Saisissez le code envoyé vers votre numéro.</p>
+  <ng-otp-input class="custom_class" (onInputChange)="onOtpChange($event)" [config]="{length:4, allowNumbersOnly:true, inputClass:'custom_class'}">
+  </ng-otp-input> 
+    <ion-button expand="block" color="secondary" 
+      >Valider</ion-button
+    >
+
+</ion-content>

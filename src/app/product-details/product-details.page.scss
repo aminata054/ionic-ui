@@ -89,6 +89,12 @@ ion-content {
         }
         p {
             font-size: 1.1rem;
+
+            &.collapsed {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis; 
+              }
         }
     }
 }
