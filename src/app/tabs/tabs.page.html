@@ -2,22 +2,27 @@
   <ion-tab-bar slot="bottom">
     <ion-tab-button (click)="navigate('homescreen')">
       <ion-icon aria-hidden="true" [name]="selectedTab === 'homescreen' ? 'home' : 'home-outline'"></ion-icon>
+      <ion-label>Accueil</ion-label>
     </ion-tab-button>
 
     <ion-tab-button (click)="navigate('category-list')">
       <ion-icon aria-hidden="true" [name]="selectedTab === 'category-list' ? 'bag-handle' : 'bag-handle-outline'"></ion-icon>
+      <ion-label>Catégories</ion-label>
     </ion-tab-button>
 
     <ion-tab-button (click)="navigate('wishlist')">
       <ion-icon aria-hidden="true" [name]="selectedTab === 'wishlist' ? 'heart' : 'heart-outline'"></ion-icon>
+      <ion-label>Favoris</ion-label>
     </ion-tab-button>
 
     <ion-tab-button (click)="navigate('shopping-cart')" >
       <ion-icon aria-hidden="true" [name]="selectedTab === 'shopping-cart' ? 'cart' : 'cart-outline'"></ion-icon>
+      <ion-label>Panier</ion-label>
     </ion-tab-button>
 
     <ion-tab-button (click)="navigate('profile')" >
       <ion-icon aria-hidden="true" [name]="selectedTab === 'profile' ? 'person' : 'person-outline'"></ion-icon>
+      <ion-label>Profil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
