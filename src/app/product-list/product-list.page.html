@@ -16,7 +16,9 @@
       <ion-img [src]="product.cover" [routerLink]="['/tabs/product-details', product.productId]" ></ion-img>
       <p>FCFA {{ product.price | number: '1.2-2' }}</p>
       <h4>{{ product.name }}</h4>
-      <p *ngIf="product.quantity === 0">Ce produit est momentanément indisponible</p>
+      <p *ngIf="product.quantity === 0">
+        <ion-chip>Non disponible</ion-chip>
+      </p>
     </ion-col>
   </ion-row>
 </ion-content>

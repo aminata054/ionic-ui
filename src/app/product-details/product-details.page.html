@@ -29,7 +29,9 @@
       <img [src]="product?.cover" alt="" />
     </div>
     <div>
-      <p *ngIf="product?.quantity === 0">Ce produit est indisponible</p>
+      <p *ngIf="product?.quantity === 0">
+        <ion-chip>Non disponible</ion-chip>
+      </p>
     </div>
 
     <div class="card-content">

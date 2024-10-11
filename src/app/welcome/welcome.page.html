@@ -1,0 +1,49 @@
+<ion-content class="ion-padding">
+  <swiper-container pager="true">
+    <swiper-slide class="ion-padding">
+      <img src="../../assets/onboarding-screens/1.jpg" >
+
+      <div class="slider-text">
+        <h2>Achats Simplifiés !</h2>
+
+        <p>
+          Découvrez une expérience d'achat fluide et rapide à portée de main.
+        </p>
+      </div>
+
+      <div class="navigator">
+        <ion-button color="primary" fill="clear" (click)="skip()">Passer</ion-button>
+        <ion-button color="primary" fill="clear" (click)="next()" >Suivant</ion-button>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="ion-padding">
+      <img src="../../assets/onboarding-screens/2.jpg" >
+
+      <div class="slider-text">
+        <h2>Une expérience utilisateur fluide !</h2>
+
+        <p>
+          Profitez d'une navigation simplifiée pour faire vos achats en quelques clics.
+        </p>
+      </div>
+
+      <div class="navigator">
+        <ion-button color="primary" fill="clear" (click)="skip()">Passer</ion-button>
+        <ion-button color="primary" fill="clear" (click)="next()" >Suivant</ion-button>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="ion-padding">
+      <img src="../../assets/onboarding-screens/3.jpg" >
+
+      <div class="slider-text">
+        <h2>Trouvez Ce Que Vous Aimez !</h2>
+
+        <p>
+          Parcourez notre sélection variée et dénichez des produits qui vous correspondent.
+        </p>
+      </div>
+
+      <ion-button color="primary" routerLink="/tabs/homescreen">Shoppez maintenant !</ion-button>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>
